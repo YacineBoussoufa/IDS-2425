@@ -17,4 +17,4 @@ plugins {
 }
 
 rootProject.name = 'it.unicam.cs.ids2425.filieraagricolalocale'
-include('app', 'list', 'utilities')
+include('app', 'list', 'utilities', 'core')
