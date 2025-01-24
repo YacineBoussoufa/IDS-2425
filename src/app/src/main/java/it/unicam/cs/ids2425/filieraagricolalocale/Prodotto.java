@@ -12,6 +12,7 @@ public class Prodotto implements Contenuto{
     private String descrizione;
     private double prezzo;
     private int quantita;
+    private final Venditore venditore;
     private StatoApprovazione statoApprovazione;
     private POI poi;
     private Date data;
@@ -32,12 +33,13 @@ public class Prodotto implements Contenuto{
      * @param certificazioni Certificazioni di qualità del prodotto.
      * @param ingredienti Ingredienti del prodotto.
      */
-    public Prodotto(String nome, String descrizione, double prezzo, int quantita, POI poi, Date data,
-                    Set<Certificazione> certificazioni, Set<Prodotto> ingredienti) {
+    public Prodotto(String nome, String descrizione, double prezzo, int quantita, Venditore venditore,
+                    POI poi, Date data, Set<Certificazione> certificazioni, Set<Prodotto> ingredienti) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.quantita = quantita;
+        this.venditore = venditore;
         this.poi = poi;
         this.data = data;
         this.ingredienti = new HashSet<>();
@@ -118,6 +120,10 @@ public class Prodotto implements Contenuto{
 
     public void setQuantita(int quantita) {
         this.quantita = quantita;
+    }
+
+    public Venditore getVenditore() {
+        return venditore;
     }
 
     public Set<Certificazione> getListaCertificazioni() {

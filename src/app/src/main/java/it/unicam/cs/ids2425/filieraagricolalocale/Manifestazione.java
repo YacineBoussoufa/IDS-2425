@@ -4,7 +4,7 @@ import java.text.DateFormat;
 
 public class Manifestazione implements Evento {
 	
-	private final DateFormat Data;
+	private DateFormat Data;
 	private String Nome;
 	private String Descrizione;
 	private int NumeroMaxPartecipanti;
@@ -50,7 +50,7 @@ public class Manifestazione implements Evento {
 	public DateFormat getData() {
 		return Data;
 	}
-	
+
 	@Override
 	public void setData(DateFormat Data) {
 		this.Data=Data;
