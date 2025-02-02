@@ -1,7 +1,7 @@
-package it.unicam.cs.ids2425.filieraagricolalocale;
+package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.text.DateFormat;
-import java.util.Set;
+import java.util.List;
 
 public class Persona implements Utente {
 
@@ -10,7 +10,7 @@ public class Persona implements Utente {
    private DateFormat dataDiNascita;
    private String username;
    private Ruolo ruolo;
-   private Set<Indirizzo> indirizzi; 
+   private List<Indirizzo> indirizzi; 
    private final Carrello carrello;
 
    /**
@@ -22,7 +22,7 @@ public class Persona implements Utente {
     * @param indirizzi
     */
    public Persona(String nome, String cognome, DateFormat dataDiNascita, String username, Ruolo ruolo,
-         Set<Indirizzo> indirizzi, Carrello car) {
+         List<Indirizzo> indirizzi, Carrello car) {
       this.nome = nome;
       this.cognome = cognome;
       this.dataDiNascita = dataDiNascita;
@@ -90,16 +90,24 @@ public class Persona implements Utente {
       this.username = username;
    }
 
-   public Set<Indirizzo> getIndirizzi() {
+   public List<Indirizzo> getIndirizzi() {
       return indirizzi;
    }
 
-   public void setIndirizzi(Set<Indirizzo> indirizzi) {
+   public void setIndirizzi(List<Indirizzo> indirizzi) {
       this.indirizzi = indirizzi;
    }
    
    public Carrello getCarrello() {
       return carrello;
    }
+
+   public void aggiungiIndirizzo(Indirizzo i){
+      this.indirizzi.add(i);
+   }
    
+   public void rimuoviIndirizzo(Indirizzo i){
+      this.indirizzi.remove(i);
+   }
+
 }
