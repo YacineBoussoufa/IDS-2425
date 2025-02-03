@@ -1,4 +1,4 @@
-package it.unicam.cs.ids2425.filieraagricolalocale;
+package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -75,19 +75,8 @@ public class Prodotto implements Contenuto{
         ingredienti.remove(prodotto);
     }
 
-    /**
-     * Aggiunge un ordine effettuato per il prodotto, aggiornando la quantità.
-     *
-     * @param lineaOrdine Ordine da aggiungere.
-     * @return True se l'ordine è possibile, false altrimenti.
-     */
-    public boolean aggiungiOrdine(LineaOrdine lineaOrdine) {
-        if (lineaOrdine.getQuantita() > quantita) {
-            return false;
-        }
+    public void aggiungiOrdine(LineaOrdine lineaOrdine) {
         ordini.add(lineaOrdine);
-        quantita -= lineaOrdine.getQuantita();
-        return true;
     }
 
     public String getNome() {

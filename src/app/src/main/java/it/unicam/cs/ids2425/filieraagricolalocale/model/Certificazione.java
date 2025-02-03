@@ -1,4 +1,4 @@
-package it.unicam.cs.ids2425.filieraagricolalocale;
+package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.util.HashSet;
 import java.util.Set;
