@@ -19,5 +19,9 @@ public interface Evento {
 	public DateFormat getData();
 	
 	public void setData(DateFormat Data);
+
+	public POI getPuntoDiInteresse();
+
+	public void setPuntoDiInteresse(POI PuntoDiInteresse);
 	
 }

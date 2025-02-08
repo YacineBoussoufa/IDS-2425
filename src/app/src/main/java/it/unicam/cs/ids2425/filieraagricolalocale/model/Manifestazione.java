@@ -65,10 +65,12 @@ public class Manifestazione implements Evento {
 		this.Data=Data;
 	}
 
+	@Override
 	public POI getPuntoDiInteresse() {
 		return PuntoDiInteresse;
 	}
 
+	@Override
 	public void setPuntoDiInteresse(POI PuntoDiInteresse) {
 		this.PuntoDiInteresse=PuntoDiInteresse;
 	}
