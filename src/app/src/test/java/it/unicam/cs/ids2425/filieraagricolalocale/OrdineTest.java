@@ -22,13 +22,11 @@ public class OrdineTest {
       Prodotto p = new Prodotto
       ("mela", null, 0, 1, null, new POI(0, 0, 0, TipoPOI.Azienda), null, null, null);
 
-      Persona u = new Persona("Michele", "Mysser", null, "Delta", null, null);
-
-      u.aggiungiIndirizzo(new Indirizzo(null, 0, null, null, null, null, null));
+      Persona u = new Persona("Michele", "Mysser", null, "Delta", null);
 
       u.getCarrello().aggiungiProdotto(p, 2);
 
-      Ordine o = new Ordine(null, u.getCarrello().getListaProdotti(), u, u.getIndirizzi().stream().toList().getFirst());
+      Ordine o = new Ordine(null, u.getCarrello().getListaProdotti(), u, new Indirizzo(null, 0, null, null, null, null, null));
 
       for (LineaOrdine l : o.getArticoli()) {
          l.getProdotto().aggiungiOrdine(l);
