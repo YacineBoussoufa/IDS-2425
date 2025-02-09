@@ -6,46 +6,43 @@ import java.util.List;
 import java.util.Set;
 import java.util.Date;
 
-public class Prodotto implements Contenuto{
+public class Prodotto implements Contenuto {
+
+    //todo gestione id temporanea
+    private final int id;
+    public int getId() {
+        return id;
+    }
 
     private String nome;
     private String descrizione;
     private double prezzo;
     private int quantita;
-    private final Venditore venditore;
+    private Venditore venditore;
     private StatoApprovazione statoApprovazione;
     private POI poi;
     private Date data;
-    private final Set<Certificazione> listaCertificazioni;
-    private final Set<Prodotto> ingredienti;
+    private final Set<Certificazione> listaCertificazioni = new HashSet<>();
+    private final Set<Prodotto> ingredienti = new HashSet<>();
     private final List<LineaOrdine> ordini = new ArrayList<>();
 
     /**
-     * Costruttore di una oggetto Prodotto. Lo Stato di approvazione iniziale viene messo automaticamente
-     * a Bozza alla creazione di una istanza.
+     * Costruttore che genera i campi a partire da un builder.
      *
-     * @param nome Nome del prodotto.
-     * @param descrizione Descrizione del prodotto.
-     * @param prezzo Prezzo del prodotto.
-     * @param quantita Quantità disponibile del prodotto.
-     * @param poi Punto di Interesse.
-     * @param data Data di produzione.
-     * @param certificazioni Certificazioni di qualità del prodotto.
-     * @param ingredienti Ingredienti del prodotto.
+     * @param builder Builder per generare i campi.
      */
-    public Prodotto(String nome, String descrizione, double prezzo, int quantita, Venditore venditore,
-                    POI poi, Date data, Set<Certificazione> certificazioni, Set<Prodotto> ingredienti) {
-        this.nome = nome;
-        this.descrizione = descrizione;
-        this.prezzo = prezzo;
-        this.quantita = quantita;
-        this.venditore = venditore;
-        this.poi = poi;
-        this.data = data;
-        this.ingredienti = new HashSet<>();
-        this.ingredienti.addAll(ingredienti);
-        listaCertificazioni = new HashSet<>();
-        listaCertificazioni.addAll(certificazioni);
+    public Prodotto(ProdottoBuilder builder) {
+        this.id = builder.getId();
+        this.nome = builder.getNome();
+        this.descrizione = builder.getDescrizione();
+        this.prezzo = builder.getPrezzo();
+        this.quantita = builder.getQuantita();
+        this.venditore = builder.getVenditore();
+        this.poi = builder.getPoi();
+        this.data = builder.getData();
+        listaCertificazioni.addAll(builder.getListaCertificazioni());
+        ingredienti.addAll(builder.getIngredienti());
+
         this.statoApprovazione = new Bozza(this);
     }
 
@@ -59,22 +56,6 @@ public class Prodotto implements Contenuto{
         this.statoApprovazione = stato;
     }
 
-    public void aggiungiCertificazione(Certificazione certificazione) {
-        listaCertificazioni.add(certificazione);
-    }
-
-    public void deleteCertificazione(Certificazione certificazione) {
-        listaCertificazioni.remove(certificazione);
-    }
-
-    public void aggiungiIngrediente(Prodotto prodotto) {
-        ingredienti.add(prodotto);
-    }
-
-    public void rimuoviIngrediente(Prodotto prodotto) {
-        ingredienti.remove(prodotto);
-    }
-
     public void aggiungiOrdine(LineaOrdine lineaOrdine) {
         ordini.add(lineaOrdine);
     }
@@ -83,37 +64,33 @@ public class Prodotto implements Contenuto{
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getDescrizione() {
         return descrizione;
     }
 
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
 
     public double getPrezzo() {
         return prezzo;
-    }
-
-    public void setPrezzo(double prezzo) {
-        this.prezzo = prezzo;
     }
 
     public int getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
-    }
-
     public Venditore getVenditore() {
         return venditore;
     }
+
+
+    public POI getPoi() {
+        return poi;
+    }
+
+
+    public Date getData() {
+        return data;
+    }
+
 
     public Set<Certificazione> getListaCertificazioni() {
         return listaCertificazioni;
@@ -127,19 +104,4 @@ public class Prodotto implements Contenuto{
         return ordini;
     }
 
-    public POI getPoi() {
-        return poi;
-    }
-
-    public void setPoi(POI poi) {
-        this.poi = poi;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
 }

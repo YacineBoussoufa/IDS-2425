@@ -17,7 +17,6 @@ public abstract class StatoApprovazione {
      */
     public abstract void pubblica();
 
-
     public LocalDate getDataCreazione() {
         return dataCreazione;
     }

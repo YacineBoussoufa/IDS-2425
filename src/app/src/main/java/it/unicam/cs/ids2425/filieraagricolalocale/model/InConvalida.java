@@ -26,6 +26,9 @@ public class InConvalida extends StatoApprovazione {
         return approvato;
     }
 
+    /**
+     * Permette allo stato InConvalida di diventare Pubblicato
+     */
     public void approva() {
         approvato = true;
     }
