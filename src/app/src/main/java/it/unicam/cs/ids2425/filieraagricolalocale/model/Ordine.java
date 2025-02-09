@@ -11,15 +11,34 @@ public class Ordine {
    private boolean evaso;
    private double prezzoTotale;
    private final List<LineaOrdine> articoli;
+   private Utente user;
+   private Indirizzo indirizzo;
 
-
-   public Ordine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti) {
+   public Ordine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i) {
       this.dataCreazione = dataCreazione;
       this.articoli = new LinkedList<>();
       for (Prodotto p : mappaProdotti.keySet()) {
          this.articoli.add(new LineaOrdine(p, this, mappaProdotti.get(p)));
       }
       this.evaso = false;
+      this.user = u;
+      this.indirizzo = i;
+   }
+
+   public Indirizzo getIndirizzo() {
+      return indirizzo;
+   }
+
+   public void setIndirizzo(Indirizzo indirizzo) {
+      this.indirizzo = indirizzo;
+   }
+
+   public Utente getUser() {
+      return user;
+   }
+
+   public void setUser(Utente user) {
+      this.user = user;
    }
 
    public DateFormat getDataCreazione() {

@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.text.DateFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Carrello {
@@ -12,6 +13,12 @@ public class Carrello {
    public Carrello(Utente id, Map<Prodotto, Integer> listaProdotti) {
       this.id = id;
       this.listaProdotti = listaProdotti;
+      this.ultimaModifica = DateFormat.getDateInstance();
+   }
+
+   public Carrello(Utente id) {
+      this.id = id;
+      this.listaProdotti = new HashMap<>();
       this.ultimaModifica = DateFormat.getDateInstance();
    }
 
