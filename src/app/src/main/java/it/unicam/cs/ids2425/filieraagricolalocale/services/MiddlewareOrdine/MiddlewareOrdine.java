@@ -20,8 +20,7 @@ public abstract class MiddlewareOrdine {
       return first;
    }
 
-   public abstract boolean check(DateFormat dataCreazione, 
-   Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i);
+   public abstract boolean check(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i);
 
    public boolean checkNext(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i) {
       if(next == null){

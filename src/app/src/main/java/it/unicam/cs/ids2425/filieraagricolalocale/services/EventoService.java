@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
 import java.text.DateFormat;
@@ -12,16 +13,24 @@ public class EventoService {
 
     //TODO
 
-    public void creaEvento(boolean isManifestazione, DateFormat Data, String Nome, String Descrizione,
+    public void creaManifestazione(DateFormat Data, String Nome, String Descrizione,
                            int NumeroMaxPartecipanti, POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti,
-                           Set<Persona> PersonePartecipanti) {
+                           Set<Persona> PersonePartecipanti, Persona animatore) {
 
         Evento evento;
-        if (isManifestazione) {
-            evento = new Manifestazione(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, AziendePartecipanti, PersonePartecipanti);
-        } else {
-            evento = new Visita(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, PersonePartecipanti);
-        }
+        //TODO controllo sui dati
+        evento = new Manifestazione(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, AziendePartecipanti, PersonePartecipanti, animatore);
+
+        eventi.put(idCounter, evento);
+        idCounter++;
+    }
+
+    public void creaVisita(boolean isManifestazione, DateFormat Data, String Nome, String Descrizione,
+            int NumeroMaxPartecipanti, POI PuntoDiInteresse, Venditore venditore,
+            Set<Persona> PersonePartecipanti, Persona animatore) {
+
+        Evento evento;
+        evento = new Visita(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, PersonePartecipanti, new Proposta(animatore, null, venditore), animatore);
 
         eventi.put(idCounter, evento);
         idCounter++;
@@ -37,7 +46,7 @@ public class EventoService {
             evento.setNumeroMaxPartecipanti(NumeroMaxPartecipanti);
             evento.setPuntoDiInteresse(PuntoDiInteresse);
         } else {
-            throw new IllegalArgumentException();
+            throw new DatiIncorrettiException();
         }
     }
 
@@ -57,7 +66,7 @@ public class EventoService {
                 partecipanti.addAll(nuoviPartecipanti);
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new DatiIncorrettiException();
         }
     }
 
@@ -70,7 +79,7 @@ public class EventoService {
                 return ((Visita) evento).getPersonePartecipanti();
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new DatiIncorrettiException();
         }
         return new HashSet<>();
     }

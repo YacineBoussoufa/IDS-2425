@@ -11,14 +11,16 @@ public class Pacchetto implements Contenuto {
    private Set<Prodotto> listaProdotti;
    private Date data;
    private StatoApprovazione statoApprovazione;
+   private Venditore venditore;
 
-   public Pacchetto(String nome, String descrizione, double prezzo, Set<Prodotto> listaProdotti, Date data) {
+   public Pacchetto(String nome, String descrizione, double prezzo, Set<Prodotto> listaProdotti, Date data, Venditore v) {
       this.nome = nome;
       this.descrizione = descrizione;
       this.prezzo = prezzo;
       this.listaProdotti = listaProdotti;
       this.data = data;
       this.statoApprovazione = new Bozza(this);
+      this.venditore = v;
    }
 
    public Date getData() {
@@ -69,5 +71,13 @@ public class Pacchetto implements Contenuto {
    
    public void rimuoviProdotto(Prodotto p){
       this.listaProdotti.remove(p);
+   }
+
+   public Venditore getVenditore() {
+      return venditore;
+   }
+
+   public void setVenditore(Venditore venditore) {
+      this.venditore = venditore;
    }
 }

@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 import java.text.DateFormat;
 import java.util.Map;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Ordine;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
@@ -20,7 +21,7 @@ public class OrdineService {
 
    public void creaOrdine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i){
       if(!middlewareHead.check(dataCreazione, mappaProdotti, u, i)){
-         throw new IllegalArgumentException("Errore nella creazione ordine");
+         throw new DatiIncorrettiException("Errore nella creazione ordine");
       }
       Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i);
       ordineRepository.put(o.hashCode(), o);

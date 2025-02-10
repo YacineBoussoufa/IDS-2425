@@ -12,10 +12,12 @@ public class Manifestazione implements Evento {
 	private POI PuntoDiInteresse;
 	private Set<Venditore> AziendePartecipanti;
 	private Set<Persona> PersonePartecipanti;
+	private Persona animatore;
+	//TODO animatore
 
 	
 	public Manifestazione(DateFormat Data, String Nome, String Descrizione, int NumeroMaxPartecipanti,
-						  POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti, Set<Persona> PersonePartecipanti) {
+						  POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti, Set<Persona> PersonePartecipanti, Persona p) {
 		this.Data=Data;
 		this.Nome=Nome;
 		this.Descrizione=Descrizione;
@@ -23,6 +25,7 @@ public class Manifestazione implements Evento {
 		this.PuntoDiInteresse=PuntoDiInteresse;
 		this.AziendePartecipanti=AziendePartecipanti;
 		this.PersonePartecipanti=PersonePartecipanti;
+		this.animatore=p;
 	}
 	
 	@Override
@@ -90,4 +93,10 @@ public class Manifestazione implements Evento {
 		this.PersonePartecipanti = PersonePartecipanti;
 	}
 	
+	@Override
+	public Persona getAnimatore() {
+		 return this.animatore;
+	}
+
+
 }

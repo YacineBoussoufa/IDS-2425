@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,12 @@ public class ProdottoService {
     //todo MOCK DI UNA TABELLA PRODOTTI
     public static Map<Integer, Prodotto> repo = new HashMap<>();
     public static int idCounter = 0;
+
+    private MiddlewareProdotto middlewareHead;
+
+    public ProdottoService(MiddlewareProdotto middlewares){
+        this.middlewareHead = middlewares;
+    }
 
     /**
      * Crea un prodotto con un builder e controlla i dati inseriti.
@@ -26,8 +33,7 @@ public class ProdottoService {
                 build();
 
         //controllo dati
-        Handler handler = new ProdottoDatiHandler(prodotto);
-        if (handler.handle()) {
+        if (middlewareHead.check(prodotto)) {
             repo.put(id, prodotto);
         } else {
             throw new DatiIncorrettiException();
@@ -67,8 +73,7 @@ public class ProdottoService {
         Prodotto prodottoModificato = attuale.build();
 
         //controllo dati
-        Handler handler = new ProdottoDatiHandler(prodottoModificato);
-        if (handler.handle()) {
+        if (middlewareHead.check(prodottoModificato)) {
             repo.put(id, prodottoModificato);
         } else {
             throw new DatiIncorrettiException();

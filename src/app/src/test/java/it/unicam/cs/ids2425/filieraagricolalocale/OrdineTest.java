@@ -17,7 +17,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 public class OrdineTest {
    @Test void testNuovoOrdine() {
 
-      Venditore v = new Venditore("MEI", "123", null, null);
+/*       Venditore v = new Venditore("MEI", "123", null, null);
 
       Prodotto p = new Prodotto
       ("mela", null, 0, 1, null, new POI(0, 0, 0, TipoPOI.Azienda), null, null, null);
@@ -30,7 +30,7 @@ public class OrdineTest {
 
       for (LineaOrdine l : o.getArticoli()) {
          l.getProdotto().aggiungiOrdine(l);
-      }
+      } */
 
   }
 

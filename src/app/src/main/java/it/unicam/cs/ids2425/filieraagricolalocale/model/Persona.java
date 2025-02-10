@@ -17,7 +17,6 @@ public class Persona implements Utente {
     * @param dataDiNascita
     * @param username
     * @param ruolo
-    * @param indirizzi
     */
    public Persona(String nome, String cognome, DateFormat dataDiNascita, String username, Ruolo ruolo) {
       this.nome = nome;

@@ -25,7 +25,7 @@ public class MarketplaceService {
 
         return repo.get(id);
     }
-
+    
     /**
      * Restituisce tutti i prodotti di un venditore, bozze comprese.
      *

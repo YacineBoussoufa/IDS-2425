@@ -2,48 +2,28 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 public class Proposta {
 
-    private int Titolo;
-    private String Descrizione;
-    private boolean StatoAccettazione;
-    private Persona Animatore;
+    private boolean statoAccettazione;
+    private Persona animatore;
     private Visita visita;
     private Venditore venditore;
 
-    public Proposta(int Titolo, String Descrizione, Persona Animatore, Visita visita, Venditore venditore) {
-        this.Titolo=Titolo;
-        this.Descrizione=Descrizione;
-        this.Animatore=Animatore;
+    public Proposta(Persona animatore, Visita visita, Venditore venditore) {
+        this.animatore=animatore;
         this.visita=visita;
         this.venditore=venditore;
-        StatoAccettazione=false;
-    }
-
-    public int getTitolo() {
-        return Titolo;
-    }
-
-    public void setTitolo(int Titolo) {
-        this.Titolo = Titolo;
-    }
-
-    public String getDescrizione() {
-        return Descrizione;
-    }
-
-    public void setDescrizione(String Descrizione) {
-        this.Descrizione = Descrizione;
+        this.statoAccettazione=false;
     }
 
     public boolean getStatoAccettazione() {
-        return StatoAccettazione;
+        return statoAccettazione;
     }
 
-    public void setStatoAccettazione(boolean StatoAccettazione) {
-        this.StatoAccettazione = StatoAccettazione;
+    public void setStatoAccettazione(boolean statoAccettazione) {
+        this.statoAccettazione = statoAccettazione;
     }
 
     public Persona getAnimatore() {
-        return Animatore;
+        return animatore;
     }
 
     public Visita getVisita() {

@@ -23,5 +23,7 @@ public interface Evento {
 	public POI getPuntoDiInteresse();
 
 	public void setPuntoDiInteresse(POI PuntoDiInteresse);
+
+	public Persona getAnimatore();
 	
 }
