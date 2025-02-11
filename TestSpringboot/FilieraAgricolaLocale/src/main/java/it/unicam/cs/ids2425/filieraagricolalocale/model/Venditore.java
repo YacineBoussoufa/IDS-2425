@@ -5,9 +5,9 @@ public class Venditore {
 	private String RagioneSociale;
 	private String PIVA;
 	private String Descrizione;
-	private String Localizzazione;
+	private POI Localizzazione;
 	
-	public Venditore(String RagioneSociale, String PIVA, String Descrizione, String Localizzazione) {
+	public Venditore(String RagioneSociale, String PIVA, String Descrizione, POI Localizzazione) {
 		this.RagioneSociale=RagioneSociale;
 		this.PIVA=PIVA;
 		this.Descrizione=Descrizione;
@@ -38,11 +38,11 @@ public class Venditore {
 		this.Descrizione=Descrizione;
 	}
 	
-	public String getLocalizzazione() {
+	public POI getLocalizzazione() {
 		return Localizzazione;
 	}
 	
-	public void setLocalizzazione(String Localizzazione) {
+	public void setLocalizzazione(POI Localizzazione) {
 		this.Localizzazione=Localizzazione;
 	}
 }
