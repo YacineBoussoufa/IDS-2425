@@ -65,6 +65,10 @@ public class Pacchetto implements Contenuto {
       this.prezzo = prezzo;
    }
 
+   public Set<Prodotto> getListaProdotti() {
+      return listaProdotti;
+   }
+
    public void aggiungiProdotto(Prodotto p){
       this.listaProdotti.add(p);
    }

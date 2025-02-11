@@ -1,7 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 import java.util.*;
 
+@JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
 public class ProdottoBuilder {
     private int id;
     private String nome;
@@ -11,7 +14,7 @@ public class ProdottoBuilder {
     private Venditore venditore;
     private POI poi;
     private Date data;
-    private final Set<Certificazione> listaCertificazioni = new HashSet<>();
+    private final Set<Etichetta> listaEtichette = new HashSet<>();
     private final Set<Prodotto> ingredienti = new HashSet<>();
 
     public Prodotto build() {
@@ -28,7 +31,7 @@ public class ProdottoBuilder {
         builder.setVenditore(prodotto.getVenditore());
         builder.setPoi(prodotto.getPoi());
         builder.setData(prodotto.getData());
-        builder.setListaCertificazioni(prodotto.getListaCertificazioni());
+        builder.setListaEtichette(prodotto.getListaEtichette());
         builder.setIngredienti(prodotto.getIngredienti());
         return builder;
     }
@@ -105,13 +108,13 @@ public class ProdottoBuilder {
         return this;
     }
 
-    public Set<Certificazione> getListaCertificazioni() {
-        return listaCertificazioni;
+    public Set<Etichetta> getListaEtichette() {
+        return listaEtichette;
     }
 
-    public ProdottoBuilder setListaCertificazioni(Set<Certificazione> listaCertificazioni) {
-        this.listaCertificazioni.clear();
-        this.listaCertificazioni.addAll(listaCertificazioni);
+    public ProdottoBuilder setListaEtichette(Set<Etichetta> listaEtichette) {
+        this.listaEtichette.clear();
+        this.listaEtichette.addAll(listaEtichette);
         return this;
     }
 

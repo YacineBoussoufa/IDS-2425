@@ -1,11 +1,14 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Date;
 
+@JsonDeserialize(builder = ProdottoBuilder.class)
 public class Prodotto implements Contenuto {
 
     //todo gestione id temporanea
@@ -22,7 +25,7 @@ public class Prodotto implements Contenuto {
     private StatoApprovazione statoApprovazione;
     private POI poi;
     private Date data;
-    private final Set<Certificazione> listaCertificazioni = new HashSet<>();
+    private final Set<Etichetta> listaEtichette = new HashSet<>();
     private final Set<Prodotto> ingredienti = new HashSet<>();
     private final List<LineaOrdine> ordini = new ArrayList<>();
 
@@ -40,7 +43,7 @@ public class Prodotto implements Contenuto {
         this.venditore = builder.getVenditore();
         this.poi = builder.getPoi();
         this.data = builder.getData();
-        listaCertificazioni.addAll(builder.getListaCertificazioni());
+        listaEtichette.addAll(builder.getListaEtichette());
         ingredienti.addAll(builder.getIngredienti());
 
         this.statoApprovazione = new Bozza(this);
@@ -92,8 +95,8 @@ public class Prodotto implements Contenuto {
     }
 
 
-    public Set<Certificazione> getListaCertificazioni() {
-        return listaCertificazioni;
+    public Set<Etichetta> getListaEtichette() {
+        return listaEtichette;
     }
 
     public Set<Prodotto> getIngredienti() {

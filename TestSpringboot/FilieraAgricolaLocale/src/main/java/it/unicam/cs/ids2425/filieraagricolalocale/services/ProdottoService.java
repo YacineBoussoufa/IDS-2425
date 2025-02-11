@@ -11,8 +11,10 @@ import java.util.Map;
 public class ProdottoService {
 
     //todo MOCK DI UNA TABELLA PRODOTTI
-    public static Map<Integer, Prodotto> repo = new HashMap<>();
-    public static int idCounter = 0;
+    public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
+    public static Map<Integer, Pacchetto> repoPacchetti = new HashMap<>();
+    public static int idProdottoCounter = 0;
+    public static int idPacchettoCounter = 0;
 
     private MiddlewareProdotto middlewareHead;
 
@@ -21,25 +23,41 @@ public class ProdottoService {
     }
 
     /**
-     * Crea un prodotto con un builder e controlla i dati inseriti.
+     * Crea un prodotto e controlla i dati inseriti.
      *
-     * @param builder Builder per la creazione di un prodotto.
+     * @param prodotto Prodotto da aggiungere
      *
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
-    public void creaProdotto(ProdottoBuilder builder) {
-        int id = idCounter++;
-        Prodotto prodotto = builder.setId(id).
-                build();
+    public void creaProdotto(Prodotto prodotto) {
+        int id = idProdottoCounter++;
+        //todo id con database
 
         //controllo dati
         if (middlewareHead.check(prodotto)) {
-            repo.put(id, prodotto);
+            repoProdotti.put(id, prodotto);
         } else {
             throw new DatiIncorrettiException();
         }
 
-        repo.put(id, prodotto);
+    }
+
+    /**
+     * Crea un pacchetto e controlla i dati dei singoli prodotti che lo formano
+     *
+     * @param pacchetto Pacchetto
+     * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
+     */
+    public void creaPacchetto(Pacchetto pacchetto) {
+        int id = idPacchettoCounter++;
+
+        for (Prodotto prodotto : pacchetto.getListaProdotti()) {
+            if (!middlewareHead.check(prodotto)) {
+                throw new DatiIncorrettiException();
+            }
+        }
+
+        repoPacchetti.put(id, pacchetto);
     }
 
     /**
@@ -48,14 +66,14 @@ public class ProdottoService {
      * Modificherà poi stato del prodotto in Bozza affinchè si proceda alla convalida delle modifiche.
      *
      * @param id ID del prodotto da modificare
-     * @param modifiche Builder che contiene solo i campi da modificare
+     * @param modifiche Prodotto che contiene solo i campi da modificare
      *
      * @throws ProdottoNonTrovatoException se l'id non è associato a un prodotto nel database
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
-    public void modificaProdotto(int id, ProdottoBuilder modifiche) {
-        if (!repo.containsKey(id)) throw new ProdottoNonTrovatoException();
-        Prodotto prodottoEsistente = repo.get(id);
+    public void modificaProdotto(int id, Prodotto modifiche) {
+        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException();
+        Prodotto prodottoEsistente = repoProdotti.get(id);
         ProdottoBuilder attuale = ProdottoBuilder.copiaDa(prodottoEsistente);
 
         //tutti gli elementi non vuoti sono modificati
@@ -65,8 +83,8 @@ public class ProdottoService {
         attuale.setQuantita(modifiche.getQuantita() != 0 ? modifiche.getQuantita() : attuale.getQuantita());
         attuale.setData(modifiche.getData() != null ? modifiche.getData() : attuale.getData());
         attuale.setPoi(modifiche.getPoi() != null ? modifiche.getPoi() : attuale.getPoi());
-        attuale.setListaCertificazioni(!modifiche.getListaCertificazioni().isEmpty() ? modifiche.getListaCertificazioni()
-                : attuale.getListaCertificazioni());
+        attuale.setListaEtichette(!modifiche.getListaEtichette().isEmpty() ? modifiche.getListaEtichette()
+                : attuale.getListaEtichette());
         attuale.setIngredienti(!modifiche.getIngredienti().isEmpty() ? modifiche.getIngredienti() : attuale.getIngredienti());
 
         //viene creato un nuovo prodotto da mettere allo stesso id; avrà stato Bozza
@@ -74,7 +92,7 @@ public class ProdottoService {
 
         //controllo dati
         if (middlewareHead.check(prodottoModificato)) {
-            repo.put(id, prodottoModificato);
+            repoProdotti.put(id, prodottoModificato);
         } else {
             throw new DatiIncorrettiException();
         }
@@ -88,7 +106,19 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a un prodotto nel database
      */
     public void eliminaProdotto(int id) {
-        if (!repo.containsKey(id)) throw new ProdottoNonTrovatoException();
-        repo.remove(id);
+        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException();
+        repoProdotti.remove(id);
+    }
+
+    /**
+     * Elimina un pacchetto con il suo id.
+     *
+     * @param id Identificatore pacchettp
+     *
+     * @throws ProdottoNonTrovatoException se l'id non è associato a un pacchetto nel database
+     */
+    public void eliminaPacchetto(int id) {
+        if (!repoPacchetti.containsKey(id)) throw new ProdottoNonTrovatoException();
+        repoPacchetti.remove(id);
     }
 }

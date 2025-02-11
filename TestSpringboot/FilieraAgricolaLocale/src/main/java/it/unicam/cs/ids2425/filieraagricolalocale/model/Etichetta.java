@@ -3,28 +3,29 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Certificazione {
+public class Etichetta {
 
-    public static final Set<Certificazione> listaCertificazioni = new HashSet<Certificazione>();
-    private static int numeroCertificazioni = 0;
+    //todo rimuovere id?
+    public static final Set<Etichetta> listaEtichette = new HashSet<Etichetta>();
+    private static int numeroEtichette = 0;
     private final int id;
     private String nome;
     private String descrizione;
 
-    public Certificazione(String nome, String descrizione) {
+    public Etichetta(String nome, String descrizione) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.id = generateID();
-        listaCertificazioni.add(this);
+        listaEtichette.add(this);
     }
 
     /**
-     * Assegna il numero attuale di certificazioni create come ID, poi incrementa il numero.
+     * Assegna il numero attuale di etichette create come ID, poi incrementa il numero.
      *
-     * @return ID per l'istanza di Certificazione
+     * @return ID per l'istanza di Etichetta
      */
     private static synchronized int generateID() {
-        return ++numeroCertificazioni;
+        return ++numeroEtichette;
     }
 
     public String getNome() {

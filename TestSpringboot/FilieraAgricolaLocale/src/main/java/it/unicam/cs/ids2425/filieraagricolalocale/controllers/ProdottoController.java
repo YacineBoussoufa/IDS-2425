@@ -7,14 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Certificazione;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.ProdottoBuilder;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.ProdottoDatiHandler;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareDati;
 
 @RestController
 @RequestMapping("/prodotto")
@@ -27,7 +24,7 @@ public class ProdottoController {
    // SINGLE RESPONBILITY PROBLEM
    ProdottoController(){
       
-      MiddlewareProdotto mp = MiddlewareProdotto.link(new ProdottoDatiHandler());
+      MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati());
 		ps = new ProdottoService(mp);
       ms = new MarketplaceService();
 
@@ -37,8 +34,8 @@ public class ProdottoController {
     * Crea un nuovo prodotto passando i valori in POST
     */
    @RequestMapping(value = "/crea", method = RequestMethod.POST)
-      public ResponseEntity<Object> createProduct(@RequestBody ProdottoBuilder product) {
-      //ps.creaProdotto(product);
+      public ResponseEntity<Object> createProduct(@RequestBody Prodotto prodotto) {
+      ps.creaProdotto(prodotto);
       return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
 	}
 

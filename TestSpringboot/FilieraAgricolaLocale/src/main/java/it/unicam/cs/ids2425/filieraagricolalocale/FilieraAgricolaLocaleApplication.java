@@ -1,18 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale;
 
-import java.util.Date;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.ProdottoBuilder;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.TipoPOI;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.ProdottoDatiHandler;
 
 @SpringBootApplication
 public class FilieraAgricolaLocaleApplication {

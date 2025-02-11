@@ -10,7 +10,7 @@ import java.util.*;
 public class MarketplaceService {
 
     //todo MOCK DI UNA TABELLA PRODOTTI
-    public static Map<Integer, Prodotto> repo = ProdottoService.repo;
+    public static Map<Integer, Prodotto> repo = ProdottoService.repoProdotti;
 
     /**
      * Restituisce un prodotto a partire dal suo id.
