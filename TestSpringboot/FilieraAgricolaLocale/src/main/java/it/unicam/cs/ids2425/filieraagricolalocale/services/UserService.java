@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 import java.text.DateFormat;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Carrello;
@@ -15,7 +16,7 @@ public class UserService {
    
    public static Map<String, Persona> userRepository;
 
-   public void creaUtente(String nome, String cognome, DateFormat dataDiNascita, String username, Ruolo ruolo, Carrello car){
+   public void creaUtente(String nome, String cognome, Date dataDiNascita, String username, Ruolo ruolo, Carrello car){
       Persona p = new Persona(nome, cognome, dataDiNascita, username, ruolo);
       userRepository.put(username, p);
    }

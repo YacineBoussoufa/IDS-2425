@@ -6,6 +6,7 @@ import java.util.*;
 
 @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
 public class ProdottoBuilder {
+    
     private int id;
     private String nome;
     private String descrizione;

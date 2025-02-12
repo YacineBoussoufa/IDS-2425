@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
@@ -29,6 +30,10 @@ public class OrdineService {
 
    public void modificaIndirizzo(Integer i, Indirizzo o){
       ordineRepository.get(i).setIndirizzo(o);
+   }
+
+   public void modificaDataDiConsegna(Integer i, Date o){
+      ordineRepository.get(i).setDataDiConsegna(o);
    }
 
    public void setEvaso(Integer i, boolean o){
