@@ -21,8 +21,9 @@ public class MiddlewareQuantita extends MiddlewareOrdine {
       for (Prodotto p : mappaProdotti.keySet()) {
          if(marketplaceService.visualizzaProdotto(p.getId()).getQuantita() < mappaProdotti.get(p))
             return false;
-            //TODO diminuire quantita'
-         //marketplaceService.visualizzaProdotto(p.getId()).se
+
+         int q = marketplaceService.visualizzaProdotto(p.getId()).getQuantita();
+         marketplaceService.visualizzaProdotto(p.getId()).setQuantita(q - mappaProdotti.get(p));
       }
       return checkNext(dataCreazione, mappaProdotti, u, i);
    }
