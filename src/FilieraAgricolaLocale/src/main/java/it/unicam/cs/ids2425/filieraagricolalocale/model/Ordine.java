@@ -14,10 +14,10 @@ public class Ordine {
    private boolean evaso;
    private Date dataDiConsegna; // stimata
    private final List<LineaOrdine> articoli;
-   private Utente user;
+   private Account user;
    private Indirizzo indirizzo;
 
-   public Ordine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i) {
+   public Ordine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i) {
       this.dataCreazione = dataCreazione;
       this.articoli = new LinkedList<>();
       for (Prodotto p : mappaProdotti.keySet()) {
@@ -45,11 +45,11 @@ public class Ordine {
       this.indirizzo = indirizzo;
    }
 
-   public Utente getUser() {
+   public Account getUser() {
       return user;
    }
 
-   public void setUser(Utente user) {
+   public void setUser(Account user) {
       this.user = user;
    }
 

@@ -5,9 +5,8 @@ import java.util.Date;
 import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Persona;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 
 public class MiddlewarePagamento extends MiddlewareOrdine {
 
@@ -18,7 +17,7 @@ public class MiddlewarePagamento extends MiddlewareOrdine {
    @Override
    public boolean check(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i) {
 
-      Persona p = (Persona) u;
+      Utente p = (Utente) u;
       if(!(inviaPagamento(p.getNumeroCarta(), p.getDataScadenza(), p.getCvv()))){
          return false;
       }

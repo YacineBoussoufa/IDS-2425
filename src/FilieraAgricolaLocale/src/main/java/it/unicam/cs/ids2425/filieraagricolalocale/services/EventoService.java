@@ -14,8 +14,8 @@ public class EventoService {
     //TODO
 
     public void creaManifestazione(DateFormat Data, String Nome, String Descrizione,
-                           int NumeroMaxPartecipanti, POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti,
-                           Set<Persona> PersonePartecipanti, Persona animatore) {
+                                   int NumeroMaxPartecipanti, POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti,
+                                   Set<Utente> PersonePartecipanti, Utente animatore) {
 
         Evento evento;
         //TODO controllo sui dati
@@ -26,8 +26,8 @@ public class EventoService {
     }
 
     public void creaVisita(boolean isManifestazione, DateFormat Data, String Nome, String Descrizione,
-            int NumeroMaxPartecipanti, POI PuntoDiInteresse, Venditore venditore,
-            Set<Persona> PersonePartecipanti, Persona animatore) {
+                           int NumeroMaxPartecipanti, POI PuntoDiInteresse, Venditore venditore,
+                           Set<Utente> PersonePartecipanti, Utente animatore) {
 
         Evento evento;
         evento = new Visita(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, PersonePartecipanti, new Proposta(animatore, null, venditore), animatore);
@@ -55,14 +55,14 @@ public class EventoService {
         eventi.remove(id);
     }
 
-    public void aggiungiPartecipanti(int id, Set<Persona> nuoviPartecipanti) {
+    public void aggiungiPartecipanti(int id, Set<Utente> nuoviPartecipanti) {
         Evento evento = eventi.get(id);
         if (evento != null) {
             if (evento instanceof Manifestazione) {
-                Set<Persona> partecipanti = ((Manifestazione) evento).getPersonePartecipanti();
+                Set<Utente> partecipanti = ((Manifestazione) evento).getPersonePartecipanti();
                 partecipanti.addAll(nuoviPartecipanti);
             } else if (evento instanceof Visita) {
-                Set<Persona> partecipanti = ((Visita) evento).getPersonePartecipanti();
+                Set<Utente> partecipanti = ((Visita) evento).getPersonePartecipanti();
                 partecipanti.addAll(nuoviPartecipanti);
             }
         } else {
@@ -70,7 +70,7 @@ public class EventoService {
         }
     }
 
-    public Set<Persona> visualizzaPartecipanti(int id) {
+    public Set<Utente> visualizzaPartecipanti(int id) {
         Evento evento = eventi.get(id);
         if (evento != null) {
             if (evento instanceof Manifestazione) {

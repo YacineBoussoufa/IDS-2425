@@ -6,17 +6,17 @@ import java.util.Map;
 
 public class Carrello {
 
-   private final Utente id;
+   private final Account id;
    private Map<Prodotto, Integer> listaProdotti;
    private DateFormat ultimaModifica;
 
-   public Carrello(Utente id, Map<Prodotto, Integer> listaProdotti) {
+   public Carrello(Account id, Map<Prodotto, Integer> listaProdotti) {
       this.id = id;
       this.listaProdotti = listaProdotti;
       this.ultimaModifica = DateFormat.getDateInstance();
    }
 
-   public Carrello(Utente id) {
+   public Carrello(Account id) {
       this.id = id;
       this.listaProdotti = new HashMap<>();
       this.ultimaModifica = DateFormat.getDateInstance();
@@ -45,7 +45,7 @@ public class Carrello {
       return ultimaModifica;
    }
    
-   public Utente getId() {
+   public Account getId() {
       return id;
    }
 

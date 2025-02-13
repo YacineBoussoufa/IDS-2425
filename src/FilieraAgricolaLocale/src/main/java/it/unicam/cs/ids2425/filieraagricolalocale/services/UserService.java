@@ -1,27 +1,27 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
-import java.text.DateFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Carrello;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Persona;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Ruolo;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Ruolo;
 
 public class UserService {
    
-   public static Map<String, Persona> userRepository;
+   public static Map<String, Utente> userRepository;
 
-   public void creaUtente(String nome, String cognome, Date dataDiNascita, String username, Ruolo ruolo, Carrello car){
-      Persona p = new Persona(nome, cognome, dataDiNascita, username, ruolo);
+   public void creaUtente(String nome, String cognome, Date dataDiNascita, String username,
+                          String password, List<RuoloUtente> ruoli){
+      //TODO ESEGUIRE CONTROLLI CON MIDDLEWARE
+      Utente p = new Utente(nome, cognome, dataDiNascita, username, password, ruoli);
       userRepository.put(username, p);
    }
    
-   public void modificaUtente(String i, Persona p){
+   public void modificaUtente(String i, Utente p){
       userRepository.put(i, p);
    }
 
@@ -29,16 +29,16 @@ public class UserService {
       userRepository.remove(i);
    }
 
-   public Persona getUtente(String i){
+   public Utente getUtente(String i){
       return userRepository.get(i);
    }
 
-   public Collection<Persona> getElencoUtenti(){
+   public Collection<Utente> getElencoUtenti(){
       return userRepository.values();
    }
 
    public void assegnaRuolo(Ruolo r, String i){
-      userRepository.get(i).setRuolo(r);
+      //todo
    }
 
 }

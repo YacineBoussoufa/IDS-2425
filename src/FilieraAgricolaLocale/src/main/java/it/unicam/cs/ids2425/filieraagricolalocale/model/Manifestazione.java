@@ -11,13 +11,13 @@ public class Manifestazione implements Evento {
 	private int NumeroMaxPartecipanti;
 	private POI PuntoDiInteresse;
 	private Set<Venditore> AziendePartecipanti;
-	private Set<Persona> PersonePartecipanti;
-	private Persona animatore;
+	private Set<Utente> PersonePartecipanti;
+	private Utente animatore;
 	//TODO animatore
 
 	
 	public Manifestazione(DateFormat Data, String Nome, String Descrizione, int NumeroMaxPartecipanti,
-						  POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti, Set<Persona> PersonePartecipanti, Persona p) {
+                          POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti, Set<Utente> PersonePartecipanti, Utente p) {
 		this.Data=Data;
 		this.Nome=Nome;
 		this.Descrizione=Descrizione;
@@ -86,15 +86,15 @@ public class Manifestazione implements Evento {
 		this.AziendePartecipanti = AziendePartecipanti;
 	}
 
-	public Set<Persona> getPersonePartecipanti() {
+	public Set<Utente> getPersonePartecipanti() {
 		return PersonePartecipanti;
 	}
-	public void setPersonePartecipanti(Set<Persona> PersonePartecipanti) {
+	public void setPersonePartecipanti(Set<Utente> PersonePartecipanti) {
 		this.PersonePartecipanti = PersonePartecipanti;
 	}
 	
 	@Override
-	public Persona getAnimatore() {
+	public Utente getAnimatore() {
 		 return this.animatore;
 	}
 

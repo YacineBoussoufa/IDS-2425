@@ -10,12 +10,12 @@ public class Visita implements Evento {
     private String Descrizione;
     private int NumeroMaxPartecipanti;
     private POI PuntoDiInteresse;
-    private Set<Persona> PersonePartecipanti;
+    private Set<Utente> PersonePartecipanti;
     private final Proposta proposta;
-    private Persona animatore;
+    private Utente animatore;
 
     public Visita(DateFormat Data, String Nome, String Descrizione, int NumeroMaxPartecipanti, POI PuntoDiInteresse,
-            Set<Persona> PersonePartecipanti, Proposta p, Persona a){
+                  Set<Utente> PersonePartecipanti, Proposta p, Utente a){
                 
         this.Data=Data;
         this.Nome=Nome;
@@ -82,15 +82,15 @@ public class Visita implements Evento {
     }
 
 
-    public Set<Persona> getPersonePartecipanti() {
+    public Set<Utente> getPersonePartecipanti() {
         return PersonePartecipanti;
     }
-    public void setPersonePartecipanti(Set<Persona> PersonePartecipanti) {
+    public void setPersonePartecipanti(Set<Utente> PersonePartecipanti) {
         this.PersonePartecipanti = PersonePartecipanti;
     }
 
     @Override
-    public Persona getAnimatore() {
+    public Utente getAnimatore() {
         return this.animatore;
     }
 

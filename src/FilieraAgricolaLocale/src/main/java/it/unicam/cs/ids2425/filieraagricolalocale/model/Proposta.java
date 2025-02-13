@@ -3,14 +3,14 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 public class Proposta {
 
     private boolean statoAccettazione;
-    private Persona animatore;
+    private Utente animatore;
     private Visita visita;
     private Venditore venditore;
 
-    public Proposta(Persona animatore, Visita visita, Venditore venditore) {
+    public Proposta(Utente animatore, Visita visita, Venditore venditore) {
         this.animatore=animatore;
         this.visita=visita;
-        this.venditore=venditore;
+        this.venditore = venditore;
         this.statoAccettazione=false;
     }
 
@@ -22,7 +22,7 @@ public class Proposta {
         this.statoAccettazione = statoAccettazione;
     }
 
-    public Persona getAnimatore() {
+    public Utente getAnimatore() {
         return animatore;
     }
 

@@ -2,6 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import java.util.Date;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.ProdottoBuilder;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.TipoPOI;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
@@ -34,10 +31,11 @@ public class ProdottoController {
       
       MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati());
 		ps = new ProdottoService(mp);
-      this.ms = market;
+        this.ms = market;
 
 		ps.creaProdotto(new ProdottoBuilder().setDescrizione("Prodotto bianco").setNome("Mela rossa").setData(new Date()).
-		setPoi(new POI(0, 0, 0, TipoPOI.Prodotto)).setQuantita(5).setVenditore(new Venditore(null, null, null, null))
+		setPoi(new POI(0, 0, 0, TipoPOI.Prodotto)).setQuantita(5).setVenditore(new Venditore(null, null, null,
+                        null, null, null, null))
 		.setPrezzo(20.0).build());
 
    }

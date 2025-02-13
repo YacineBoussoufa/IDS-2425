@@ -5,7 +5,7 @@ import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 
 public abstract class MiddlewareOrdine {
 
@@ -20,9 +20,9 @@ public abstract class MiddlewareOrdine {
       return first;
    }
 
-   public abstract boolean check(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i);
+   public abstract boolean check(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i);
 
-   public boolean checkNext(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Utente u, Indirizzo i) {
+   public boolean checkNext(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i) {
       if(next == null){
          return true;
       }
