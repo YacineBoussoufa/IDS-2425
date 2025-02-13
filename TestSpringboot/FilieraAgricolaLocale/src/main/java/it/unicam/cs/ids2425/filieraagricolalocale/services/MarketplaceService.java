@@ -7,6 +7,9 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 
 import java.util.*;
 
+import org.springframework.stereotype.Component;
+
+@Component("MarketplaceService")
 public class MarketplaceService {
 
     //todo MOCK DI UNA TABELLA PRODOTTI

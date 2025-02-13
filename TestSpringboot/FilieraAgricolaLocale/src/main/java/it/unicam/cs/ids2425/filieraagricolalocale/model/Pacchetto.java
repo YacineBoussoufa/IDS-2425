@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Pacchetto implements Contenuto {
 
+   private final int id;
    private String nome;
    private String descrizione;
    private double prezzo;
@@ -21,6 +22,11 @@ public class Pacchetto implements Contenuto {
       this.data = data;
       this.statoApprovazione = new Bozza(this);
       this.venditore = v;
+      this.id = 0;
+   }
+
+   public int getId() {
+      return id;
    }
 
    public Date getData() {

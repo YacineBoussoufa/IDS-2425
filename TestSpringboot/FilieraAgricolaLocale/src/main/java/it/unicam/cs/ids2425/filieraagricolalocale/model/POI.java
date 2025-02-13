@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class POI implements Contenuto{
 	
 	private double Latitudine;
@@ -51,6 +53,7 @@ public class POI implements Contenuto{
 		this.Altitudine=Altitudine;
 	}
 	
+	@JsonProperty("tipo")
 	public TipoPOI getTipoPOI() {
 		return tipo;
 	}

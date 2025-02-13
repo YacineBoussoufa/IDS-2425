@@ -107,4 +107,8 @@ public class Prodotto implements Contenuto {
         return ordini;
     }
 
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
+    }
+    
 }
