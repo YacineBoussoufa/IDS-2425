@@ -5,10 +5,8 @@ import java.util.Map;
 import java.util.Collection;
 import java.util.Date;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Carrello;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Ruolo;
 
 public class UserService {
    
@@ -37,8 +35,8 @@ public class UserService {
       return userRepository.values();
    }
 
-   public void assegnaRuolo(Ruolo r, String i){
-      //todo
+   public void modificaRuoli(List<RuoloUtente> r, String i){
+      userRepository.get(i).setRuolo(r);
    }
 
 }

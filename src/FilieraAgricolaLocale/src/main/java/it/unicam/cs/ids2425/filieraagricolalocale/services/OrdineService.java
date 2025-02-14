@@ -1,12 +1,12 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Ordine;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareOrdine;
@@ -20,11 +20,11 @@ public class OrdineService {
       this.middlewareHead = middlewares;
    }
 
-   public void creaOrdine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i){
-      if(!middlewareHead.check(dataCreazione, mappaProdotti, u, i)){
+   public void creaOrdine(Date dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m){
+      if(!middlewareHead.check(dataCreazione, mappaProdotti, u, i, m)){
          throw new DatiIncorrettiException("Errore nella creazione ordine");
       }
-      Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i);
+      Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i, m);
       ordineRepository.put(o.hashCode(), o);
    }
 
