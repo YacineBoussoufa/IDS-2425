@@ -1,6 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -10,14 +9,15 @@ import java.util.Map;
 
 public class Ordine {
    
-   private final DateFormat dataCreazione;
+   private final Date dataCreazione;
    private boolean evaso;
    private Date dataDiConsegna; // stimata
    private final List<LineaOrdine> articoli;
    private Account user;
    private Indirizzo indirizzo;
+   private final Pagamento metodo;
 
-   public Ordine(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i) {
+   public Ordine(Date dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
       this.dataCreazione = dataCreazione;
       this.articoli = new LinkedList<>();
       for (Prodotto p : mappaProdotti.keySet()) {
@@ -27,6 +27,11 @@ public class Ordine {
       this.user = u;
       this.indirizzo = i;
       this.dataDiConsegna = Date.from(Instant.now().plus(Duration.ofDays(7)));
+      this.metodo = m;
+   }
+
+   public Pagamento getMetodo() {
+      return metodo;
    }
 
    public Date getDataDiConsegna() {
@@ -53,7 +58,7 @@ public class Ordine {
       this.user = user;
    }
 
-   public DateFormat getDataCreazione() {
+   public Date getDataCreazione() {
       return dataCreazione;
    }
 
