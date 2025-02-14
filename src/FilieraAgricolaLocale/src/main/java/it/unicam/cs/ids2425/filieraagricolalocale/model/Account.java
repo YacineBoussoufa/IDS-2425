@@ -19,4 +19,5 @@ public sealed interface Account permits Utente, Venditore {
     * @return
     */
    String getPassword();
+   
 }

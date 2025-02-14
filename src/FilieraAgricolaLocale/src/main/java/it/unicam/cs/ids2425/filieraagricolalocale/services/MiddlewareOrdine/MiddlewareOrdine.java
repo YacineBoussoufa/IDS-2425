@@ -1,9 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine;
 
-import java.text.DateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 
@@ -20,13 +21,13 @@ public abstract class MiddlewareOrdine {
       return first;
    }
 
-   public abstract boolean check(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i);
+   public abstract boolean check(Date dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m);
 
-   public boolean checkNext(DateFormat dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i) {
+   public boolean checkNext(Date dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
       if(next == null){
          return true;
       }
-      return next.check(dataCreazione, mappaProdotti, u, i);
+      return next.check(dataCreazione, mappaProdotti, u, i, m);
    }
 
 }

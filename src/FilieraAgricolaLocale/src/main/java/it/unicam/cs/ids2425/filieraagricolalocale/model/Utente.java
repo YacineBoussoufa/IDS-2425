@@ -6,19 +6,12 @@ import java.util.List;
 
 public non-sealed class Utente implements Account {
 
-   private final int id;
    private String nome;
    private String cognome;
    private Date dataDiNascita;
    private String username;
    private String password;
    private List<Ruolo> listaRuoli = new ArrayList<>();
-   private final Carrello carrello;
-   //TODO spostare questi in ordine
-   private String numeroCarta;
-   private Date dataScadenza;
-   private int cvv;
-
 
    /**
     * @param nome
@@ -34,36 +27,21 @@ public non-sealed class Utente implements Account {
       this.username = username;
       this.password = password;
       this.listaRuoli.addAll(listaRuoli);
-      this.carrello = new Carrello(this);
-      this.id = 0;
    }
 
-   public int getId() {
-      return id;
-   }
-
-   public String getNumeroCarta() {
-      return numeroCarta;
-   }
-
-   public void setNumeroCarta(String numeroCarta) {
-      this.numeroCarta = numeroCarta;
-   }
-
-   public Date getDataScadenza() {
-      return dataScadenza;
-   }
-
-   public void setDataScadenza(Date dataScadenza) {
-      this.dataScadenza = dataScadenza;
-   }
-
-   public int getCvv() {
-      return cvv;
-   }
-
-   public void setCvv(int cvv) {
-      this.cvv = cvv;
+   /**
+    * @param nome
+    * @param cognome
+    * @param dataDiNascita
+    * @param username
+    * @param password
+    */
+   public Utente(String nome, String cognome, Date dataDiNascita, String username, String password) {
+      this.nome = nome;
+      this.cognome = cognome;
+      this.dataDiNascita = dataDiNascita;
+      this.username = username;
+      this.password = password;
    }
 
    public String getNome() {
@@ -87,7 +65,7 @@ public non-sealed class Utente implements Account {
       return listaRuoli;
    }
 
-   public void setRuolo(List<RuoloUtente> listaRuoli) {
+   public void setListaRuoli(List<RuoloUtente> listaRuoli) {
       this.listaRuoli.clear();
       this.listaRuoli.addAll(listaRuoli);
    }
@@ -118,8 +96,4 @@ public non-sealed class Utente implements Account {
       this.password = password;
    }
    
-   public Carrello getCarrello() {
-      return carrello;
-   }
-
 }

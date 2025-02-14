@@ -57,4 +57,12 @@ public class ProdottoController {
       return new ResponseEntity<>(ms.visualizzaProdotti(), HttpStatus.OK);
    }
 
+      /*
+    * Ottieni la lista dei prodotti in GET
+    */
+    @RequestMapping(value = "/listaProdottiConvalidati")
+    public ResponseEntity<Object> getProductsConvalidati() {
+    return new ResponseEntity<>(ms.visualizzaProdottiStato(InConvalida.class), HttpStatus.OK);
+ }
+
 }
