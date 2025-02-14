@@ -19,6 +19,4 @@ public abstract class EventoAbstract implements Evento {
         this.puntoDiInteresse = builder.puntoDiInteresse;
         this.animatore = builder.animatore;
     }
-
-
 }

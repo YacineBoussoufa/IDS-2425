@@ -2,6 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.middlewareEvento;
 
 import java.text.DateFormat;
 import java.util.*;
@@ -10,11 +11,17 @@ public class EventoService {
 
     private Map<Integer, Evento> eventi = new HashMap<>();
     private int idCounter = 0;
+    private MiddlewareEvento middleware;
 
     //TODO CONTROLLI
 
     public void aggiungiEvento(Evento evento) {
-        eventi.put(idCounter++, evento);
+
+        if (middleware.check(evento)) {
+            eventi.put(idCounter++, evento);
+        } else {
+            throw new DatiIncorrettiException();
+        }
 
     }
 
@@ -22,7 +29,12 @@ public class EventoService {
         if (!eventi.containsKey(id)) {
             throw new DatiIncorrettiException();
         }
-        eventi.put(id, eventoModificato);
+
+        if (middleware.check(evento)) {
+            eventi.put(id, eventoModificato);
+        } else {
+            throw new DatiIncorrettiException();
+        }
     }
 
     public void rimuoviEvento(int id) {
