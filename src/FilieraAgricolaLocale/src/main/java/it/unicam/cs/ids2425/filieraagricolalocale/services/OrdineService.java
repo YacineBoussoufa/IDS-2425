@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
@@ -13,7 +14,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.Midd
 
 public class OrdineService {
    
-   public static Map<Integer, Ordine> ordineRepository;
+   public static Map<Integer, Ordine> ordineRepository = new HashMap<>();
    private MiddlewareOrdine middlewareHead;
 
    public OrdineService(MiddlewareOrdine middlewares){

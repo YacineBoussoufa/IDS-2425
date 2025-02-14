@@ -65,7 +65,7 @@ public non-sealed class Utente implements Account {
       return listaRuoli;
    }
 
-   public void setRuolo(List<RuoloUtente> listaRuoli) {
+   public void setListaRuoli(List<RuoloUtente> listaRuoli) {
       this.listaRuoli.clear();
       this.listaRuoli.addAll(listaRuoli);
    }
