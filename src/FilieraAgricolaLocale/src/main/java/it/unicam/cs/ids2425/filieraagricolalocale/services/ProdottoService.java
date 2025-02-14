@@ -99,6 +99,22 @@ public class ProdottoService {
     }
 
     /**
+     * Metodo per aggiungere scorte ad un Prodotto.
+     *
+     * @param id Identificatore del prodotto
+     * @param quantita Quantità da aggiungere al prodotto, sommata a quella attuale
+     *
+     * @throws ProdottoNonTrovatoException Se l'id non corrisponde a un Prodotto nel sistema.
+     */
+    public void restock(int id, int quantita) {
+        Prodotto prodotto = repoProdotti.get(id);
+        if (prodotto == null) throw new ProdottoNonTrovatoException();
+        int quantitaAttuale = prodotto.getQuantita();
+        prodotto.setQuantita(quantitaAttuale + quantita);
+        repoProdotti.put(id, prodotto);
+    }
+
+    /**
      * Elimina un prodotto con il suo id.
      *
      * @param id Identificatore prodotto
