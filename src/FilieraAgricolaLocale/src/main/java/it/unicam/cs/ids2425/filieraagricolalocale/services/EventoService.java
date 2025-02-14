@@ -11,60 +11,33 @@ public class EventoService {
     private Map<Integer, Evento> eventi = new HashMap<>();
     private int idCounter = 0;
 
-    //TODO
+    //TODO CONTROLLI
 
-    public void creaManifestazione(DateFormat Data, String Nome, String Descrizione,
-                                   int NumeroMaxPartecipanti, POI PuntoDiInteresse, Set<Venditore> AziendePartecipanti,
-                                   Set<Utente> PersonePartecipanti, Utente animatore) {
+    public void aggiungiEvento(Evento evento) {
+        eventi.put(idCounter++, evento);
 
-        Evento evento;
-        //TODO controllo sui dati
-        evento = new Manifestazione(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, AziendePartecipanti, PersonePartecipanti, animatore);
-
-        eventi.put(idCounter, evento);
-        idCounter++;
     }
 
-    public void creaVisita(boolean isManifestazione, DateFormat Data, String Nome, String Descrizione,
-                           int NumeroMaxPartecipanti, POI PuntoDiInteresse, Venditore venditore,
-                           Set<Utente> PersonePartecipanti, Utente animatore) {
-
-        Evento evento;
-        evento = new Visita(Data, Nome, Descrizione, NumeroMaxPartecipanti, PuntoDiInteresse, PersonePartecipanti, new Proposta(animatore, null, venditore), animatore);
-
-        eventi.put(idCounter, evento);
-        idCounter++;
-    }
-
-    public void modificaEvento(int id, DateFormat Data, String Nome, String Descrizione, int NumeroMaxPartecipanti, POI PuntoDiInteresse) {
-        Evento evento = eventi.get(id);
-
-        if (evento != null) {
-            evento.setData(Data);
-            evento.setNome(Nome);
-            evento.setDescrizione(Descrizione);
-            evento.setNumeroMaxPartecipanti(NumeroMaxPartecipanti);
-            evento.setPuntoDiInteresse(PuntoDiInteresse);
-        } else {
+    public void modificaEvento(int id, Evento eventoModificato) {
+        if (!eventi.containsKey(id)) {
             throw new DatiIncorrettiException();
         }
+        eventi.put(id, eventoModificato);
     }
 
     public void rimuoviEvento(int id) {
-        if (!eventi.containsKey(id)) throw new IllegalArgumentException();
+        if (!eventi.containsKey(id)) {
+            throw new DatiIncorrettiException();
+        }
         eventi.remove(id);
     }
 
     public void aggiungiPartecipanti(int id, Set<Utente> nuoviPartecipanti) {
         Evento evento = eventi.get(id);
-        if (evento != null) {
-            if (evento instanceof Manifestazione) {
-                Set<Utente> partecipanti = ((Manifestazione) evento).getPersonePartecipanti();
-                partecipanti.addAll(nuoviPartecipanti);
-            } else if (evento instanceof Visita) {
-                Set<Utente> partecipanti = ((Visita) evento).getPersonePartecipanti();
-                partecipanti.addAll(nuoviPartecipanti);
-            }
+        if (evento instanceof Manifestazione) {
+            ((Manifestazione) evento).getPersonePartecipanti().addAll(nuoviPartecipanti);
+        } else if (evento instanceof Visita) {
+            ((Visita) evento).getPersonePartecipanti().addAll(nuoviPartecipanti);
         } else {
             throw new DatiIncorrettiException();
         }
@@ -72,16 +45,12 @@ public class EventoService {
 
     public Set<Utente> visualizzaPartecipanti(int id) {
         Evento evento = eventi.get(id);
-        if (evento != null) {
-            if (evento instanceof Manifestazione) {
-                return ((Manifestazione) evento).getPersonePartecipanti();
-            } else if (evento instanceof Visita) {
-                return ((Visita) evento).getPersonePartecipanti();
-            }
-        } else {
-            throw new DatiIncorrettiException();
+        if (evento instanceof Manifestazione) {
+            return ((Manifestazione) evento).getPersonePartecipanti();
+        } else if (evento instanceof Visita) {
+            return ((Visita) evento).getPersonePartecipanti();
         }
-        return new HashSet<>();
+        throw new DatiIncorrettiException();
     }
 
     public Map<Integer, Evento> getEventi() {
