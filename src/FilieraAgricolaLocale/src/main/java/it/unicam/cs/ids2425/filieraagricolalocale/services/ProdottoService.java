@@ -37,7 +37,7 @@ public class ProdottoService {
         if (middlewareHead.check(prodotto)) {
             repoProdotti.put(id, prodotto);
         } else {
-            throw new DatiIncorrettiException();
+            throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
         }
 
     }
@@ -53,7 +53,7 @@ public class ProdottoService {
 
         for (Prodotto prodotto : pacchetto.getListaProdotti()) {
             if (!middlewareHead.check(prodotto)) {
-                throw new DatiIncorrettiException();
+                throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
             }
         }
 
@@ -72,7 +72,8 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     public void modificaProdotto(int id, Prodotto modifiche) {
-        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException();
+        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException(
+                "Non esiste prodotto con id " + id);
         Prodotto prodottoEsistente = repoProdotti.get(id);
         ProdottoBuilder attuale = ProdottoBuilder.copiaDa(prodottoEsistente);
 
@@ -96,8 +97,27 @@ public class ProdottoService {
         if (middlewareHead.check(prodottoModificato)) {
             repoProdotti.put(id, prodottoModificato);
         } else {
-            throw new DatiIncorrettiException();
+            throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
+    }
+
+    public void modificaPacchetto(int id, Pacchetto pacchetto) {
+        if (!repoPacchetti.containsKey(id)) {
+            throw new ProdottoNonTrovatoException("Non esiste pacchetto con id " + id);
+        }
+
+        if (pacchetto.getPrezzo() <= 0) throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
+
+
+        for (Prodotto p : pacchetto.getListaProdotti()) {
+            if (!middlewareHead.check(p)) {
+                throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
+            }
+        }
+
+        pacchetto.cambiaStato(new Bozza(pacchetto));
+        repoPacchetti.put(id, pacchetto);
+
     }
 
     /**
@@ -110,7 +130,8 @@ public class ProdottoService {
      */
     public void restock(int id, int quantita) {
         Prodotto prodotto = repoProdotti.get(id);
-        if (prodotto == null) throw new ProdottoNonTrovatoException();
+        if (prodotto == null) throw new ProdottoNonTrovatoException("Non esiste prodotto con id " + id);
+
         int quantitaAttuale = prodotto.getQuantita();
         prodotto.setQuantita(quantitaAttuale + quantita);
         repoProdotti.put(id, prodotto);
@@ -124,7 +145,8 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a un prodotto nel database
      */
     public void eliminaProdotto(int id) {
-        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException();
+        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException(
+                "Non esiste prodotto con id " + id);
         repoProdotti.remove(id);
     }
 
@@ -136,7 +158,8 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a un pacchetto nel database
      */
     public void eliminaPacchetto(int id) {
-        if (!repoPacchetti.containsKey(id)) throw new ProdottoNonTrovatoException();
+        if (!repoPacchetti.containsKey(id)) throw new ProdottoNonTrovatoException(
+                "Non esiste pacchetto con id " + id);
         repoPacchetti.remove(id);
     }
 }

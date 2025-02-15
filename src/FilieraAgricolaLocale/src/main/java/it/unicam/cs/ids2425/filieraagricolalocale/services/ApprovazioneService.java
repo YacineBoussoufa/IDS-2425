@@ -34,7 +34,7 @@ public class ApprovazioneService {
      *
      * @throws DatiIncorrettiException se il prodotto non è pronto alla convalida
      */
-    public void approva(int id, boolean esito) {
+    public void approvaProdotto(int id, boolean esito) {
         Contenuto prodotto = repoProdotti.get(id);
         StatoApprovazione stato = prodotto.getStato();
 
