@@ -12,6 +12,8 @@ public abstract class StatoApprovazione {
         this.contenuto = contenuto;
     }
 
+    abstract String statoToString();
+
     /**
      * L'implementazione del metodo varia per lo stato del contenuto.
      */

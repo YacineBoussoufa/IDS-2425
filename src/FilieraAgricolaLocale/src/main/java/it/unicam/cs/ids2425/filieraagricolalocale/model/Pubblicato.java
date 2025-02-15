@@ -6,6 +6,10 @@ public class Pubblicato extends StatoApprovazione {
         super(contenuto);
     }
 
+    @Override
+    String statoToString() {
+        return "Pubblicato";
+    }
 
     /**
      * Lo stato non cambia dopo la pubblicazione.

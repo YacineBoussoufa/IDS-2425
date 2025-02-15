@@ -82,4 +82,9 @@ public class MarketplaceService {
       return repo.values().stream().filter(p -> p.getStato().getClass() == s).toList();
     }
 
+    //TODO
+    public String generaLinkSocial() {
+        return "";
+    }
+
 }

@@ -9,6 +9,11 @@ public class InConvalida extends StatoApprovazione {
         approvato = false;
     }
 
+    @Override
+    String statoToString() {
+        return "InConvalida";
+    }
+
     /**
      * La pubblicazione di un contenuto in base all'approvazione data ad esso.
      * Se approvato, lo stato diventa Pubblicato.
