@@ -2,14 +2,11 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.InConvalida;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.ProdottoBuilder;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pubblicato;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.StatoApprovazione;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -77,6 +74,10 @@ public class MarketplaceService {
         return new ArrayList<>(repo.values());
     }
 
+    /**
+     * @param s
+     * @return
+     */
     public List<Prodotto> visualizzaProdottiStato(Class<? extends StatoApprovazione> s) {
       return repo.values().stream().filter(p -> p.getStato().getClass() == s).toList();
     }

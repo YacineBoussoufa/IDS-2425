@@ -5,8 +5,8 @@ import java.util.Map;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 
 public class MiddlewareQuantita extends MiddlewareOrdine {
@@ -18,8 +18,8 @@ public class MiddlewareQuantita extends MiddlewareOrdine {
    }
 
    @Override
-   public boolean check(Date dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
-      for (Prodotto p : mappaProdotti.keySet()) {
+   public boolean check(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
+      for (Contenuto p : mappaProdotti.keySet()) {
          if(marketplaceService.visualizzaProdotto(p.getId()).getQuantita() < mappaProdotti.get(p))
             return false;
 

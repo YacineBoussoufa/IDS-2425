@@ -19,7 +19,7 @@ public non-sealed class Venditore implements Account {
 		this.PIVA=PIVA;
 		this.username=username;
 		this.password=password;
-		//this.listaRuoli.addAll(listaRuoli);
+		this.listaRuoli.addAll(listaRuoli);
 		this.Descrizione=Descrizione;
 		this.Localizzazione=Localizzazione;
 	}

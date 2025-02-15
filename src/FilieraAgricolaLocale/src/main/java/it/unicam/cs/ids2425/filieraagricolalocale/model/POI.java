@@ -2,12 +2,11 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class POI implements Contenuto{
+public class POI {
 	
 	private double Latitudine;
 	private double Longitudine;
 	private int Altitudine;
-	private StatoApprovazione statoApprovazione;
 	private TipoPOI tipo;
 	
 	public POI(double Latitudine, double Longitudine, int Altitudine, TipoPOI tipo) {
@@ -15,19 +14,7 @@ public class POI implements Contenuto{
 		this.Longitudine=Longitudine;
 		this.Altitudine=Altitudine;
 		this.tipo=tipo;
-		
-		this.statoApprovazione = new Bozza(this);
 	}
-	
-	@Override
-    public StatoApprovazione getStato() {
-        return statoApprovazione;
-    }
-
-    @Override
-    public void cambiaStato(StatoApprovazione stato) {
-        this.statoApprovazione = stato;
-    }
 	
 	public double getLatitudine() {
 		return Latitudine;

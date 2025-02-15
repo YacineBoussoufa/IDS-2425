@@ -1,5 +1,8 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
+import java.util.List;
+
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.InConvalida;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.StatoApprovazione;
@@ -29,4 +32,14 @@ public class ApprovazioneService {
         stato.pubblica();
     }
 
+    //TODO
+    public List<Contenuto> visualizzaContenutiDaApprovare(){
+        return null;
+    }
+
+    //TODO maybe pubblica should return a boolean?
+    public boolean pubblicaContenuto(Contenuto p){
+        p.getStato().pubblica();
+        return false;
+    }
 }

@@ -2,11 +2,11 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 public class LineaOrdine {
 
-   private final Prodotto prodotto;
+   private final Contenuto prodotto;
    private final Ordine ordine;
    private int quantita;
 
-   public LineaOrdine(Prodotto prodotto, Ordine ordine, int quantita) {
+   public LineaOrdine(Contenuto prodotto, Ordine ordine, int quantita) {
       this.prodotto = prodotto;
       this.ordine = ordine;
       this.quantita = quantita;
@@ -18,7 +18,7 @@ public class LineaOrdine {
    }
 
 
-   public Prodotto getProdotto() {
+   public Contenuto getProdotto() {
       return prodotto;
    }
 
