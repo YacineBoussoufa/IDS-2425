@@ -6,6 +6,11 @@ public class Bozza extends StatoApprovazione {
         super(contenuto);
     }
 
+    @Override
+    String statoToString() {
+        return "Bozza";
+    }
+
     /**
      * La pubblicazione di una Bozza cambia lo stato in InConvalida.
      */

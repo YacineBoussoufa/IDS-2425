@@ -3,7 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.text.DateFormat;
 import java.util.Set;
 
-public class Visita extends EventoAbstract implements Evento {
+public class Visita extends EventoAbstract {
 
     private Set<Utente> personePartecipanti;
     private final Proposta proposta;

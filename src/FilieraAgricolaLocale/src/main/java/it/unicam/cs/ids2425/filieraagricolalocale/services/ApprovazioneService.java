@@ -27,23 +27,6 @@ public class ApprovazioneService {
     }
 
     /**
-     * Metodo per ottenere tutti i prodotti in convalida
-     *
-     * @return Lista dei prodotti con lo stato InConvalida
-     */
-    public List<Contenuto> getProdottiInConvalida() {
-        List<Contenuto> prodotti = new ArrayList<>();
-
-        for (Contenuto prodotto : repoProdotti.values()) {
-            if (prodotto.getStato() instanceof InConvalida) {
-                prodotti.add(prodotto);
-            }
-        }
-
-        return prodotti;
-    }
-
-    /**
      * Cambia lo stato del prodotto in convalida in base al valore di esito.
      *
      * @param id Identificatore del prodotto in convalida
@@ -64,14 +47,4 @@ public class ApprovazioneService {
         stato.pubblica();
     }
 
-    //TODO
-    public List<Contenuto> visualizzaContenutiDaApprovare(){
-        return null;
-    }
-
-    //TODO maybe pubblica should return a boolean?
-    public boolean pubblicaContenuto(Contenuto p){
-        p.getStato().pubblica();
-        return false;
-    }
 }

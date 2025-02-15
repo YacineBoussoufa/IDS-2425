@@ -3,7 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.text.DateFormat;
 import java.util.Set;
 
-public class EventoBuilder<T extends EventoBuilder<T>> {
+public class EventoBuilder<T extends EventoAbstract> {
 
     protected DateFormat data;
     protected String nome;
@@ -16,54 +16,54 @@ public class EventoBuilder<T extends EventoBuilder<T>> {
         return nome;
     }
 
-    public T setNome(String nome) {
+    public EventoBuilder<T> setNome(String nome) {
         this.nome = nome;
-        return (T) this;
+        return this;
     }
 
     public String getDescrizione() {
         return descrizione;
     }
 
-    public T setDescrizione(String descrizione) {
+    public EventoBuilder<T> setDescrizione(String descrizione) {
         this.descrizione = descrizione;
-        return (T) this;
+        return this;
     }
 
     public int getNumeroMaxPartecipanti() {
         return numeroMaxPartecipanti;
     }
 
-    public T setNumeroMaxPartecipanti(int numero) {
+    public EventoBuilder<T> setNumeroMaxPartecipanti(int numero) {
         this.numeroMaxPartecipanti = numero;
-        return (T) this;
+        return this;
     }
 
     public DateFormat getData() {
         return data;
     }
 
-    public T setData(DateFormat data) {
+    public EventoBuilder<T> setData(DateFormat data) {
         this.data = data;
-        return (T) this;
+        return this;
     }
 
     public POI getPuntoDiInteresse() {
         return puntoDiInteresse;
     }
 
-    public T setPuntoDiInteresse(POI puntoDiInteresse) {
+    public EventoBuilder<T> setPuntoDiInteresse(POI puntoDiInteresse) {
         this.puntoDiInteresse = puntoDiInteresse;
-        return (T) this;
+        return this;
     }
 
     public Utente getAnimatore() {
         return animatore;
     }
 
-    public T setAnimatore(Utente animatore) {
+    public EventoBuilder<T> setAnimatore(Utente animatore) {
         this.animatore = animatore;
-        return (T) this;
+        return this;
     }
 
     public Manifestazione buildManifestazione(Set<Venditore> aziendePartecipanti, Set<Utente> personePartecipanti) {

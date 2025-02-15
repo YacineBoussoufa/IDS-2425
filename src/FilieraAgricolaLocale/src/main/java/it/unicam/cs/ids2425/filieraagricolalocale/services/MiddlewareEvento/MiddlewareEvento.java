@@ -1,16 +1,18 @@
-package it.unicam.cs.ids2425.filieraagricolalocale.services.middlewareEvento;
+package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
-public class MiddlewareEvento {
-    private final Map<Integer, Evento> eventi; // Reference to stored events
+import java.util.Map;
 
-    public EventoMiddleware(Map<Integer, Evento> eventi) {
+public class MiddlewareEvento {
+    private final Map<Integer, EventoAbstract> eventi; // Reference to stored events
+
+    public MiddlewareEvento(Map<Integer, EventoAbstract> eventi) {
         this.eventi = eventi;
     }
 
-    public boolean check(Evento evento) {
+    public boolean check(EventoAbstract evento) {
         if (evento.getNome() == null || evento.getNome().isEmpty()) return false;
         if (evento.getDescrizione() == null || evento.getDescrizione().isEmpty()) return false;
         if (evento.getData() == null) return false;
@@ -18,13 +20,14 @@ public class MiddlewareEvento {
         if (evento.getNumeroMaxPartecipanti() <= 0) return false;
         if (evento.getPuntoDiInteresse() == null) return false;
 
-        for (Evento eventiEsistenti : eventi.values()) {
+        for (EventoAbstract eventiEsistenti : eventi.values()) {
             if (eventiEsistenti.getData().equals(evento.getData()) &&
                     eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
                 return false;
             }
         }
 
+        return true;
     }
 
 }
