@@ -13,6 +13,7 @@ public class Pacchetto implements Contenuto {
    private Date data;
    private StatoApprovazione statoApprovazione;
    private Venditore venditore;
+   private int quantita;
 
    public Pacchetto(String nome, String descrizione, double prezzo, Set<Prodotto> listaProdotti, Date data, Venditore v) {
       this.nome = nome;
@@ -25,6 +26,7 @@ public class Pacchetto implements Contenuto {
       this.id = 0;
    }
 
+   @Override
    public int getId() {
       return id;
    }
@@ -89,5 +91,14 @@ public class Pacchetto implements Contenuto {
 
    public void setVenditore(Venditore venditore) {
       this.venditore = venditore;
+   }
+
+   @Override
+   public int getQuantita() {
+      return this.quantita;
+   }
+
+   public void setQuantita(int q) {
+      this.quantita = q;
    }
 }

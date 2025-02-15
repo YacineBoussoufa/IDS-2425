@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import java.util.Date;
+
 public interface Contenuto {
 
     /**
@@ -15,5 +17,35 @@ public interface Contenuto {
      * @param stato Stato da inserire nel Contenuto
      */
     void cambiaStato(StatoApprovazione stato);
+
+    /**
+     * @return
+     */
+    int getId();
+
+    /**
+     * @return
+     */
+    String getNome();
+
+    /**
+     * @return
+     */
+    String getDescrizione();
+
+    /**
+     * @return
+     */
+    double getPrezzo();
+
+    /**
+     * @return
+     */
+    int getQuantita();
+
+    /**
+     * @return
+     */
+    Date getData();
 
 }

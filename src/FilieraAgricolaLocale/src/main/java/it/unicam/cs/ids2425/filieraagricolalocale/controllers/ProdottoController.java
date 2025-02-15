@@ -1,6 +1,8 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,12 @@ public class ProdottoController {
 		ps = new ProdottoService(mp);
         this.ms = market;
 
+      List<RuoloVenditore> l = new LinkedList<>();
+      l.add(RuoloVenditore.Distributore);
+
 		ps.creaProdotto(new ProdottoBuilder().setDescrizione("Prodotto bianco").setNome("Mela rossa").setData(new Date()).
 		setPoi(new POI(0, 0, 0, TipoPOI.Prodotto)).setQuantita(5).setVenditore(new Venditore(null, null, null,
-                        null, null, null, null))
+                        null, l, null, null))
 		.setPrezzo(20.0).build());
 
    }
@@ -56,5 +61,13 @@ public class ProdottoController {
       public ResponseEntity<Object> getProducts() {
       return new ResponseEntity<>(ms.visualizzaProdotti(), HttpStatus.OK);
    }
+
+      /*
+    * Ottieni la lista dei prodotti in GET
+    */
+    @RequestMapping(value = "/listaProdottiConvalidati")
+    public ResponseEntity<Object> getProductsConvalidati() {
+    return new ResponseEntity<>(ms.visualizzaProdottiStato(InConvalida.class), HttpStatus.OK);
+ }
 
 }

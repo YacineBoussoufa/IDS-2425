@@ -17,10 +17,10 @@ public class Ordine {
    private Indirizzo indirizzo;
    private final Pagamento metodo;
 
-   public Ordine(Date dataCreazione, Map<Prodotto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
+   public Ordine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
       this.dataCreazione = dataCreazione;
       this.articoli = new LinkedList<>();
-      for (Prodotto p : mappaProdotti.keySet()) {
+      for (Contenuto p : mappaProdotti.keySet()) {
          this.articoli.add(new LineaOrdine(p, this, mappaProdotti.get(p)));
       }
       this.evaso = false;

@@ -26,7 +26,7 @@ public non-sealed class Utente implements Account {
       this.dataDiNascita = dataDiNascita;
       this.username = username;
       this.password = password;
-
+     
       if (listaRuoli != null) {
          this.listaRuoli.addAll(listaRuoli);
       }
@@ -68,7 +68,7 @@ public non-sealed class Utente implements Account {
       return listaRuoli;
    }
 
-   public void setRuolo(List<RuoloUtente> listaRuoli) {
+   public void setListaRuoli(List<RuoloUtente> listaRuoli) {
       if (listaRuoli != null) {
          this.listaRuoli.clear();
          this.listaRuoli.addAll(listaRuoli);

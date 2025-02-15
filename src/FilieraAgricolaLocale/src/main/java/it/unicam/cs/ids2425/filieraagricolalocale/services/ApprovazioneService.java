@@ -64,4 +64,14 @@ public class ApprovazioneService {
         stato.pubblica();
     }
 
+    //TODO
+    public List<Contenuto> visualizzaContenutiDaApprovare(){
+        return null;
+    }
+
+    //TODO maybe pubblica should return a boolean?
+    public boolean pubblicaContenuto(Contenuto p){
+        p.getStato().pubblica();
+        return false;
+    }
 }

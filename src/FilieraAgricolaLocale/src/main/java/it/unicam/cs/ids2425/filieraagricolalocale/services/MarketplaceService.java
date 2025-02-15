@@ -4,6 +4,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoE
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pubblicato;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.StatoApprovazione;
 
 import java.util.*;
 
@@ -71,6 +72,14 @@ public class MarketplaceService {
      */
     public List<Prodotto> visualizzaProdotti() {
         return new ArrayList<>(repo.values());
+    }
+
+    /**
+     * @param s
+     * @return
+     */
+    public List<Prodotto> visualizzaProdottiStato(Class<? extends StatoApprovazione> s) {
+      return repo.values().stream().filter(p -> p.getStato().getClass() == s).toList();
     }
 
 }

@@ -90,6 +90,8 @@ public class ProdottoService {
         //viene creato un nuovo prodotto da mettere allo stesso id; avrà stato Bozza
         Prodotto prodottoModificato = attuale.build();
 
+        //TODO dopo la modifica lo stato del prodotto dovrebbe tornare bozza
+
         //controllo dati
         if (middlewareHead.check(prodottoModificato)) {
             repoProdotti.put(id, prodottoModificato);
