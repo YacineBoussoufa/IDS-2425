@@ -3,28 +3,15 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.text.DateFormat;
 import java.util.Set;
 
-public class Visita implements Evento {
+public class Visita extends EventoAbstract implements Evento {
 
-    private DateFormat Data;
-    private String Nome;
-    private String Descrizione;
-    private int NumeroMaxPartecipanti;
-    private POI PuntoDiInteresse;
-    private Set<Utente> PersonePartecipanti;
+    private Set<Utente> personePartecipanti;
     private final Proposta proposta;
-    private Utente animatore;
 
-    public Visita(DateFormat Data, String Nome, String Descrizione, int NumeroMaxPartecipanti, POI PuntoDiInteresse,
-                  Set<Utente> PersonePartecipanti, Proposta p, Utente a){
-                
-        this.Data=Data;
-        this.Nome=Nome;
-        this.Descrizione=Descrizione;
-        this.NumeroMaxPartecipanti=NumeroMaxPartecipanti;
-        this.PuntoDiInteresse=PuntoDiInteresse;
-        this.PersonePartecipanti=PersonePartecipanti;
-        this.proposta = p;
-        this.animatore = a;
+    public Visita(EventoBuilder<?> builder, Set<Utente> personePartecipanti, Proposta proposta) {
+        super(builder);
+        this.personePartecipanti = personePartecipanti;
+        this.proposta = proposta;
     }
 
     public Proposta getProposta() {
@@ -33,60 +20,60 @@ public class Visita implements Evento {
 
     @Override
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     @Override
-    public void setNome(String Nome) {
-        this.Nome=Nome;
+    public void setNome(String nome) {
+        this.nome=nome;
     }
 
     @Override
     public String getDescrizione() {
-        return Descrizione;
+        return descrizione;
     }
 
     @Override
-    public void setDescrizione(String Descrizione) {
-        this.Descrizione = Descrizione;
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     @Override
     public int getNumeroMaxPartecipanti() {
-        return NumeroMaxPartecipanti;
+        return numeroMaxPartecipanti;
     }
 
     @Override
-    public void setNumeroMaxPartecipanti(int NumeroMaxPartecipanti) {
-        this.NumeroMaxPartecipanti=NumeroMaxPartecipanti;
+    public void setNumeroMaxPartecipanti(int numeroMaxPartecipanti) {
+        this.numeroMaxPartecipanti=numeroMaxPartecipanti;
     }
 
     @Override
     public DateFormat getData() {
-        return Data;
+        return data;
     }
 
     @Override
-    public void setData(DateFormat Data) {
-        this.Data=Data;
+    public void setData(DateFormat data) {
+        this.data=data;
     }
 
     @Override
     public POI getPuntoDiInteresse() {
-        return PuntoDiInteresse;
+        return puntoDiInteresse;
     }
 
     @Override
-    public void setPuntoDiInteresse(POI PuntoDiInteresse) {
-        this.PuntoDiInteresse=PuntoDiInteresse;
+    public void setPuntoDiInteresse(POI puntoDiInteresse) {
+        this.puntoDiInteresse=puntoDiInteresse;
     }
 
 
     public Set<Utente> getPersonePartecipanti() {
-        return PersonePartecipanti;
+        return personePartecipanti;
     }
-    public void setPersonePartecipanti(Set<Utente> PersonePartecipanti) {
-        this.PersonePartecipanti = PersonePartecipanti;
+    public void setPersonePartecipanti(Set<Utente> personePartecipanti) {
+        this.personePartecipanti = personePartecipanti;
     }
 
     @Override
