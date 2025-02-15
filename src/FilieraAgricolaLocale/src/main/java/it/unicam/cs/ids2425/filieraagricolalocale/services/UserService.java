@@ -70,6 +70,7 @@ public class UserService {
 
    public void modificaRuoliVenditore(List<RuoloVenditore> r, String i){
       sellerRepository.get(i).setListaRuoli(r);
+      
    }
 
 }

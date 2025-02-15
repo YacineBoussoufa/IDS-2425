@@ -19,7 +19,11 @@ public non-sealed class Venditore implements Account {
 		this.PIVA=PIVA;
 		this.username=username;
 		this.password=password;
-		this.listaRuoli.addAll(listaRuoli);
+
+		if (listaRuoli != null) {
+			this.listaRuoli.addAll(listaRuoli);
+		}
+
 		this.Descrizione=Descrizione;
 		this.Localizzazione=Localizzazione;
 	}
@@ -64,8 +68,10 @@ public non-sealed class Venditore implements Account {
 	}
 
 	public void setListaRuoli(List<RuoloVenditore> listaRuoli) {
-		this.listaRuoli.clear();
-		this.listaRuoli.addAll(listaRuoli);
+		if (listaRuoli != null) {
+			this.listaRuoli.clear();
+			this.listaRuoli.addAll(listaRuoli);
+		}
 	}
 
 	public String getDescrizione() {

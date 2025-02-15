@@ -21,10 +21,11 @@ public abstract class MiddlewareOrdine {
       return first;
    }
 
+  
    public abstract boolean check(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m);
 
    public boolean checkNext(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
-      if(next == null){
+      if(next == null) {
          return true;
       }
       return next.check(dataCreazione, mappaProdotti, u, i, m);

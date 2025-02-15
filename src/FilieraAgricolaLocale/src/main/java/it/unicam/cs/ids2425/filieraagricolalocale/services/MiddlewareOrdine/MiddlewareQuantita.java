@@ -18,8 +18,10 @@ public class MiddlewareQuantita extends MiddlewareOrdine {
    }
 
    @Override
+  
    public boolean check(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
       for (Contenuto p : mappaProdotti.keySet()) {
+        
          if(marketplaceService.visualizzaProdotto(p.getId()).getQuantita() < mappaProdotti.get(p))
             return false;
 

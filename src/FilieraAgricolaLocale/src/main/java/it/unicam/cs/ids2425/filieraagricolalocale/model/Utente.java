@@ -26,7 +26,10 @@ public non-sealed class Utente implements Account {
       this.dataDiNascita = dataDiNascita;
       this.username = username;
       this.password = password;
-      this.listaRuoli.addAll(listaRuoli);
+     
+      if (listaRuoli != null) {
+         this.listaRuoli.addAll(listaRuoli);
+      }
    }
 
    /**
@@ -66,8 +69,10 @@ public non-sealed class Utente implements Account {
    }
 
    public void setListaRuoli(List<RuoloUtente> listaRuoli) {
-      this.listaRuoli.clear();
-      this.listaRuoli.addAll(listaRuoli);
+      if (listaRuoli != null) {
+         this.listaRuoli.clear();
+         this.listaRuoli.addAll(listaRuoli);
+      }
    }
 
    public Date getDataDiNascita() {
