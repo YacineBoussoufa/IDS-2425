@@ -4,7 +4,7 @@ public class InConvalida extends StatoApprovazione {
 
     private boolean approvato;
 
-    protected InConvalida(Contenuto contenuto) {
+    public InConvalida(Contenuto contenuto) {
         super(contenuto);
         approvato = false;
     }

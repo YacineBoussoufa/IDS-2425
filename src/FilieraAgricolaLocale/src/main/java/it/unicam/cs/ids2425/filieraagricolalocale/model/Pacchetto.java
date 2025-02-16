@@ -15,7 +15,8 @@ public class Pacchetto implements Contenuto {
    private Venditore venditore;
    private int quantita;
 
-   public Pacchetto(String nome, String descrizione, double prezzo, Set<Prodotto> listaProdotti, Date data, Venditore v) {
+   public Pacchetto(String nome, String descrizione, double prezzo,
+                    Set<Prodotto> listaProdotti, Date data, Venditore v) {
       this.nome = nome;
       this.descrizione = descrizione;
       this.prezzo = prezzo;
