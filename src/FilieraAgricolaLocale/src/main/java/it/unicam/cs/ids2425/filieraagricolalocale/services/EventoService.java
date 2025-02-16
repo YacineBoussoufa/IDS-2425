@@ -2,7 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ public class EventoService {
     private Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
     private int idCounterVisite = 0;
     private int idCounterManifestazioni = 0;
-    private MiddlewareEvento middleware;
+    private MiddlewareEventoDati middleware;
 
     public void aggiungiEvento(EventoAbstract evento) {
 
