@@ -21,6 +21,7 @@ public class ProdottoController {
    
    private ProdottoService ps;
 
+   //todo gestione diversa di autowired (?)
    //TODO gestire autorizzazioni per la creazione
    ProdottoController(){
       
