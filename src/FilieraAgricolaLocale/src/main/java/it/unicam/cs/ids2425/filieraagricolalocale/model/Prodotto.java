@@ -80,6 +80,7 @@ public class Prodotto implements Contenuto {
         return quantita;
     }
 
+    @Override
     public Venditore getVenditore() {
         return venditore;
     }

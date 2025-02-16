@@ -85,6 +85,7 @@ public class Pacchetto implements Contenuto {
       this.listaProdotti.remove(p);
    }
 
+   @Override
    public Venditore getVenditore() {
       return venditore;
    }
