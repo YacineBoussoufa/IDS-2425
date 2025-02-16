@@ -1,10 +1,9 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +15,8 @@ public class OSMService {
     //todo database
     public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
     public static Map<String, Venditore> repoVenditori = new HashMap<>();
+    public static Map<Integer, Visita> repoVisite = new HashMap<>();
+    public static Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
 
     public Set<POI> visualizzaMappa() {
         Set<POI> poiSet = new HashSet<>();
@@ -26,6 +27,14 @@ public class OSMService {
 
         for (Venditore venditore : repoVenditori.values()) {
             poiSet.add(venditore.getLocalizzazione());
+        }
+
+        for (Visita visita : repoVisite.values()) {
+            poiSet.add(visita.getPuntoDiInteresse());
+        }
+
+        for (Manifestazione manifestazione : repoManifestazioni.values()) {
+            poiSet.add(manifestazione.getPuntoDiInteresse());
         }
 
         return poiSet;
@@ -66,4 +75,41 @@ public class OSMService {
 
         return poiSet;
     }
+
+    public POI visualizzaVisita(int id) {
+        if (!repoVisite.containsKey(id)) {
+            throw new EventoNonTrovatoException();
+        } else {
+            return repoVisite.get(id).getPuntoDiInteresse();
+        }
+    }
+
+    public Set<POI> visualizzaVisite() {
+        Set<POI> poiSet = new HashSet<>();
+
+        for (Visita visita : repoVisite.values()) {
+            poiSet.add(visita.getPuntoDiInteresse());
+        }
+
+        return poiSet;
+    }
+
+    public POI visualizzaManifestazione(int id) {
+        if (!repoManifestazioni.containsKey(id)) {
+            throw new EventoNonTrovatoException();
+        } else {
+            return repoManifestazioni.get(id).getPuntoDiInteresse();
+        }
+    }
+
+    public Set<POI> visualizzaManifestazioni() {
+        Set<POI> poiSet = new HashSet<>();
+
+        for (Manifestazione manifestazione : repoManifestazioni.values()) {
+            poiSet.add(manifestazione.getPuntoDiInteresse());
+        }
+
+        return poiSet;
+    }
+
 }
