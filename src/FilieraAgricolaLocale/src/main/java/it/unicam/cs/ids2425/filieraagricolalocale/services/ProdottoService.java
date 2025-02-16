@@ -13,6 +13,8 @@ public class ProdottoService {
     //todo MOCK DI UNA TABELLA PRODOTTI
     public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
     public static Map<Integer, Pacchetto> repoPacchetti = new HashMap<>();
+    //todo correttezza venditore
+    public static Map<String, Venditore> repoVenditori = new HashMap<>();
     public static int idProdottoCounter = 0;
     public static int idPacchettoCounter = 0;
 
@@ -162,4 +164,10 @@ public class ProdottoService {
                 "Non esiste pacchetto con id " + id);
         repoPacchetti.remove(id);
     }
+
+    //TODO
+    public String generaLinkSocial() {
+        return "";
+    }
+
 }

@@ -1,10 +1,8 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Pubblicato;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.StatoApprovazione;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
 import java.util.*;
 
@@ -14,7 +12,9 @@ import org.springframework.stereotype.Component;
 public class MarketplaceService {
 
     //todo MOCK DI UNA TABELLA PRODOTTI
-    public static Map<Integer, Prodotto> repo = ProdottoService.repoProdotti;
+    public static Map<Integer, Prodotto> repoProdotti = ProdottoService.repoProdotti;
+    public static Map<Integer, Pacchetto> repoPacchetti = ProdottoService.repoPacchetti;
+    public static Map<String, Venditore> repoVenditori = ProdottoService.repoVenditori;
 
     /**
      * Restituisce un prodotto a partire dal suo id.
@@ -25,22 +25,58 @@ public class MarketplaceService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a un prodotto nel database
      */
     public Prodotto visualizzaProdotto(int id) {
-        if (!repo.containsKey(id)) throw new ProdottoNonTrovatoException();
+        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException(
+                "Non esiste prodotto con id " + id);
 
-        return repo.get(id);
+        return repoProdotti.get(id);
+    }
+
+    /**
+     * Restituisce un pacchetto a partire dal suo id
+     *
+     * @param id Identificatore pacchetto
+     * @return Pacchetto, se nel database
+     *
+     * @throws ProdottoNonTrovatoException se l'id non è associato a un pacchetto nel database
+     */
+    public Pacchetto visualizzaPacchetto(int id) {
+        if (!repoPacchetti.containsKey(id)) throw new ProdottoNonTrovatoException(
+                "Non esiste pacchetto con id " + id);
+
+        return repoPacchetti.get(id);
+    }
+
+    /**
+     * Restituisce un venditore a partire dal suo username
+     *
+     * @param username Username venditore
+     * @return Venditore, se nel database
+     *
+     * @throws VenditoreNonTrovatoException se l'username non è associato a un venditore nel database
+     */
+    public Venditore visualizzaVenditore(String username) {
+        if (!repoVenditori.containsKey(username)) throw new VenditoreNonTrovatoException(
+                "Non esiste venditore con l'username " + username);
+
+        return repoVenditori.get(username);
     }
     
     /**
-     * Restituisce tutti i prodotti di un venditore, bozze comprese.
+     * Restituisce tutti i prodotti di un venditore.
      *
-     * @param venditore Venditore
+     * @param username Username del venditore
      * @return Lista prodotti del venditore
+     *
+     * @throws VenditoreNonTrovatoException se l'username non è associato a un venditore nel database
      */
-    public List<Prodotto> visualizzaProdottiVenditore(Venditore venditore) {
+    public List<Prodotto> visualizzaProdottiVenditore(String username) {
+        if (!repoVenditori.containsKey(username)) throw new VenditoreNonTrovatoException(
+                "Non esiste venditore con l'username " + username);
+
         List<Prodotto> prodottiVenditore = new ArrayList<>();
 
-        for (Prodotto prodotto : repo.values()) {
-            if (prodotto.getVenditore().equals(venditore)) {
+        for (Prodotto prodotto : repoProdotti.values()) {
+            if (prodotto.getVenditore().equals(repoVenditori.get(username))) {
                 prodottiVenditore.add(prodotto);
             }
         }
@@ -49,42 +85,71 @@ public class MarketplaceService {
     }
 
     /**
-     * Restituisce tutti i prodotti pubblicati, cioè quelli che hanno superato il processo di convalida.
+     * Restituisce tutti i pacchetti di un venditore.
      *
-     * @return Prodotti pubblicati.
+     * @param username Username del venditore
+     * @return Lista pacchetti del venditore
      */
-    public List<Prodotto> visualizzaProdottiPubblicati() {
-        List<Prodotto> prodottiVisibili = new ArrayList<>();
+    public List<Pacchetto> visualizzaPacchettiVenditore(String username) {
+        if (!repoVenditori.containsKey(username)) throw new VenditoreNonTrovatoException(
+                "Non esiste venditore con l'username " + username);
 
-        for (Prodotto prodotto : repo.values()) {
-            if (prodotto.getStato() instanceof Pubblicato) {
-                prodottiVisibili.add(prodotto);
+        List<Pacchetto> pacchettiVenditore = new ArrayList<>();
+
+        for (Pacchetto pacchetto : repoPacchetti.values()) {
+            if (pacchetto.getVenditore().equals(repoVenditori.get(username))) {
+                pacchettiVenditore.add(pacchetto);
             }
         }
 
-        return prodottiVisibili;
+        return pacchettiVenditore;
     }
 
     /**
-     * Restituisce tutti i prodotti del marketplace, pubblicati o meno.
+     * Restituisce tutti i prodotti del marketplace.
      *
      * @return Tutti i prodotti
      */
     public List<Prodotto> visualizzaProdotti() {
-        return new ArrayList<>(repo.values());
+        return new ArrayList<>(repoProdotti.values());
     }
 
     /**
-     * @param s
-     * @return
+     * Restituisce tutti i pacchetti nel marketplace.
+     *
+     * @return Tutti i pacchetti
      */
-    public List<Prodotto> visualizzaProdottiStato(Class<? extends StatoApprovazione> s) {
-      return repo.values().stream().filter(p -> p.getStato().getClass() == s).toList();
+    public List<Pacchetto> visualizzaPacchetti() {
+        return new ArrayList<>(repoPacchetti.values());
     }
 
-    //TODO
-    public String generaLinkSocial() {
-        return "";
+    /**
+     * Restituisce tutti i venditori nel marketplace.
+     *
+     * @return Tutti i venditori
+     */
+    public List<Venditore> visualizzaVenditori() {
+        return new ArrayList<>(repoVenditori.values());
+    }
+
+    /**
+     * Restituisce tutti i prodotti con uno stato di approvazione in comune.
+     *
+     * @param s Stato di approvazione per filtrare i prodotti
+     * @return Tutti i prodotti con lo stato s
+     */
+    public List<Prodotto> visualizzaProdottiPerStato(Class<? extends StatoApprovazione> s) {
+        return repoProdotti.values().stream().filter(p -> p.getStato().getClass() == s).toList();
+    }
+
+    /**
+     * Restituisce tutti i pacchetti con uno stato di approvazione in comune
+     *
+     * @param s Stato di approvazione per filtrare i pacchetti
+     * @return Tutti i pacchetti con lo stato s
+     */
+    public List<Pacchetto> visualizzaPacchettiPerStato(Class<? extends StatoApprovazione> s) {
+        return repoPacchetti.values().stream().filter(p -> p.getStato().getClass() == s).toList();
     }
 
 }

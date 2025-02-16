@@ -1,9 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
@@ -26,16 +21,12 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.Mi
 public class ProdottoController {
    
    private ProdottoService ps;
-   private MarketplaceService ms;
 
    //TODO gestire autorizzazioni per la creazione
-
-   @Autowired
-   ProdottoController(MarketplaceService market){
+   ProdottoController(){
       
       MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati());
       ps = new ProdottoService(mp);
-      this.ms = market;
       /*
       List<RuoloVenditore> l = new LinkedList<>();
       l.add(RuoloVenditore.Distributore);
@@ -43,7 +34,8 @@ public class ProdottoController {
 		ps.creaProdotto(new ProdottoBuilder().setDescrizione("Prodotto bianco").setNome("Mela rossa").setData(new Date()).
 		setPoi(new POI(0, 0, 0, TipoPOI.Prodotto)).setQuantita(5).setVenditore(new Venditore(null, null, null,
                         null, l, null, null))
-		.setPrezzo(20.0).build());*/
+		.setPrezzo(20.0).build());
+		*/
 
    }
 
@@ -121,7 +113,7 @@ public class ProdottoController {
     /*
      * Cancella un prodotto passandone l'id
      */
-    @RequestMapping(value = "/cancellaProdotto", method = RequestMethod.POST)
+    @RequestMapping(value = "/eliminaProdotto", method = RequestMethod.POST)
     public ResponseEntity<Object> deleteProduct(@RequestBody int id) {
 
         try {
@@ -138,7 +130,7 @@ public class ProdottoController {
     /*
      * Cancella un pacchetto passandone l'id
      */
-    @RequestMapping(value = "/eliminaProdotto", method = RequestMethod.POST)
+    @RequestMapping(value = "/eliminaPacchetto", method = RequestMethod.POST)
     public ResponseEntity<Object> deletePackage(@RequestBody int id) {
 
         try {
@@ -152,22 +144,21 @@ public class ProdottoController {
 
     }
 
-    //TODO SPOSTARE METODI IN MARKETPLACE?
+    /*
+     * Aggiunge quantità ad un prodotto
+     */
+    @RequestMapping(value = "/restock", method = RequestMethod.POST)
+    public ResponseEntity<Object> restock(@RequestBody int id, int quantita) {
 
-   /*
-    * Ottieni la lista dei prodotti in GET
-    */
-   @RequestMapping(value = "/lista")
-   public ResponseEntity<Object> getProducts() {
-       return new ResponseEntity<>(ms.visualizzaProdotti(), HttpStatus.OK);
-   }
+        try {
+            ps.restock(id, quantita);
+            return new ResponseEntity<>("Prodotto restock con successo.", HttpStatus.OK);
+        } catch (ProdottoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-      /*
-    * Ottieni la lista dei prodotti in GET
-    */
-    @RequestMapping(value = "/listaProdottiConvalidati")
-    public ResponseEntity<Object> getProductsConvalidati() {
-        return new ResponseEntity<>(ms.visualizzaProdottiStato(Pubblicato.class), HttpStatus.OK);
     }
 
 }
