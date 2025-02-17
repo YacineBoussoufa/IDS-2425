@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.EventoAbstract;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
 
 public abstract class MiddlewareEvento {
     

@@ -2,7 +2,9 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 
 import java.util.*;
 
@@ -12,7 +14,11 @@ public class EventoService {
     private Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
     private int idCounterVisite = 0;
     private int idCounterManifestazioni = 0;
-    private MiddlewareEventoDati middleware;
+    private MiddlewareEvento middleware;
+
+    public EventoService(MiddlewareEvento middlewares){
+        this.middleware = middlewares;
+    }
 
     public void aggiungiEvento(EventoAbstract evento) {
 
@@ -61,7 +67,7 @@ public class EventoService {
         repoManifestazioni.remove(id);
     }
 
-    public void aggiungiUtentePartecipanteVisita(int id, Utente utente) {
+    public void aggiungiUtentePartecipanteAVisita(int id, Utente utente) {
         Visita visita = repoVisite.get(id);
         if (visita != null) {
             visita.getPersonePartecipanti().add(utente);
@@ -70,7 +76,7 @@ public class EventoService {
         }
     }
 
-    public void aggiungiUtentePartecipanteManifestazione(int id, Utente utente) {
+    public void aggiungiUtentePartecipanteAManifestazione(int id, Utente utente) {
         Manifestazione manifestazione = repoManifestazioni.get(id);
         if (manifestazione != null) {
             manifestazione.getPersonePartecipanti().add(utente);
@@ -79,7 +85,7 @@ public class EventoService {
         }
     }
 
-    public void aggiungiAziendaPartecipanteManifestazione(int id, Venditore azienda) {
+    public void aggiungiAziendaPartecipanteAManifestazione(int id, Venditore azienda) {
         Manifestazione manifestazione = repoManifestazioni.get(id);
         if (manifestazione != null) {
             manifestazione.getAziendePartecipanti().add(azienda);
@@ -88,7 +94,7 @@ public class EventoService {
         }
     }
 
-    public void aggiungiUtentiPartecipantiVisita(int id, Set<Utente> nuoviPartecipanti) {
+    public void aggiungiUtentiPartecipantiAVisita(int id, Set<Utente> nuoviPartecipanti) {
         Visita visita = (Visita) repoVisite.get(id);
         if (visita != null) {
             visita.getPersonePartecipanti().addAll(nuoviPartecipanti);
@@ -97,7 +103,7 @@ public class EventoService {
         }
     }
 
-    public void aggiungiUtentiPartecipantiManifestazione(int id, Set<Utente> nuoviPartecipanti) {
+    public void aggiungiUtentiPartecipantiAManifestazione(int id, Set<Utente> nuoviPartecipanti) {
         Manifestazione manifestazione = repoManifestazioni.get(id);
         if (manifestazione != null) {
             manifestazione.getPersonePartecipanti().addAll(nuoviPartecipanti);
@@ -106,7 +112,7 @@ public class EventoService {
         }
     }
 
-    public void aggiungiAziendePartecipantiManifestazione(int id, Set<Venditore> nuoviPartecipanti) {
+    public void aggiungiAziendePartecipantiAManifestazione(int id, Set<Venditore> nuoviPartecipanti) {
         Manifestazione manifestazione = repoManifestazioni.get(id);
         if (manifestazione != null) {
             manifestazione.getAziendePartecipanti().addAll(nuoviPartecipanti);
@@ -115,7 +121,7 @@ public class EventoService {
         }
     }
 
-    public Set<Utente> visualizzaUtentiPartecipantiVisita(int id) {
+    public Set<Utente> visualizzaUtentiPartecipantiAVisita(int id) {
         Visita visita = repoVisite.get(id);
 
         if (visita != null) {
@@ -124,7 +130,7 @@ public class EventoService {
         throw new DatiIncorrettiException();
     }
 
-    public Set<Utente> visualizzaUtentiPartecipantiManifestazione(int id) {
+    public Set<Utente> visualizzaUtentiPartecipantiAManifestazione(int id) {
         Manifestazione manifestazione = repoManifestazioni.get(id);
 
         if (manifestazione != null) {
@@ -133,7 +139,7 @@ public class EventoService {
         throw new DatiIncorrettiException();
     }
 
-    public Set<Venditore> visualizzaAziendePartecipantiManifestazione(int id) {
+    public Set<Venditore> visualizzaAziendePartecipantiAManifestazione(int id) {
         Manifestazione manifestazione = repoManifestazioni.get(id);
 
         if (manifestazione != null) {
@@ -167,6 +173,30 @@ public class EventoService {
 
     public Map<Integer, Manifestazione> getRepoManifestazioni() {
         return repoManifestazioni;
+    }
+
+    public Map<Integer, Visita> getRepoVisiteAccettate() {
+        Map<Integer, Visita> visiteAccettate = new HashMap<>();
+        for (Map.Entry<Integer, Visita> entry : repoVisite.entrySet()) {
+            Visita visita = entry.getValue();
+            Proposta proposta = visita.getProposta();
+            if (proposta != null && proposta.getStatoAccettazione()) {
+                visiteAccettate.put(entry.getKey(), visita);
+            }
+        }
+        return visiteAccettate;
+    }
+
+    public Map<Integer, Visita> getRepoVisiteNonAccettate() {
+        Map<Integer, Visita> visiteRifiutate = new HashMap<>();
+        for (Map.Entry<Integer, Visita> entry : repoVisite.entrySet()) {
+            Visita visita = entry.getValue();
+            Proposta proposta = visita.getProposta();
+            if (proposta != null && !proposta.getStatoAccettazione()) {
+                visiteRifiutate.put(entry.getKey(), visita);
+            }
+        }
+        return visiteRifiutate;
     }
 
 }

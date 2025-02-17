@@ -1,14 +1,17 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 
 import java.util.Map;
 
 public class MiddlewareEventoDati extends MiddlewareEvento {
-    private final Map<Integer, EventoAbstract> eventi; // Reference to stored events
 
-    public MiddlewareEventoDati(Map<Integer, EventoAbstract> eventi) {
-        this.eventi = eventi;
+    private EventoService eventoService;
+
+    public MiddlewareEventoDati(EventoService eventi) {
+        this.eventoService = eventi;
     }
 
     public boolean check(EventoAbstract evento) {
@@ -18,12 +21,27 @@ public class MiddlewareEventoDati extends MiddlewareEvento {
         if (evento.getPuntoDiInteresse() == null) return false;
         if (evento.getNumeroMaxPartecipanti() <= 0) return false;
 
-        for (EventoAbstract eventiEsistenti : eventi.values()) {
-            if (eventiEsistenti.getData().equals(evento.getData()) &&
-                    eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
-                return false;
+        final Map<Integer, Visita> eventiVisita = eventoService.getRepoVisite();
+        final Map<Integer, Manifestazione> eventiManifestazione = eventoService.getRepoManifestazioni();
+
+        if(evento instanceof Visita) {
+            for (Visita eventiEsistenti : eventiVisita.values()) {
+                if (eventiEsistenti.getData().equals(evento.getData()) &&
+                        eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
+                    return false;
+                }
             }
         }
+        else if(evento instanceof Manifestazione) {
+            for (Manifestazione eventiEsistenti : eventiManifestazione.values()) {
+                if (eventiEsistenti.getData().equals(evento.getData()) &&
+                        eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
+                    return false;
+                }
+            }
+        }
+        else
+            return false;
 
         return checkNext(evento);
     }
