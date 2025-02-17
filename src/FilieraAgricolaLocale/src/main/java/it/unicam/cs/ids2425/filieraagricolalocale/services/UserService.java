@@ -36,7 +36,7 @@ public class UserService {
 
    public void creaUtente(Utente p){
       if(!middlewareHead.check(p)){
-      throw new DatiIncorrettiException("Errore nella creazione ordine");
+         throw new DatiIncorrettiException("Errore nella creazione ordine");
       }
       userRepository.put(p.getUsername(), p);
    }
@@ -58,26 +58,32 @@ public class UserService {
    }
 
    public void modificaUtente(String i, Utente p){
+      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       userRepository.put(i, p);
    }
 
    public void modificaVenditore(String i, Venditore p){
+      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       sellerRepository.put(i, p);
    }
 
    public void rimuoviUtente(String i){
+      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       userRepository.remove(i);
    }
 
    public void rimuoviVenditore(String i){
+      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       sellerRepository.remove(i);
    }
 
    public Utente getUtente(String i){
+      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       return userRepository.get(i);
    }
 
    public Venditore getVenditore(String i){
+      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       return sellerRepository.get(i);
    }
 
