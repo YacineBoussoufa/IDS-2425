@@ -32,21 +32,6 @@ public non-sealed class Utente implements Account {
       }
    }
 
-   /**
-    * @param nome
-    * @param cognome
-    * @param dataDiNascita
-    * @param username
-    * @param password
-    */
-   public Utente(String nome, String cognome, Date dataDiNascita, String username, String password) {
-      this.nome = nome;
-      this.cognome = cognome;
-      this.dataDiNascita = dataDiNascita;
-      this.username = username;
-      this.password = password;
-   }
-
    public String getNome() {
       return nome;
    }

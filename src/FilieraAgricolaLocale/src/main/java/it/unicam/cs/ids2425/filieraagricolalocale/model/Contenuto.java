@@ -48,4 +48,9 @@ public interface Contenuto {
      */
     Date getData();
 
+    /**
+     * @return venditore associato
+     */
+    Venditore getVenditore();
+
 }
