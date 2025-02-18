@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +19,8 @@ public class OrdineService {
    public static Map<Integer, Ordine> ordineRepository = new HashMap<>();
    private MiddlewareOrdine middlewareHead;
 
-   public OrdineService(MiddlewareOrdine middlewares){
-      this.middlewareHead = middlewares;
+   public void setMiddleware(MiddlewareOrdine m){
+      this.middlewareHead = m;
    }
 
    public void creaOrdine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m){
@@ -39,15 +40,19 @@ public class OrdineService {
       ordineRepository.get(i).setDataDiConsegna(o);
    }
 
-   public void setEvaso(Integer i, boolean o){
-      ordineRepository.get(i).setEvaso(o);;
-   }
-
    public void rimuoviOrdine(Integer i){
       ordineRepository.remove(i);
    }
 
-   public void getOrdine(Integer i){
-      ordineRepository.get(i);
+   public Ordine getOrdine(Integer i){
+      return ordineRepository.get(i);
+   }
+
+   public Collection<Ordine> getOrdiniUtente(String i){
+      return ordineRepository.values().stream().filter(o -> o.getUser().getUsername().equals(i)).toList();
+   }   
+
+   public Collection<Ordine> getOrdiniVenditore(String i){
+      return ordineRepository.values().stream().filter(o -> o.getArticoli().stream().anyMatch(p -> p.getProdotto().getVenditore().getUsername().equals(i))).toList();
    }   
 }

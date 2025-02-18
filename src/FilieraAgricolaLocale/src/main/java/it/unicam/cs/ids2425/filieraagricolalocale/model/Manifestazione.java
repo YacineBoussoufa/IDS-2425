@@ -8,60 +8,11 @@ public class Manifestazione extends EventoAbstract {
 	private Set<Venditore> aziendePartecipanti;
 	private Set<Utente> personePartecipanti;
 
-	public Manifestazione(EventoBuilder<?> builder, Set<Venditore> aziendePartecipanti, Set<Utente> personePartecipanti) {
+	public Manifestazione(ManifestazioneBuilder builder) {
 		super(builder);
-		this.aziendePartecipanti = aziendePartecipanti;
-		this.personePartecipanti = personePartecipanti;
-	}
-	
-	@Override
-	public String getNome() {
-		return nome;
-	}
-	
-	@Override
-	public void setNome(String nome) {
-		this.nome=nome;
-	}
-	
-	@Override
-	public String getDescrizione() {
-		return descrizione;
-	}
-	
-	@Override
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
-	
-	@Override
-	public int getNumeroMaxPartecipanti() {
-		return numeroMaxPartecipanti;
-	}
-	
-	@Override
-	public void setNumeroMaxPartecipanti(int numeroMaxPartecipanti) {
-		this.numeroMaxPartecipanti=numeroMaxPartecipanti;
-	}
-	
-	@Override
-	public DateFormat getData() {
-		return data;
-	}
 
-	@Override
-	public void setData(DateFormat data) {
-		this.data=data;
-	}
-
-	@Override
-	public POI getPuntoDiInteresse() {
-		return puntoDiInteresse;
-	}
-
-	@Override
-	public void setPuntoDiInteresse(POI puntoDiInteresse) {
-		this.puntoDiInteresse=puntoDiInteresse;
+		this.aziendePartecipanti = builder.getAziendePartecipanti();
+		this.personePartecipanti = builder.getPersonePartecipanti();
 	}
 
 	public Set<Venditore> getAziendePartecipanti() {
@@ -78,11 +29,6 @@ public class Manifestazione extends EventoAbstract {
 
 	public void setPersonePartecipanti(Set<Utente> personePartecipanti) {
 		this.personePartecipanti = personePartecipanti;
-	}
-	
-	@Override
-	public Utente getAnimatore() {
-		 return this.animatore;
 	}
 
 }

@@ -2,7 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 public class Bozza extends StatoApprovazione {
 
-    protected Bozza(Contenuto contenuto) {
+    public Bozza(Contenuto contenuto) {
         super(contenuto);
     }
 

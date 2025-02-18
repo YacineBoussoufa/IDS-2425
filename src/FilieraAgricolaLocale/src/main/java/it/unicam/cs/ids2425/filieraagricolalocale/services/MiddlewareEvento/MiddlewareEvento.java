@@ -1,33 +1,27 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.EventoAbstract;
 
-import java.util.Map;
+public abstract class MiddlewareEvento {
+    
+    private MiddlewareEvento next;
 
-public class MiddlewareEvento {
-    private final Map<Integer, EventoAbstract> eventi; // Reference to stored events
-
-    public MiddlewareEvento(Map<Integer, EventoAbstract> eventi) {
-        this.eventi = eventi;
+    public static MiddlewareEvento link(MiddlewareEvento first, MiddlewareEvento... chain) {
+        MiddlewareEvento head = first;
+        for (MiddlewareEvento nextInChain: chain) {
+            head.next = nextInChain;
+            head = nextInChain;
+        }
+        return first;
     }
 
-    public boolean check(EventoAbstract evento) {
-        if (evento.getNome() == null || evento.getNome().isEmpty()) return false;
-        if (evento.getDescrizione() == null || evento.getDescrizione().isEmpty()) return false;
-        if (evento.getData() == null) return false;
-        if (evento.getPuntoDiInteresse() == null) return false;
-        if (evento.getNumeroMaxPartecipanti() <= 0) return false;
-        if (evento.getPuntoDiInteresse() == null) return false;
+    public abstract boolean check(EventoAbstract e);
 
-        for (EventoAbstract eventiEsistenti : eventi.values()) {
-            if (eventiEsistenti.getData().equals(evento.getData()) &&
-                    eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
-                return false;
-            }
+    public boolean checkNext(EventoAbstract e) {
+        if(next == null){
+            return true;
         }
-
-        return true;
+        return next.check(e);
     }
 
 }

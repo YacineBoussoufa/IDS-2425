@@ -4,41 +4,73 @@ import java.text.DateFormat;
 
 public abstract class EventoAbstract {
 
-    protected DateFormat data;
-    protected String nome;
-    protected String descrizione;
-    protected int numeroMaxPartecipanti;
-    protected POI puntoDiInteresse;
-    protected Utente animatore;
+    private DateFormat data;
+    private String nome;
+    private String descrizione;
+    private int numeroMaxPartecipanti;
+    private POI puntoDiInteresse;
+    private Utente animatore;
 
-    protected EventoAbstract(EventoBuilder<?> builder) {
-        this.data = builder.data;
-        this.nome = builder.nome;
-        this.descrizione = builder.descrizione;
-        this.numeroMaxPartecipanti = builder.numeroMaxPartecipanti;
-        this.puntoDiInteresse = builder.puntoDiInteresse;
-        this.animatore = builder.animatore;
+    public EventoAbstract(ManifestazioneBuilder builder) {
+        this.data = builder.getData();
+        this.nome = builder.getNome();
+        this.descrizione = builder.getDescrizione();
+        this.numeroMaxPartecipanti = builder.getNumeroMaxPartecipanti();
+        this.puntoDiInteresse = builder.getPuntoDiInteresse();
+        this.animatore = builder.getAnimatore();
     }
 
-    public abstract String getNome();
+    public EventoAbstract(VisitaBuilder builder) {
+        this.data = builder.getData();
+        this.nome = builder.getNome();
+        this.descrizione = builder.getDescrizione();
+        this.numeroMaxPartecipanti = builder.getNumeroMaxPartecipanti();
+        this.puntoDiInteresse = builder.getPuntoDiInteresse();
+        this.animatore = builder.getAnimatore();
+    }
 
-    public abstract void setNome(String Nome);
+    public String getNome() {
+        return nome;
+    }
 
-    public abstract String getDescrizione();
+    public void setNome(String nome) {
+        this.nome=nome;
+    }
 
-    public abstract void setDescrizione(String Descrizione);
+    public String getDescrizione() {
+        return descrizione;
+    }
 
-    public abstract int getNumeroMaxPartecipanti();
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
 
-    public abstract void setNumeroMaxPartecipanti(int NumeroMaxPartecipanti);
+    public int getNumeroMaxPartecipanti() {
+        return numeroMaxPartecipanti;
+    }
 
-    public abstract DateFormat getData();
+    public void setNumeroMaxPartecipanti(int numeroMaxPartecipanti) {
+        this.numeroMaxPartecipanti=numeroMaxPartecipanti;
+    }
 
-    public abstract void setData(DateFormat Data);
+    public DateFormat getData() {
+        return data;
+    }
 
-    public abstract POI getPuntoDiInteresse();
+    public void setData(DateFormat data) {
+        this.data=data;
+    }
 
-    public abstract void setPuntoDiInteresse(POI PuntoDiInteresse);
+    public POI getPuntoDiInteresse() {
+        return puntoDiInteresse;
+    }
 
-    public abstract Utente getAnimatore();
+    public void setPuntoDiInteresse(POI puntoDiInteresse) {
+        this.puntoDiInteresse=puntoDiInteresse;
+    }
+
+    public Utente getAnimatore() {
+        return this.animatore;
+    }
+
 }
