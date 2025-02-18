@@ -25,8 +25,9 @@ public class ProdottoController {
    //TODO gestire autorizzazioni per la creazione
    ProdottoController(){
       
+      ps = new ProdottoService();
       MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati());
-      ps = new ProdottoService(mp);
+      ps.setMiddleware(mp);
       /*
       List<RuoloVenditore> l = new LinkedList<>();
       l.add(RuoloVenditore.Distributore);

@@ -20,8 +20,10 @@ public class EventoController {
 
     EventoController() {
 
+        es = new EventoService();
         MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
-        es = new EventoService(me);
+        es.setMiddleware(me);
+
     }
 
     @RequestMapping(value = "/crea", method = RequestMethod.POST)

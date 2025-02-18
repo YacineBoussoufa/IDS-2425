@@ -5,6 +5,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
 
 import java.util.*;
 
@@ -16,8 +17,8 @@ public class EventoService {
     private int idCounterManifestazioni = 0;
     private MiddlewareEvento middleware;
 
-    public EventoService(MiddlewareEvento middlewares){
-        this.middleware = middlewares;
+    public void setMiddleware(MiddlewareEvento m){
+        this.middleware = m;
     }
 
     public void aggiungiEvento(EventoAbstract evento) {
