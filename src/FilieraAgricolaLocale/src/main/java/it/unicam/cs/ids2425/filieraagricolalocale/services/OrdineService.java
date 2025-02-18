@@ -19,8 +19,8 @@ public class OrdineService {
    public static Map<Integer, Ordine> ordineRepository = new HashMap<>();
    private MiddlewareOrdine middlewareHead;
 
-   public OrdineService(MiddlewareOrdine middlewares){
-      this.middlewareHead = middlewares;
+   public void setMiddleware(MiddlewareOrdine m){
+      this.middlewareHead = m;
    }
 
    public void creaOrdine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m){

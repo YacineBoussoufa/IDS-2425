@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -26,8 +28,10 @@ public class AccountController {
    private UserService uService;
 
    AccountController(){
+      this.uService = new UserService();
       MiddlewareUtente m = MiddlewareUtente.link(new MiddlewareUsername(uService));
-      this.uService = new UserService(m);
+      this.uService.setMiddleware(m);
+      this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", null));
    }
 
    /*

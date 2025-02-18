@@ -32,8 +32,9 @@ public class OrdineController {
    OrdineController(){
       // TODO fixare questa responsabilita'
       this.mService = new MarketplaceService();
+      this.oService = new OrdineService();
       MiddlewareOrdine m = MiddlewareOrdine.link(new MiddlewareIndirizzo(), new MiddlewarePagamento(), new MiddlewareQuantita(mService));
-      this.oService = new OrdineService(m);
+      this.oService.setMiddleware(m);
    }
 
    /*

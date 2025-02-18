@@ -20,8 +20,8 @@ public class UserService {
    public static Map<String, Venditore> sellerRepository = new HashMap<>(); 
    private MiddlewareUtente middlewareHead;
 
-   public UserService(MiddlewareUtente middlewares){
-      this.middlewareHead = middlewares;
+   public void setMiddleware(MiddlewareUtente m){
+      this.middlewareHead = m;
    }
 
    public void creaUtente(String nome, String cognome, Date dataDiNascita, String username,
@@ -29,21 +29,21 @@ public class UserService {
 
       Utente p = new Utente(nome, cognome, dataDiNascita, username, password, ruoli);
       if(!middlewareHead.check(p)){
-         throw new DatiIncorrettiException("Errore nella creazione ordine");
+         throw new DatiIncorrettiException("Errore nella creazione utente");
       }
       userRepository.put(username, p);
    }
 
    public void creaUtente(Utente p){
       if(!middlewareHead.check(p)){
-         throw new DatiIncorrettiException("Errore nella creazione ordine");
+         throw new DatiIncorrettiException("Errore nella creazione utente");
       }
       userRepository.put(p.getUsername(), p);
    }
 
    public void creaVenditore(Venditore p){
       if(!middlewareHead.check(p)){
-      throw new DatiIncorrettiException("Errore nella creazione ordine");
+      throw new DatiIncorrettiException("Errore nella creazione utente");
       }
       sellerRepository.put(p.getUsername(), p);
    }
@@ -52,7 +52,7 @@ public class UserService {
 					 List<RuoloVenditore> listaRuoli, String Descrizione, POI Localizzazione){
       Venditore p = new Venditore(RagioneSociale, PIVA, username, password, listaRuoli, Descrizione, Localizzazione);
       if(!middlewareHead.check(p)){
-         throw new DatiIncorrettiException("Errore nella creazione ordine");
+         throw new DatiIncorrettiException("Errore nella creazione utente");
       }
       sellerRepository.put(username, p);
    }
@@ -78,12 +78,10 @@ public class UserService {
    }
 
    public Utente getUtente(String i){
-      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       return userRepository.get(i);
    }
 
    public Venditore getVenditore(String i){
-      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
       return sellerRepository.get(i);
    }
 
