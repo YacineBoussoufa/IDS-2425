@@ -133,23 +133,24 @@ public class MarketplaceService {
     }
 
     /**
-     * Restituisce tutti i prodotti con uno stato di approvazione in comune.
+     * Restituisce tutti i prodotti e pacchetti con uno stato di approvazione in comune.
      *
-     * @param s Stato di approvazione per filtrare i prodotti
-     * @return Tutti i prodotti con lo stato s
+     * @param s Stato di approvazione da applicare come filtro
+     * @return Tutti i contenuti con lo stato s
      */
-    public List<Prodotto> visualizzaProdottiPerStato(Class<? extends StatoApprovazione> s) {
-        return repoProdotti.values().stream().filter(p -> p.getStato().getClass() == s).toList();
+    public List<Contenuto> visualizzaProdottiPerStato(Class<? extends StatoApprovazione> s) {
+        List<Contenuto> prodottiPerStato = new ArrayList<>();
+
+        List<Prodotto> prodotti = repoProdotti.values().stream().
+                filter(p -> p.getStato().getClass() == s).toList();
+
+        List<Pacchetto> pacchetti = repoPacchetti.values().stream().
+                filter(p -> p.getStato().getClass() == s).toList();
+
+        prodottiPerStato.addAll(prodotti);
+        prodottiPerStato.addAll(pacchetti);
+        return prodottiPerStato;
     }
 
-    /**
-     * Restituisce tutti i pacchetti con uno stato di approvazione in comune
-     *
-     * @param s Stato di approvazione per filtrare i pacchetti
-     * @return Tutti i pacchetti con lo stato s
-     */
-    public List<Pacchetto> visualizzaPacchettiPerStato(Class<? extends StatoApprovazione> s) {
-        return repoPacchetti.values().stream().filter(p -> p.getStato().getClass() == s).toList();
-    }
 
 }

@@ -3,7 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareDati;
 
 @RestController
-@RequestMapping("/prodotto")
+@RequestMapping(value = "/gestioneContenuti")
 public class ProdottoController {
    
    private ProdottoService ps;
 
+   //todo gestione diversa di autowired (?)
    //TODO gestire autorizzazioni per la creazione
    ProdottoController(){
       
@@ -42,7 +42,7 @@ public class ProdottoController {
    /*
     * Crea un nuovo prodotto passando i valori in POST
     */
-   @RequestMapping(value = "/crea", method = RequestMethod.POST)
+   @RequestMapping(value = "/prodotto", method = RequestMethod.POST)
    public ResponseEntity<Object> createProduct(@RequestBody Prodotto prodotto) {
 
        try {
@@ -59,7 +59,7 @@ public class ProdottoController {
    /*
     * Crea un nuovo pacchetto passando i suoi prodotti in POST
     */
-    @RequestMapping(value = "/creaPacchetto", method = RequestMethod.POST)
+    @RequestMapping(value = "/pacchetto", method = RequestMethod.POST)
     public ResponseEntity<Object> createPackage(@RequestBody Pacchetto pacchetto) {
 
         try {
@@ -76,7 +76,7 @@ public class ProdottoController {
     /*
      * Modifica un prodotto passando soltanto i dati da modificare in POST
      */
-    @RequestMapping(value = "/modifica", method = RequestMethod.POST)
+    @RequestMapping(value = "/prodotto", method = RequestMethod.PUT)
     public ResponseEntity<Object> editProduct(@RequestBody Prodotto prodotto) {
 
         try {
@@ -94,7 +94,7 @@ public class ProdottoController {
     /*
      * Modifica un pacchetto passandone uno nuovo
      */
-    @RequestMapping(value = "/modificaPacchetto", method = RequestMethod.POST)
+    @RequestMapping(value = "/pacchetto", method = RequestMethod.PUT)
     public ResponseEntity<Object> editPackage(@RequestBody Pacchetto pacchetto) {
 
         try {
@@ -113,7 +113,7 @@ public class ProdottoController {
     /*
      * Cancella un prodotto passandone l'id
      */
-    @RequestMapping(value = "/eliminaProdotto", method = RequestMethod.POST)
+    @RequestMapping(value = "/prodotto", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteProduct(@RequestBody int id) {
 
         try {
@@ -130,7 +130,7 @@ public class ProdottoController {
     /*
      * Cancella un pacchetto passandone l'id
      */
-    @RequestMapping(value = "/eliminaPacchetto", method = RequestMethod.POST)
+    @RequestMapping(value = "/pacchetto", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deletePackage(@RequestBody int id) {
 
         try {
@@ -147,7 +147,7 @@ public class ProdottoController {
     /*
      * Aggiunge quantità ad un prodotto
      */
-    @RequestMapping(value = "/restock", method = RequestMethod.POST)
+    @RequestMapping(value = "/restock", method = RequestMethod.PUT)
     public ResponseEntity<Object> restock(@RequestBody int id, int quantita) {
 
         try {
