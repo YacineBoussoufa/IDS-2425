@@ -33,16 +33,18 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     public void creaProdotto(Prodotto prodotto) {
-        int id = idProdottoCounter++;
         //todo id con database
+        //temporaneo per permettere coerenza con database
+        Prodotto p = ProdottoBuilder.copiaDa(prodotto).setId(idProdottoCounter).build();
 
         //controllo dati
-        if (middlewareHead.check(prodotto)) {
-            repoProdotti.put(id, prodotto);
+        if (middlewareHead.check(p)) {
+            repoProdotti.put(idProdottoCounter, p);
         } else {
             throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
         }
 
+        idProdottoCounter++;
     }
 
     /**
@@ -52,7 +54,6 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     public void creaPacchetto(Pacchetto pacchetto) {
-        int id = idPacchettoCounter++;
 
         for (Prodotto prodotto : pacchetto.getListaProdotti()) {
             if (!middlewareHead.check(prodotto)) {
@@ -60,7 +61,8 @@ public class ProdottoService {
             }
         }
 
-        repoPacchetti.put(id, pacchetto);
+        repoPacchetti.put(idPacchettoCounter, pacchetto);
+        idPacchettoCounter++;
     }
 
     /**
@@ -93,8 +95,6 @@ public class ProdottoService {
 
         //viene creato un nuovo prodotto da mettere allo stesso id; avrà stato Bozza
         Prodotto prodottoModificato = attuale.build();
-
-        //TODO dopo la modifica lo stato del prodotto dovrebbe tornare bozza
 
         //controllo dati
         if (middlewareHead.check(prodottoModificato)) {

@@ -76,7 +76,7 @@ public class MarketplaceService {
         List<Prodotto> prodottiVenditore = new ArrayList<>();
 
         for (Prodotto prodotto : repoProdotti.values()) {
-            if (prodotto.getVenditore().equals(repoVenditori.get(username))) {
+            if (prodotto.getVenditore().getUsername().equals(username)) {
                 prodottiVenditore.add(prodotto);
             }
         }
@@ -97,7 +97,7 @@ public class MarketplaceService {
         List<Pacchetto> pacchettiVenditore = new ArrayList<>();
 
         for (Pacchetto pacchetto : repoPacchetti.values()) {
-            if (pacchetto.getVenditore().equals(repoVenditori.get(username))) {
+            if (pacchetto.getVenditore().getUsername().equals(username)) {
                 pacchettiVenditore.add(pacchetto);
             }
         }

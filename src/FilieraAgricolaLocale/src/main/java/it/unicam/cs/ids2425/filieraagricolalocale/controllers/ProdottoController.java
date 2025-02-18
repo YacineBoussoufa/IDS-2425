@@ -6,10 +6,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
@@ -77,11 +74,11 @@ public class ProdottoController {
     /*
      * Modifica un prodotto passando soltanto i dati da modificare in POST
      */
-    @RequestMapping(value = "/prodotto", method = RequestMethod.PUT)
-    public ResponseEntity<Object> editProduct(@RequestBody Prodotto prodotto) {
+    @RequestMapping(value = "/prodotto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editProduct(@PathVariable int id, @RequestBody Prodotto prodotto) {
 
         try {
-            ps.modificaProdotto(prodotto.getId(), prodotto);
+            ps.modificaProdotto(id, prodotto);
             return new ResponseEntity<>("Prodotto modificato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -95,11 +92,11 @@ public class ProdottoController {
     /*
      * Modifica un pacchetto passandone uno nuovo
      */
-    @RequestMapping(value = "/pacchetto", method = RequestMethod.PUT)
-    public ResponseEntity<Object> editPackage(@RequestBody Pacchetto pacchetto) {
+    @RequestMapping(value = "/pacchetto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editPackage(@PathVariable int id, @RequestBody Pacchetto pacchetto) {
 
         try {
-            ps.modificaPacchetto(pacchetto.getId(), pacchetto);
+            ps.modificaPacchetto(id, pacchetto);
             return new ResponseEntity<>("Pacchetto modificato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -114,8 +111,8 @@ public class ProdottoController {
     /*
      * Cancella un prodotto passandone l'id
      */
-    @RequestMapping(value = "/prodotto", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deleteProduct(@RequestBody int id) {
+    @RequestMapping(value = "/prodotto/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteProduct(@RequestBody @PathVariable int id) {
 
         try {
             ps.eliminaProdotto(id);
@@ -131,8 +128,8 @@ public class ProdottoController {
     /*
      * Cancella un pacchetto passandone l'id
      */
-    @RequestMapping(value = "/pacchetto", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deletePackage(@RequestBody int id) {
+    @RequestMapping(value = "/pacchetto/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deletePackage(@PathVariable int id) {
 
         try {
             ps.eliminaPacchetto(id);
@@ -148,8 +145,8 @@ public class ProdottoController {
     /*
      * Aggiunge quantità ad un prodotto
      */
-    @RequestMapping(value = "/restock", method = RequestMethod.PUT)
-    public ResponseEntity<Object> restock(@RequestBody int id, int quantita) {
+    @RequestMapping(value = "/restock/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> restock(@PathVariable int id, @RequestBody int quantita) {
 
         try {
             ps.restock(id, quantita);

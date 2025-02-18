@@ -44,5 +44,19 @@ public class POI {
 	public TipoPOI getTipoPOI() {
 		return tipo;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+
+		if (o instanceof POI p) {
+            if (Latitudine != p.Latitudine) return false;
+			if (Longitudine != p.Longitudine) return false;
+			if (Altitudine != p.Altitudine) return false;
+            return tipo == p.tipo;
+		} else {
+			return false;
+		}
+	}
 	
 }

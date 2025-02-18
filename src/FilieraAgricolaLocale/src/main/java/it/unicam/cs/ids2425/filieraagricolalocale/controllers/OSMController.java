@@ -8,10 +8,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.OSMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,8 +35,8 @@ public class OSMController {
 
     }
 
-    @RequestMapping(value = "/prodotto", method = RequestMethod.GET)
-    public ResponseEntity<Object> findProduct(@RequestBody int id) {
+    @RequestMapping(value = "/prodotti/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findProduct(@PathVariable int id) {
 
         try {
             POI poi = os.visualizzaProdotto(id);
@@ -64,8 +61,8 @@ public class OSMController {
 
     }
 
-    @RequestMapping(value = "/venditore", method = RequestMethod.GET)
-    public ResponseEntity<Object> findVendor(@RequestBody String username) {
+    @RequestMapping(value = "/venditori/{username}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findVendor(@PathVariable String username) {
 
         try {
             POI poi = os.visualizzaVenditore(username);
@@ -90,8 +87,8 @@ public class OSMController {
 
     }
 
-    @RequestMapping(value = "/visita", method = RequestMethod.GET)
-    public ResponseEntity<Object> findVisit(@RequestBody int id) {
+    @RequestMapping(value = "/visite/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findVisit(@PathVariable int id) {
 
         try {
             POI poi = os.visualizzaVisita(id);
@@ -116,8 +113,8 @@ public class OSMController {
 
     }
 
-    @RequestMapping(value = "/manifestazione", method = RequestMethod.GET)
-    public ResponseEntity<Object> findManifestation(@RequestBody int id) {
+    @RequestMapping(value = "/manifestazioni/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findManifestation(@PathVariable int id) {
 
         try {
             POI poi = os.visualizzaManifestazione(id);
