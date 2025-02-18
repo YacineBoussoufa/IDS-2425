@@ -10,7 +10,6 @@ import java.util.Map;
 public class Ordine {
    
    private final Date dataCreazione;
-   private boolean evaso;
    private Date dataDiConsegna; // stimata
    private final List<LineaOrdine> articoli;
    private Account user;
@@ -23,7 +22,6 @@ public class Ordine {
       for (Contenuto p : mappaProdotti.keySet()) {
          this.articoli.add(new LineaOrdine(p, this, mappaProdotti.get(p)));
       }
-      this.evaso = false;
       this.user = u;
       this.indirizzo = i;
       this.dataDiConsegna = Date.from(Instant.now().plus(Duration.ofDays(7)));
@@ -60,13 +58,6 @@ public class Ordine {
 
    public Date getDataCreazione() {
       return dataCreazione;
-   }
-
-   public boolean isEvaso() {
-      return evaso;
-   }
-   public void setEvaso(boolean evaso) {
-      this.evaso = evaso;
    }
 
    // this is a composite pattern, take note

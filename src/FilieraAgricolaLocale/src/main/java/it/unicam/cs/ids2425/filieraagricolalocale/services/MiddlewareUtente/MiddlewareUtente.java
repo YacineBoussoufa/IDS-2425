@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
+
 public abstract class MiddlewareUtente {
 
    private MiddlewareUtente next;
@@ -13,13 +15,13 @@ public abstract class MiddlewareUtente {
       return first;
    }
 
-   public abstract boolean check();
+   public abstract boolean check(Account u);
 
-   public boolean checkNext() {
+   public boolean checkNext(Account u) {
       if(next == null){
          return true;
       }
-      return next.check();
+      return next.check(u);
    }
 
 }
