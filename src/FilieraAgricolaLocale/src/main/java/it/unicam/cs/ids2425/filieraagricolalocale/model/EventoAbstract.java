@@ -1,6 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.text.DateFormat;
+import java.util.Date;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,10 +11,11 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class EventoAbstract {
 
+
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-    private DateFormat data;
+	  @GeneratedValue(strategy = GenerationType.AUTO)
+	  private int id;
+    private Date data;
     private String nome;
     private String descrizione;
     private int numeroMaxPartecipanti;
@@ -66,11 +67,11 @@ public abstract class EventoAbstract {
         this.numeroMaxPartecipanti=numeroMaxPartecipanti;
     }
 
-    public DateFormat getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(DateFormat data) {
+    public void setData(Date data) {
         this.data=data;
     }
 
