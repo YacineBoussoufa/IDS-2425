@@ -1,9 +1,12 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 public class Proposta {
 
     private boolean statoAccettazione;
     private Utente animatore;
+    @JsonBackReference
     private Visita visita;
     private Venditore venditore;
 

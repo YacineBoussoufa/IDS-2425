@@ -1,11 +1,12 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ManifestazioneBuilder implements EventoBuilder {
 
-    private DateFormat data;
+    private Date data;
     private String nome;
     private String descrizione;
     private int numeroMaxPartecipanti;
@@ -47,11 +48,11 @@ public class ManifestazioneBuilder implements EventoBuilder {
         return this;
     }
 
-    public DateFormat getData() {
+    public Date getData() {
         return data;
     }
 
-    public ManifestazioneBuilder setData(DateFormat data) {
+    public ManifestazioneBuilder setData(Date data) {
         this.data = data;
         return this;
     }
@@ -79,6 +80,10 @@ public class ManifestazioneBuilder implements EventoBuilder {
     }
 
     public ManifestazioneBuilder setPersonePartecipanti(Set<Utente> personePartecipanti) {
+        if (this.personePartecipanti == null) {
+            this.personePartecipanti = new HashSet<>(); // Initialize if null
+        }
+
         this.personePartecipanti.clear();
         this.personePartecipanti.addAll(personePartecipanti);
         return this;
@@ -89,6 +94,10 @@ public class ManifestazioneBuilder implements EventoBuilder {
     }
 
     public ManifestazioneBuilder setAziendePartecipanti(Set<Venditore> aziendePartecipanti) {
+        if (this.aziendePartecipanti == null) {
+            this.aziendePartecipanti = new HashSet<>(); // Initialize if null
+        }
+
         this.aziendePartecipanti.clear();
         this.aziendePartecipanti.addAll(aziendePartecipanti);
         return this;

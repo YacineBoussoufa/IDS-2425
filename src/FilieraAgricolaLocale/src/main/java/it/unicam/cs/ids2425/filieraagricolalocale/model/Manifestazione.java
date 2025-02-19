@@ -1,8 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.text.DateFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.Set;
 
+@JsonDeserialize(builder = ManifestazioneBuilder.class)
 public class Manifestazione extends EventoAbstract {
 
 	private Set<Venditore> aziendePartecipanti;

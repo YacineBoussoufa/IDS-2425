@@ -1,11 +1,15 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.text.DateFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.Set;
 
+@JsonDeserialize(builder = VisitaBuilder.class)
 public class Visita extends EventoAbstract {
 
     private Set<Utente> personePartecipanti;
+    @JsonManagedReference
     private final Proposta proposta;
 
     public Visita(VisitaBuilder builder) {
@@ -22,6 +26,7 @@ public class Visita extends EventoAbstract {
     public Set<Utente> getPersonePartecipanti() {
         return personePartecipanti;
     }
+
     public void setPersonePartecipanti(Set<Utente> personePartecipanti) {
         this.personePartecipanti = personePartecipanti;
     }

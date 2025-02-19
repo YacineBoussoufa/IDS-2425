@@ -1,10 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.text.DateFormat;
+import java.util.Date;
 
 public abstract class EventoAbstract {
 
-    private DateFormat data;
+    private Date data;
     private String nome;
     private String descrizione;
     private int numeroMaxPartecipanti;
@@ -53,11 +53,11 @@ public abstract class EventoAbstract {
         this.numeroMaxPartecipanti=numeroMaxPartecipanti;
     }
 
-    public DateFormat getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(DateFormat data) {
+    public void setData(Date data) {
         this.data=data;
     }
 
