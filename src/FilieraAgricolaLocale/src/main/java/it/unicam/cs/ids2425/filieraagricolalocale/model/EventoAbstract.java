@@ -2,13 +2,26 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.text.DateFormat;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class EventoAbstract {
 
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
     private DateFormat data;
     private String nome;
     private String descrizione;
     private int numeroMaxPartecipanti;
+
+    @ManyToOne
     private POI puntoDiInteresse;
+    @ManyToOne
     private Utente animatore;
 
     public EventoAbstract(ManifestazioneBuilder builder) {

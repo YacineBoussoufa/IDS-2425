@@ -2,6 +2,14 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,25 +17,32 @@ import java.util.Set;
 import java.util.Date;
 
 @JsonDeserialize(builder = ProdottoBuilder.class)
+@DiscriminatorValue("PRODOTTO")
 public class Prodotto implements Contenuto {
 
-    //todo gestione id temporanea
-    private final int id;
-    public int getId() {
-        return id;
-    }
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     private String nome;
     private String descrizione;
     private double prezzo;
     private int quantita;
+
+    @ManyToOne
     private Venditore venditore;
+
+    //TODO 
     private StatoApprovazione statoApprovazione;
+
+    @ManyToOne
     private POI poi;
     private Date data;
+
+    @ManyToMany
     private final Set<Etichetta> listaEtichette = new HashSet<>();
+    @ManyToMany
     private final Set<Prodotto> ingredienti = new HashSet<>();
-    private final List<LineaOrdine> ordini = new ArrayList<>();
 
     /**
      * Costruttore che genera i campi a partire da un builder.
@@ -49,6 +64,10 @@ public class Prodotto implements Contenuto {
         this.statoApprovazione = new Bozza(this);
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public StatoApprovazione getStato() {
         return statoApprovazione;
@@ -57,10 +76,6 @@ public class Prodotto implements Contenuto {
     @Override
     public void cambiaStato(StatoApprovazione stato) {
         this.statoApprovazione = stato;
-    }
-
-    public void aggiungiOrdine(LineaOrdine lineaOrdine) {
-        ordini.add(lineaOrdine);
     }
 
     public String getNome() {
@@ -102,10 +117,6 @@ public class Prodotto implements Contenuto {
 
     public Set<Prodotto> getIngredienti() {
         return ingredienti;
-    }
-
-    public List<LineaOrdine> getOrdini() {
-        return ordini;
     }
 
     public void setQuantita(int quantita) {

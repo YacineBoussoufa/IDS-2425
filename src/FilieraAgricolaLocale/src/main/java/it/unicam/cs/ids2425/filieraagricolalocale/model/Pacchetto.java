@@ -3,15 +3,31 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.util.Date;
 import java.util.Set;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+
+@DiscriminatorValue("PACCHETTO")
 public class Pacchetto implements Contenuto {
 
-   private final int id;
+   
+   @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+   private int id;
    private String nome;
    private String descrizione;
    private double prezzo;
+
+   @ManyToMany
    private Set<Prodotto> listaProdotti;
    private Date data;
+   
    private StatoApprovazione statoApprovazione;
+
+   @ManyToOne
    private Venditore venditore;
    private int quantita;
 
