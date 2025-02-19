@@ -4,6 +4,11 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,15 +30,15 @@ public class ProdottoController {
       ps = new ProdottoService();
       MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati());
       ps.setMiddleware(mp);
-      /*
+      
       List<RuoloVenditore> l = new LinkedList<>();
       l.add(RuoloVenditore.Distributore);
 
-		ps.creaProdotto(new ProdottoBuilder().setDescrizione("Prodotto bianco").setNome("Mela rossa").setData(new Date()).
-		setPoi(new POI(0, 0, 0, TipoPOI.Prodotto)).setQuantita(5).setVenditore(new Venditore(null, null, null,
+      ps.creaProdotto(new ProdottoBuilder().setDescrizione("Prodotto bianco").setNome("Mela rossa").setData(Date.from(Instant.now())).
+        setPoi(new POI(0, 0, 0, TipoPOI.Prodotto)).setQuantita(5).setVenditore(new Venditore(null, null, null,
                         null, l, null, null))
-		.setPrezzo(20.0).build());
-		*/
+        .setPrezzo(20.0).build());
+        
 
    }
 

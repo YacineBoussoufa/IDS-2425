@@ -7,10 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 public class Ordine {
    
+   private final int id;
    private final Date dataCreazione;
    private Date dataDiConsegna; // stimata
+   @JsonManagedReference
    private final List<LineaOrdine> articoli;
    private Account user;
    private Indirizzo indirizzo;
@@ -26,6 +30,7 @@ public class Ordine {
       this.indirizzo = i;
       this.dataDiConsegna = Date.from(Instant.now().plus(Duration.ofDays(7)));
       this.metodo = m;
+      this.id = 0;
    }
 
    public Pagamento getMetodo() {

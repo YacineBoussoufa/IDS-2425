@@ -1,10 +1,12 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ElementoOrdineDTO;
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.OrdineDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.ProdottoBuilder;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
@@ -24,30 +31,34 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.Midd
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewarePagamento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareQuantita;
 
+@RestController
+@RequestMapping("/ordini")
 public class OrdineController {
 
    private OrdineService oService;
    private MarketplaceService mService;
-
-   OrdineController(){
+   
+   @Autowired
+   OrdineController(OrdineService oS, MarketplaceService mS){
       // TODO fixare questa responsabilita'
-      this.mService = new MarketplaceService();
-      this.oService = new OrdineService();
+      this.mService = mS;
+      this.oService = oS;
       MiddlewareOrdine m = MiddlewareOrdine.link(new MiddlewareIndirizzo(), new MiddlewarePagamento(), new MiddlewareQuantita(mService));
       this.oService.setMiddleware(m);
+
    }
 
    /*
     * Crea un nuovo ordine passando i valori in POST
     */
    @RequestMapping(value = "/creaOrdine", method = RequestMethod.POST)
-   public ResponseEntity<Object> creaOrdine(@RequestBody Date d, List<ElementoOrdineDTO> elements, Account u, Indirizzo i, Pagamento m) {
+   public ResponseEntity<Object> creaOrdine(@RequestBody OrdineDTO d) {
       
       Map<Contenuto, Integer> mappa = new HashMap<>();
-      for (ElementoOrdineDTO elementoOrdineDTO : elements) {
+      for (ElementoOrdineDTO elementoOrdineDTO : d.getLinee()) {
          mappa.put(elementoOrdineDTO.getP(), elementoOrdineDTO.getQuantita());
       }
-      oService.creaOrdine(d, mappa, u, i, m);;
+      oService.creaOrdine(d.getD(), mappa, d.getU(), d.getI(), d.getM());;
       return new ResponseEntity<>("Ordine creato con successo", HttpStatus.CREATED);
 	}
 

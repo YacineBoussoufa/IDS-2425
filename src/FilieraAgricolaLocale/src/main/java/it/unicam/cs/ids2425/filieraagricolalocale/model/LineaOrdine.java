@@ -1,8 +1,11 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 public class LineaOrdine {
 
    private final Contenuto prodotto;
+   @JsonBackReference
    private final Ordine ordine;
    private int quantita;
 
