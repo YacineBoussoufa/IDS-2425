@@ -5,10 +5,8 @@ import java.time.LocalDate;
 public abstract class StatoApprovazione {
 
     protected final Contenuto contenuto;
-    private final LocalDate dataCreazione;
 
     protected StatoApprovazione(Contenuto contenuto) {
-        this.dataCreazione = LocalDate.now();
         this.contenuto = contenuto;
     }
 
@@ -19,7 +17,4 @@ public abstract class StatoApprovazione {
      */
     public abstract void pubblica();
 
-    public LocalDate getDataCreazione() {
-        return dataCreazione;
-    }
 }

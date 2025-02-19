@@ -20,6 +20,7 @@ public class Pacchetto implements Contenuto {
    private String nome;
    private String descrizione;
    private double prezzo;
+   boolean approvato;
 
    @ManyToMany
    private Set<Prodotto> listaProdotti;
@@ -64,6 +65,14 @@ public class Pacchetto implements Contenuto {
    @Override
    public void cambiaStato(StatoApprovazione stato) {
       this.statoApprovazione = stato;
+   }
+
+   public void approva() {
+      this.approvato = true;
+   }
+
+   public boolean getApprovazione() {
+      return approvato;
    }
 
    public String getNome() {

@@ -26,6 +26,10 @@ public interface Contenuto {
      */
     void cambiaStato(StatoApprovazione stato);
 
+    void approva();
+
+    boolean getApprovazione();
+
     /**
      * @return
      */

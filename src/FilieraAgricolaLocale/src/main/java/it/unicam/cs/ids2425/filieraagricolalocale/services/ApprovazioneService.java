@@ -5,7 +5,6 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoE
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Component("ApprovazioneService")
@@ -77,7 +76,7 @@ public class ApprovazioneService {
                 "Non si può approvare un prodotto non in stato di convalida");
 
         if (esito) {
-            ((InConvalida) stato).approva();
+            prodotto.approva();
         }
 
         stato.pubblica();
@@ -109,11 +108,11 @@ public class ApprovazioneService {
 
         //accettazione
         if (esito) {
-            ((InConvalida) stato).approva();
+            pacchetto.approva();
 
             for (Prodotto p : pacchetto.getListaProdotti()) {
                 if (p.getStato() instanceof InConvalida) {
-                    ((InConvalida) p.getStato()).approva();
+                    p.approva();
                 }
 
             }
