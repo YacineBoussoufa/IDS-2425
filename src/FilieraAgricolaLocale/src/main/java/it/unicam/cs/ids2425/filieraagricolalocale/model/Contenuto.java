@@ -2,6 +2,14 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.util.Date;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+
+//@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
 public interface Contenuto {
 
     /**
@@ -52,5 +60,10 @@ public interface Contenuto {
      * @return venditore associato
      */
     Venditore getVenditore();
+
+    /**
+     * @return
+     */
+    //TipoContenuto getTipoContenuto();
 
 }

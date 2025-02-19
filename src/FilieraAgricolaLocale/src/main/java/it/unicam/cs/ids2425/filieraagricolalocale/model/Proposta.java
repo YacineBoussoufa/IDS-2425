@@ -1,10 +1,20 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Proposta {
 
     private boolean statoAccettazione;
+    @ManyToOne
     private Utente animatore;
+    @Id
+    @OneToOne
     private Visita visita;
+    @ManyToOne
     private Venditore venditore;
 
     public Proposta(Utente animatore, Visita visita, Venditore venditore) {
