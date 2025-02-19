@@ -3,11 +3,16 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Set;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 
 @JsonDeserialize(builder = ManifestazioneBuilder.class)
+@Entity
 public class Manifestazione extends EventoAbstract {
 
+	@ManyToMany
 	private Set<Venditore> aziendePartecipanti;
+	@ManyToMany
 	private Set<Utente> personePartecipanti;
 
 	public Manifestazione(ManifestazioneBuilder builder) {

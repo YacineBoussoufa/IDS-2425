@@ -6,13 +6,9 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.ApprovazioneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/gestioneConvalide")
 public class ApprovazioneController {
 
     //TODO GESTIONE AUTORIZZAZIONI RUOLI
@@ -26,8 +22,8 @@ public class ApprovazioneController {
     /*
      * Richiedi di mandare in convalida un prodotto
      */
-    @RequestMapping(value = "/prodotto/richiesta", method = RequestMethod.PUT)
-    public ResponseEntity<Object> requestProductValidation(@RequestBody int id) {
+    @RequestMapping(value = "/richiesta/prodotto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> requestProductValidation(@PathVariable int id) {
 
         try {
             as.inviaRichiestaProdotto(id);
@@ -43,8 +39,8 @@ public class ApprovazioneController {
     /*
      * Richiedi di mandare in convalida un pacchetto
      */
-    @RequestMapping(value = "/pacchetto/richiesta", method = RequestMethod.PUT)
-    public ResponseEntity<Object> requestPackageValidation(@RequestBody int id) {
+    @RequestMapping(value = "/richiesta/pacchetto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> requestPackageValidation(@PathVariable int id) {
 
         try {
             as.inviaRichiestaPacchetto(id);
@@ -58,10 +54,11 @@ public class ApprovazioneController {
     }
 
     /*
-     *
+     * Pubblica o fa tornare a bozza un prodotto in base all'esito
+     * Nel JSON va indicato solo true o false, senza parentesi graffe
      */
-    @RequestMapping(value = "/prodotto/convalida", method = RequestMethod.PUT)
-    public ResponseEntity<Object> validateProduct(@RequestBody int id, boolean esito) {
+    @RequestMapping(value = "/convalida/prodotto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> validateProduct(@PathVariable int id, @RequestBody boolean esito) {
 
         try {
             as.approvaProdotto(id, esito);
@@ -77,10 +74,11 @@ public class ApprovazioneController {
     }
 
     /*
-     *
+     * Pubblica o fa tornare a bozza un pacchetto in base all'esito
+     * Nel JSON va indicato solo true o false, senza parentesi graffe
      */
-    @RequestMapping(value = "/pacchetto/convalida", method = RequestMethod.PUT)
-    public ResponseEntity<Object> validatePackage(@RequestBody int id, boolean esito) {
+    @RequestMapping(value = "/convalida/pacchetto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> validatePackage(@PathVariable int id, @RequestBody boolean esito) {
 
         try {
             as.approvaPacchetto(id, esito);

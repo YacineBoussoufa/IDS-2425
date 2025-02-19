@@ -3,14 +3,31 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public non-sealed class Venditore implements Account {
 	
 	private String RagioneSociale;
 	private String PIVA;
+	@Id
 	private String username;
 	private String password;
+
+	@ElementCollection(targetClass = RuoloVenditore.class) 
+   @CollectionTable(name = "RUOLI_VENDITORE",
+      joinColumns = @JoinColumn(name = "username"))
+   @Column(name = "IdRuolo")
 	private List<Ruolo> listaRuoli = new ArrayList<>();
 	private String Descrizione;
+
+	@ManyToOne
 	private POI Localizzazione;
 	
 	public Venditore(String RagioneSociale, String PIVA, String username, String password,

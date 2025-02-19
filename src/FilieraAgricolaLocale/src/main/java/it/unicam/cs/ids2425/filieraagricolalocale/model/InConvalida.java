@@ -2,11 +2,8 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 public class InConvalida extends StatoApprovazione {
 
-    private boolean approvato;
-
     public InConvalida(Contenuto contenuto) {
         super(contenuto);
-        approvato = false;
     }
 
     @Override
@@ -21,20 +18,10 @@ public class InConvalida extends StatoApprovazione {
      */
     @Override
     public void pubblica() {
-        if (approvato) {
+        if (contenuto.getApprovazione()) {
             contenuto.cambiaStato(new Pubblicato(contenuto));
         } else
             contenuto.cambiaStato(new Bozza(contenuto));
     }
 
-    public boolean isApprovato() {
-        return approvato;
-    }
-
-    /**
-     * Permette allo stato InConvalida di diventare Pubblicato
-     */
-    public void approva() {
-        approvato = true;
-    }
 }

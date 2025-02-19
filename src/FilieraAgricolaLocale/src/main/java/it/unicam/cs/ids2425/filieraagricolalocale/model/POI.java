@@ -2,11 +2,24 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class POI {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private double Latitudine;
 	private double Longitudine;
 	private int Altitudine;
+	
+	@Enumerated(EnumType.STRING)
 	private TipoPOI tipo;
 	
 	public POI(double Latitudine, double Longitudine, int Altitudine, TipoPOI tipo) {
@@ -43,6 +56,20 @@ public class POI {
 	@JsonProperty("tipo")
 	public TipoPOI getTipoPOI() {
 		return tipo;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+
+		if (o instanceof POI p) {
+            if (Latitudine != p.Latitudine) return false;
+			if (Longitudine != p.Longitudine) return false;
+			if (Altitudine != p.Altitudine) return false;
+            return tipo == p.tipo;
+		} else {
+			return false;
+		}
 	}
 	
 }
