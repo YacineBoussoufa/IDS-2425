@@ -28,6 +28,7 @@ public class Prodotto implements Contenuto {
     private String descrizione;
     private double prezzo;
     private int quantita;
+    boolean approvato;
 
     @ManyToOne
     private Venditore venditore;
@@ -61,6 +62,7 @@ public class Prodotto implements Contenuto {
         listaEtichette.addAll(builder.getListaEtichette());
         ingredienti.addAll(builder.getIngredienti());
 
+        approvato = false;
         this.statoApprovazione = new Bozza(this);
     }
 
@@ -78,6 +80,16 @@ public class Prodotto implements Contenuto {
         this.statoApprovazione = stato;
     }
 
+    @Override
+    public boolean getApprovazione() {
+        return approvato;
+    }
+
+    @Override
+    public void approva() {
+        approvato = true;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -85,7 +97,6 @@ public class Prodotto implements Contenuto {
     public String getDescrizione() {
         return descrizione;
     }
-
 
     public double getPrezzo() {
         return prezzo;
