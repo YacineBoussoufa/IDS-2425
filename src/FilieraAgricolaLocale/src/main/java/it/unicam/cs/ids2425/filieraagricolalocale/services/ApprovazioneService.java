@@ -12,8 +12,8 @@ import java.util.Map;
 public class ApprovazioneService {
 
     //todo mock database
-    public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
-    public static Map<Integer, Pacchetto> repoPacchetti = new HashMap<>();
+    public static Map<Integer, Prodotto> repoProdotti = ProdottoService.repoProdotti;
+    public static Map<Integer, Pacchetto> repoPacchetti = ProdottoService.repoPacchetti;
 
     /**
      * Invia la richiesta per convalidare un prodotto, settando lo stato in InConvalida

@@ -12,8 +12,8 @@ import java.util.*;
 public class OSMService {
 
     //todo database
-    public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
-    public static Map<String, Venditore> repoVenditori = new HashMap<>();
+    public static Map<Integer, Prodotto> repoProdotti = ProdottoService.repoProdotti;
+    public static Map<String, Venditore> repoVenditori = ProdottoService.repoVenditori;
     public static Map<Integer, Visita> repoVisite = new HashMap<>();
     public static Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
 
