@@ -4,7 +4,6 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
 
 import java.util.HashMap;
 import java.util.Map;

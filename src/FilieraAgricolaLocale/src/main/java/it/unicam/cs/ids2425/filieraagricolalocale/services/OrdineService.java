@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Ordine;
@@ -14,6 +16,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareOrdine;
 
+@Component("OrdineService")
 public class OrdineService {
    
    public static Map<Integer, Ordine> ordineRepository = new HashMap<>();
@@ -29,7 +32,7 @@ public class OrdineService {
          throw new DatiIncorrettiException("Errore nella creazione ordine");
       }
       Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i, m);
-      ordineRepository.put(o.hashCode(), o);
+      ordineRepository.put(1, o);
    }
 
    public void modificaIndirizzo(Integer i, Indirizzo o){
