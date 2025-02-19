@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.*;
 
 @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
-public class ProdottoBuilder {
+public class ProdottoBuilder implements ContenutoBuilder{
     
     private int id;
     private String nome;

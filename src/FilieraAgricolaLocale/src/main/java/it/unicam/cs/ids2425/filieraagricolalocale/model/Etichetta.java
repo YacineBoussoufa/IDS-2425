@@ -1,8 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,7 +10,6 @@ import jakarta.persistence.Id;
 @Entity
 public class Etichetta {
 
-    //todo rimuovere id?
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
