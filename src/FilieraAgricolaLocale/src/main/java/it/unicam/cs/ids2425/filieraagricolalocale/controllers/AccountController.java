@@ -2,6 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,10 @@ public class AccountController {
       this.uService = new UserService();
       MiddlewareUtente m = MiddlewareUtente.link(new MiddlewareUsername(uService));
       this.uService.setMiddleware(m);
-      this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", null));
+      List<RuoloUtente> l = new LinkedList<>();
+      l.add(RuoloUtente.Animatore);
+      l.add(RuoloUtente.Curatore);
+      this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", l));
    }
 
    /*

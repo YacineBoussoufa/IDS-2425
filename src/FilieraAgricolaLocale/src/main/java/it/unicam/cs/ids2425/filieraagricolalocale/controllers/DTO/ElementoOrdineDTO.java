@@ -1,4 +1,4 @@
-package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
+package it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 
