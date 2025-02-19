@@ -7,8 +7,8 @@ public class InConvalida extends StatoApprovazione {
     }
 
     @Override
-    String statoToString() {
-        return "InConvalida";
+    Stato statoToString() {
+        return Stato.INCONVALIDA;
     }
 
     /**

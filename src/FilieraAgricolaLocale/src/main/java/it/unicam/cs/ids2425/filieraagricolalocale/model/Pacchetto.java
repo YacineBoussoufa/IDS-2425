@@ -1,102 +1,48 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 
+@Entity
+@JsonDeserialize(builder = PacchettoBuilder.class)
 @DiscriminatorValue("PACCHETTO")
-public class Pacchetto implements Contenuto {
-
-   
-   @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-   private int id;
-   private String nome;
-   private String descrizione;
-   private double prezzo;
-   boolean approvato;
+public class Pacchetto extends Contenuto {
 
    @ManyToMany
    private Set<Prodotto> listaProdotti;
-   private Date data;
    
-   private StatoApprovazione statoApprovazione;
 
-   @ManyToOne
-   private Venditore venditore;
-   private int quantita;
+   // public Pacchetto(String nome, String descrizione, double prezzo,
+   //                  Set<Prodotto> listaProdotti, Date data, Venditore v) {
+   //    this.nome = nome;
+   //    this.descrizione = descrizione;
+   //    this.prezzo = prezzo;
+   //    this.listaProdotti = listaProdotti;
+   //    this.data = data;
+   //    this.statoApprovazione = new Bozza(this);
+   //    this.venditore = v;
+   //    this.approvato = false;
+   //    this.id = 0;
+   // }
 
-   public Pacchetto(String nome, String descrizione, double prezzo,
-                    Set<Prodotto> listaProdotti, Date data, Venditore v) {
-      this.nome = nome;
-      this.descrizione = descrizione;
-      this.prezzo = prezzo;
+   /**
+    * Costruttore che genera i campi a partire da un builder.
+    *
+    * @param builder Builder per generare i campi.
+    */
+   public Pacchetto(PacchettoBuilder builder) {
+      super(builder);
+
+      this.listaProdotti = builder.getListaProdotti();
+   }
+
+   public void setListaProdotti(Set<Prodotto> listaProdotti) {
       this.listaProdotti = listaProdotti;
-      this.data = data;
-      this.statoApprovazione = new Bozza(this);
-      this.venditore = v;
-      this.id = 0;
-   }
-
-   @Override
-   public int getId() {
-      return id;
-   }
-
-   public Date getData() {
-      return data;
-   }
-
-   public void setData(Date data) {
-      this.data = data;
-   }
-
-   @Override
-   public StatoApprovazione getStato() {
-      return statoApprovazione;
-   }
-
-   @Override
-   public void cambiaStato(StatoApprovazione stato) {
-      this.statoApprovazione = stato;
-   }
-
-   public void approva() {
-      this.approvato = true;
-   }
-
-   public boolean getApprovazione() {
-      return approvato;
-   }
-
-   public String getNome() {
-      return nome;
-   }
-
-   public void setNome(String nome) {
-      this.nome = nome;
-   }
-
-   public String getDescrizione() {
-      return descrizione;
-   }
-
-   public void setDescrizione(String descrizione) {
-      this.descrizione = descrizione;
-   }
-
-   public double getPrezzo() {
-      return prezzo;
-   }
-
-   public void setPrezzo(double prezzo) {
-      this.prezzo = prezzo;
    }
 
    public Set<Prodotto> getListaProdotti() {
@@ -111,21 +57,5 @@ public class Pacchetto implements Contenuto {
       this.listaProdotti.remove(p);
    }
 
-   @Override
-   public Venditore getVenditore() {
-      return venditore;
-   }
 
-   public void setVenditore(Venditore venditore) {
-      this.venditore = venditore;
-   }
-
-   @Override
-   public int getQuantita() {
-      return this.quantita;
-   }
-
-   public void setQuantita(int q) {
-      this.quantita = q;
-   }
 }

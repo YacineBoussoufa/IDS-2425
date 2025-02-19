@@ -7,8 +7,8 @@ public class Bozza extends StatoApprovazione {
     }
 
     @Override
-    String statoToString() {
-        return "Bozza";
+    Stato statoToString() {
+        return Stato.BOZZA;
     }
 
     /**

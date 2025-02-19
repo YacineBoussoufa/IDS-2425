@@ -13,8 +13,8 @@ public abstract class EventoAbstract {
 
 
     @Id
-	  @GeneratedValue(strategy = GenerationType.AUTO)
-	  private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
     private Date data;
     private String nome;
     private String descrizione;

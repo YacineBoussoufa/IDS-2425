@@ -1,8 +1,13 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Indirizzo {
 
-   private final int id;
+   @Id
+   private int id;
    private String via;
    private int civico;
    private String provincia;
@@ -20,7 +25,6 @@ public class Indirizzo {
       this.regione = regione;
       CAP = cAP;
       this.dettagli = dettagli;
-      this.id = 0;
    }
 
    public int getId() {
