@@ -4,6 +4,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoExc
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -11,11 +12,20 @@ import java.util.*;
 @Component
 public class OSMService {
 
-    //todo database
-    public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
-    public static Map<String, Venditore> repoVenditori = new HashMap<>();
-    public static Map<Integer, Visita> repoVisite = new HashMap<>();
-    public static Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
+    private final VenditoreRepository repoVenditori;
+    private final ContenutoRepository repoProdotti;
+    private final VisitaRepository repoVisite;
+    private final ManifestazioneRepository repoManifestazioni;
+    private final POIRepository repoPOI;
+
+    public OSMService(VenditoreRepository repoVenditori, ContenutoRepository repoProdotti,
+                      VisitaRepository repoVisite, ManifestazioneRepository repoManifestazioni, POIRepository repoPOI) {
+        this.repoVenditori = repoVenditori;
+        this.repoProdotti = repoProdotti;
+        this.repoVisite = repoVisite;
+        this.repoManifestazioni = repoManifestazioni;
+        this.repoPOI = repoPOI;
+    }
 
     /**
      * Restituisce tutti i POI della piattaforma
@@ -23,25 +33,9 @@ public class OSMService {
      * @return Tutti i POI della piattaforma
      */
     public List<POI> visualizzaMappa() {
-        List<POI> poiList = new ArrayList<>();
 
-        for (Prodotto prodotto : repoProdotti.values()) {
-            poiList.add(prodotto.getPoi());
-        }
+        return repoPOI.findAll();
 
-        for (Venditore venditore : repoVenditori.values()) {
-            poiList.add(venditore.getLocalizzazione());
-        }
-
-        for (Visita visita : repoVisite.values()) {
-            poiList.add(visita.getPuntoDiInteresse());
-        }
-
-        for (Manifestazione manifestazione : repoManifestazioni.values()) {
-            poiList.add(manifestazione.getPuntoDiInteresse());
-        }
-
-        return poiList;
     }
 
     /**
@@ -53,11 +47,10 @@ public class OSMService {
      * @throws VenditoreNonTrovatoException se il nome non è associato a nessun venditore
      */
     public POI visualizzaVenditore(String nome) {
-        if (!repoVenditori.containsKey(nome)) {
-            throw new VenditoreNonTrovatoException();
-        } else {
-            return repoVenditori.get(nome).getLocalizzazione();
-        }
+        Venditore venditore = repoVenditori.findById(nome).
+                orElseThrow(() -> new VenditoreNonTrovatoException("Non esiste il venditore " + nome));
+
+        return venditore.getLocalizzazione();
     }
 
     /**
@@ -66,10 +59,11 @@ public class OSMService {
      * @return Tutti i POI dei venditori
      */
     public List<POI> visualizzaVenditori() {
+        List<Venditore> venditore = repoVenditori.findAll();
         List<POI> poiList = new ArrayList<>();
 
-        for (Venditore venditore : repoVenditori.values()) {
-            poiList.add(venditore.getLocalizzazione());
+        for (Venditore v : venditore) {
+            poiList.add(v.getLocalizzazione());
         }
 
         return poiList;
@@ -84,10 +78,14 @@ public class OSMService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a nessun prodotto
      */
     public POI visualizzaProdotto(int id) {
-        if (!repoProdotti.containsKey(id)) {
-            throw new ProdottoNonTrovatoException();
+        Contenuto contenuto = repoProdotti.findById(id).
+                orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste il prodotto con id" + id));
+
+        if (contenuto instanceof Prodotto prodotto) {
+            return prodotto.getPoi();
         } else {
-            return repoProdotti.get(id).getPoi();
+            throw new ProdottoNonTrovatoException("Il contenuto selezionato non ha un POI associato (potrebbe essere" +
+                    "un pacchetto).");
         }
     }
 
@@ -97,10 +95,13 @@ public class OSMService {
      * @return Tutti i POI dei prodotti
      */
     public List<POI> visualizzaProdotti() {
+        List<Contenuto> contenuti = repoProdotti.findAll();
         List<POI> poiList = new ArrayList<>();
 
-        for (Prodotto prodotto : repoProdotti.values()) {
-            poiList.add(prodotto.getPoi());
+        for (Contenuto c : contenuti) {
+            if (c instanceof Prodotto prodotto) {
+                poiList.add(prodotto.getPoi());
+            }
         }
 
         return poiList;
@@ -115,11 +116,10 @@ public class OSMService {
      * @throws EventoNonTrovatoException se l'id non è associato a nessuna visita
      */
     public POI visualizzaVisita(int id) {
-        if (!repoVisite.containsKey(id)) {
-            throw new EventoNonTrovatoException();
-        } else {
-            return repoVisite.get(id).getPuntoDiInteresse();
-        }
+        Visita visita = repoVisite.findById(id).
+                orElseThrow(() -> new EventoNonTrovatoException("Non esiste la visita con id" + id));
+
+        return visita.getPuntoDiInteresse();
     }
 
     /**
@@ -128,10 +128,11 @@ public class OSMService {
      * @return Tutti i POI delle visite
      */
     public List<POI> visualizzaVisite() {
+        List<Visita> visite = repoVisite.findAll();
         List<POI> poiList = new ArrayList<>();
 
-        for (Visita visita : repoVisite.values()) {
-            poiList.add(visita.getPuntoDiInteresse());
+        for (Visita v : visite) {
+            poiList.add(v.getPuntoDiInteresse());
         }
 
         return poiList;
@@ -146,11 +147,10 @@ public class OSMService {
      * @throws EventoNonTrovatoException se l'id non è associato a nessuna manifestazione
      */
     public POI visualizzaManifestazione(int id) {
-        if (!repoManifestazioni.containsKey(id)) {
-            throw new EventoNonTrovatoException();
-        } else {
-            return repoManifestazioni.get(id).getPuntoDiInteresse();
-        }
+        Manifestazione manifestazione = repoManifestazioni.findById(id).
+                orElseThrow(() -> new EventoNonTrovatoException("Non esiste la manifestazione con id" + id));
+
+        return manifestazione.getPuntoDiInteresse();
     }
 
     /**
@@ -159,10 +159,11 @@ public class OSMService {
      * @return Tutti i POI delle manifestazioni
      */
     public List<POI> visualizzaManifestazioni() {
+        List<Manifestazione> manifestazioni = repoManifestazioni.findAll();
         List<POI> poiList = new ArrayList<>();
 
-        for (Manifestazione manifestazione : repoManifestazioni.values()) {
-            poiList.add(manifestazione.getPuntoDiInteresse());
+        for (Manifestazione m : manifestazioni) {
+            poiList.add(m.getPuntoDiInteresse());
         }
 
         return poiList;
@@ -177,28 +178,31 @@ public class OSMService {
     public List<Object> trovaPOI(POI poi) {
 
         List<Object> poiList = new ArrayList<>();
+        //poco efficiente
 
-        for (Prodotto prodotto : repoProdotti.values()) {
-            if (prodotto.getPoi().equals(poi)) {
-                poiList.add(prodotto);
+        for (Contenuto contenuto : repoProdotti.findAll()) {
+            if (contenuto instanceof Prodotto prodotto) {
+                if (prodotto.getPoi().equals(poi)) {
+                    poiList.add(prodotto);
+                }
             }
         }
 
-        for (Venditore venditore : repoVenditori.values()) {
+        for (Venditore venditore : repoVenditori.findAll()) {
             if (venditore.getLocalizzazione().equals(poi)) {
-                poiList.add(venditore.getLocalizzazione());
+                poiList.add(venditore);
             }
         }
 
-        for (Visita visita : repoVisite.values()) {
+        for (Visita visita : repoVisite.findAll()) {
             if (visita.getPuntoDiInteresse().equals(poi)) {
-                poiList.add(visita.getPuntoDiInteresse());
+                poiList.add(visita);
             }
         }
 
-        for (Manifestazione manifestazione : repoManifestazioni.values()) {
+        for (Manifestazione manifestazione : repoManifestazioni.findAll()) {
             if (manifestazione.getPuntoDiInteresse().equals(poi)) {
-                poiList.add(manifestazione.getPuntoDiInteresse());
+                poiList.add(manifestazione);
             }
         }
 

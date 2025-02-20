@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/mappa")
 public class OSMController {
 
-    private OSMService os;
+    private final OSMService os;
 
     @Autowired
     public OSMController(OSMService os) {
