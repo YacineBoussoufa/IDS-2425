@@ -12,11 +12,12 @@ import jakarta.persistence.ManyToMany;
 
 @Entity
 @JsonDeserialize(builder = PacchettoBuilder.class)
-@DiscriminatorValue("PACCHETTO")
 public class Pacchetto extends Contenuto {
 
    @ManyToMany(cascade = CascadeType.ALL)
    private Set<Prodotto> listaProdotti;
+
+   private final String tipo = "Pacchetto";
 
    /**
     * Costruttore che genera i campi a partire da un builder.
@@ -27,6 +28,10 @@ public class Pacchetto extends Contenuto {
       super(builder);
 
       this.listaProdotti = builder.getListaProdotti();
+   }
+
+   public Pacchetto() {
+
    }
 
    public void setListaProdotti(Set<Prodotto> listaProdotti) {
@@ -95,5 +100,9 @@ public class Pacchetto extends Contenuto {
 
    }
 
+   @Override
+   public String getTipo() {
+      return tipo;
+   }
 
 }

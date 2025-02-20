@@ -3,13 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public non-sealed class Venditore implements Account {
@@ -27,7 +21,7 @@ public non-sealed class Venditore implements Account {
 	private List<Ruolo> listaRuoli = new ArrayList<>();
 	private String Descrizione;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private POI Localizzazione;
 	
    public Venditore(){}
@@ -45,6 +39,7 @@ public non-sealed class Venditore implements Account {
 
 		this.Descrizione=Descrizione;
 		this.Localizzazione=Localizzazione;
+		this.Localizzazione.setTipoPOI(TipoPOI.Azienda);
 	}
 	
 	public String getRagioneSociale() {

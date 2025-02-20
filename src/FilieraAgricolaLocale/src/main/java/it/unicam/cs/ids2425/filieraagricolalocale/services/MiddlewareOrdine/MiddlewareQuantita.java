@@ -22,11 +22,11 @@ public class MiddlewareQuantita extends MiddlewareOrdine {
    public boolean check(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m) {
       for (Contenuto p : mappaProdotti.keySet()) {
         
-         if(marketplaceService.visualizzaProdotto(p.getId()).getQuantita() < mappaProdotti.get(p))
+         if(marketplaceService.visualizzaContenuto(p.getId()).getQuantita() < mappaProdotti.get(p))
             return false;
 
-         int q = marketplaceService.visualizzaProdotto(p.getId()).getQuantita();
-         marketplaceService.visualizzaProdotto(p.getId()).setQuantita(q - mappaProdotti.get(p));
+         int q = marketplaceService.visualizzaContenuto(p.getId()).getQuantita();
+         marketplaceService.visualizzaContenuto(p.getId()).setQuantita(q - mappaProdotti.get(p));
       }
       return checkNext(dataCreazione, mappaProdotti, u, i, m);
    }

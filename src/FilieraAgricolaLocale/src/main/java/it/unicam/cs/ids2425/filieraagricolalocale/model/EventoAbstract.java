@@ -2,11 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.util.Date;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 
 @MappedSuperclass
 public abstract class EventoAbstract {
@@ -20,7 +16,7 @@ public abstract class EventoAbstract {
     private String descrizione;
     private int numeroMaxPartecipanti;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private POI puntoDiInteresse;
     @ManyToOne
     private Utente animatore;
@@ -31,6 +27,7 @@ public abstract class EventoAbstract {
         this.descrizione = builder.getDescrizione();
         this.numeroMaxPartecipanti = builder.getNumeroMaxPartecipanti();
         this.puntoDiInteresse = builder.getPuntoDiInteresse();
+        this.puntoDiInteresse.setTipoPOI(TipoPOI.Azienda);
         this.animatore = builder.getAnimatore();
     }
 
@@ -40,8 +37,11 @@ public abstract class EventoAbstract {
         this.descrizione = builder.getDescrizione();
         this.numeroMaxPartecipanti = builder.getNumeroMaxPartecipanti();
         this.puntoDiInteresse = builder.getPuntoDiInteresse();
+        this.puntoDiInteresse.setTipoPOI(TipoPOI.Azienda);
         this.animatore = builder.getAnimatore();
     }
+
+    public EventoAbstract() {}
 
     public String getNome() {
         return nome;

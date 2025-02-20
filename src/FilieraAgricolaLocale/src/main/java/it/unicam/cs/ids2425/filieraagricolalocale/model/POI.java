@@ -28,7 +28,11 @@ public class POI {
 		this.Altitudine=Altitudine;
 		this.tipo=tipo;
 	}
-	
+
+	public POI() {
+
+	}
+
 	public double getLatitudine() {
 		return Latitudine;
 	}
@@ -56,6 +60,10 @@ public class POI {
 	@JsonProperty("tipo")
 	public TipoPOI getTipoPOI() {
 		return tipo;
+	}
+
+	public void setTipoPOI(TipoPOI tipo) {
+		this.tipo=tipo;
 	}
 
 	@Override

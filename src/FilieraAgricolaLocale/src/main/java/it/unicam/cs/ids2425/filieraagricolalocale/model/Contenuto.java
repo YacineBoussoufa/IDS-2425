@@ -5,23 +5,10 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.controllers.util.ContenutoDeserializer;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @JsonDeserialize(using = ContenutoDeserializer.class)
 public abstract class Contenuto {
 
@@ -53,6 +40,7 @@ public abstract class Contenuto {
         this.approvato = false;
         this.data = builder.getData();
         this.statoApprovazione = new Bozza(this);
+        this.statoContenuto = Stato.BOZZA;
         this.quantita = builder.getQuantita();
         this.venditore = builder.getVenditore();
     }
@@ -107,6 +95,14 @@ public abstract class Contenuto {
      */
     public void cambiaStato(StatoApprovazione stato) {
         this.statoApprovazione = stato;
+
+        if (statoApprovazione instanceof Bozza) {
+            statoContenuto = Stato.BOZZA;
+        } else if (statoApprovazione instanceof InConvalida) {
+            statoContenuto = Stato.INCONVALIDA;
+        } else if (statoApprovazione instanceof Pubblicato) {
+            statoContenuto = Stato.PUBBLICATO;
+        }
     }
 
     public void approva() {
@@ -162,5 +158,7 @@ public abstract class Contenuto {
     }
 
     public abstract Contenuto setModifiche(Contenuto contenuto);
+
+    public abstract String getTipo();
 
 }

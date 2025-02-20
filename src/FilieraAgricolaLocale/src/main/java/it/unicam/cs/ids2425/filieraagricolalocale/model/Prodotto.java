@@ -2,7 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -12,16 +12,17 @@ import java.util.Set;
 
 @Entity
 @JsonDeserialize(builder = ProdottoBuilder.class)
-@DiscriminatorValue("PRODOTTO")
 public class Prodotto extends Contenuto {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private POI poi;
 
     @ManyToMany
     private final Set<Etichetta> listaEtichette = new HashSet<>();
     @ManyToMany
     private final Set<Prodotto> ingredienti = new HashSet<>();
+
+    private final String tipo = "Prodotto";
 
     /**
      * Costruttore che genera i campi a partire da un builder.
@@ -33,8 +34,13 @@ public class Prodotto extends Contenuto {
         super(builder);
 
         this.poi = builder.getPoi();
+        this.poi.setTipoPOI(TipoPOI.Prodotto);
         listaEtichette.addAll(builder.getListaEtichette());
         ingredienti.addAll(builder.getIngredienti());
+
+    }
+
+    public Prodotto() {
 
     }
 
@@ -74,6 +80,11 @@ public class Prodotto extends Contenuto {
 
         return null;
 
+    }
+
+    @Override
+    public String getTipo() {
+        return tipo;
     }
     
 }

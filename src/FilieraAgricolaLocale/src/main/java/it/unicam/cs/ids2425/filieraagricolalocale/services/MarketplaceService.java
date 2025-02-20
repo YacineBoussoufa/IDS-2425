@@ -83,7 +83,7 @@ public class MarketplaceService {
      * @return Tutti i prodotti
      */
     public List<Contenuto> visualizzaProdotti() {
-        return new ArrayList<>(repoProdotti.findByTipo("PRODOTTO"));
+        return new ArrayList<>(repoProdotti.findByTipo("Prodotto"));
     }
 
     /**
@@ -92,7 +92,7 @@ public class MarketplaceService {
      * @return Tutti i pacchetti
      */
     public List<Contenuto> visualizzaPacchetti() {
-        return new ArrayList<>(repoProdotti.findByTipo("PACCHETTO"));
+        return new ArrayList<>(repoProdotti.findByTipo("Pacchetto"));
     }
 
     /**

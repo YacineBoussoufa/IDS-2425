@@ -22,6 +22,10 @@ public class Manifestazione extends EventoAbstract {
 		this.personePartecipanti = builder.getPersonePartecipanti();
 	}
 
+	public Manifestazione() {
+
+	}
+
 	public Set<Venditore> getAziendePartecipanti() {
 		return aziendePartecipanti;
 	}

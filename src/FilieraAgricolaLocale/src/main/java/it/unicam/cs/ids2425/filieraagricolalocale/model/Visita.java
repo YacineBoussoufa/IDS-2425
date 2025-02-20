@@ -27,6 +27,10 @@ public class Visita extends EventoAbstract {
         this.proposta = builder.getProposta();
     }
 
+    public Visita() {
+        this.proposta = null;
+    }
+
     public Proposta getProposta() {
         return proposta;
     }

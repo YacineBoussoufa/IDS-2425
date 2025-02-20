@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloVenditore;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUsername;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
@@ -40,7 +37,8 @@ public class AccountController {
       this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", l));
       List<RuoloVenditore> lv = new LinkedList<>();
       lv.add(RuoloVenditore.Produttore);
-      this.uService.creaVenditore("La Tana", "123", "key", "123", lv, "grossa fabbrica", null);
+      this.uService.creaVenditore("La Tana", "123", "key", "123", lv, "grossa fabbrica",
+              new POI(0, 0, 0, TipoPOI.Azienda));
    }
 
    /*

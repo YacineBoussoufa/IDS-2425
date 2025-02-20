@@ -8,8 +8,10 @@ import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class ProdottoService {
 
 
@@ -18,7 +20,7 @@ public class ProdottoService {
     private final ContenutoRepository repoProdotti;
     private MiddlewareProdotto middlewareHead;
 
-    
+
     @Autowired
     public ProdottoService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
         this.repoProdotti = repoProdotti;
