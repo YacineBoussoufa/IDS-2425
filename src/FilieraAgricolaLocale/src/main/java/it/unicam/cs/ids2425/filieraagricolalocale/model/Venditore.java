@@ -30,6 +30,8 @@ public non-sealed class Venditore implements Account {
 	@ManyToOne
 	private POI Localizzazione;
 	
+   public Venditore(){}
+
 	public Venditore(String RagioneSociale, String PIVA, String username, String password,
 					 List<RuoloVenditore> listaRuoli, String Descrizione, POI Localizzazione) {
 		this.RagioneSociale=RagioneSociale;

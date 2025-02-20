@@ -109,7 +109,7 @@ public class MarketplaceController {
     /*
      * Ottieni la lista dei pacchetti di un venditore in GET con il suo username
      */
-    @RequestMapping(value = "/venditor/{username}/pacchetti", method = RequestMethod.GET)
+    @RequestMapping(value = "/venditori/{username}/pacchetti", method = RequestMethod.GET)
     public ResponseEntity<Object> getVendorPackages(@PathVariable String username) {
 
         try {

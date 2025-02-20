@@ -6,6 +6,8 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class ProdottoService {
@@ -14,13 +16,14 @@ public class ProdottoService {
     //todo correttezza venditore
     private final VenditoreRepository repoVenditori;
     private final ContenutoRepository repoProdotti;
+    private MiddlewareProdotto middlewareHead;
 
+    
+    @Autowired
     public ProdottoService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
         this.repoProdotti = repoProdotti;
         this.repoVenditori = repoVenditori;
     }
-
-    private MiddlewareProdotto middlewareHead;
 
     public void setMiddleware(MiddlewareProdotto m){
       this.middlewareHead = m;

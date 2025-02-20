@@ -8,6 +8,8 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
@@ -25,7 +27,10 @@ public non-sealed class Utente implements Account {
    @CollectionTable(name = "RUOLI_UTENTE",
       joinColumns = @JoinColumn(name = "username"))
    @Column(name = "IdRuolo")
+   @Enumerated(EnumType.STRING)
    private List<Ruolo> listaRuoli = new ArrayList<>();
+
+   public Utente(){}
 
    /**
     * @param nome
