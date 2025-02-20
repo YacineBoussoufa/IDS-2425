@@ -1,10 +1,11 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
-import java.util.HashMap;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
@@ -12,13 +13,25 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloVenditore;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.UtenteRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
 
+@Service
 public class UserService {
    
-   public static Map<String, Utente> userRepository = new HashMap<>();
-   public static Map<String, Venditore> sellerRepository = new HashMap<>(); 
+   //public static Map<String, Utente> userRepository = new HashMap<>();
+   //public static Map<String, Venditore> sellerRepository = new HashMap<>(); 
+
+   private UtenteRepository userRepository;
+   private VenditoreRepository sellerRepository;
    private MiddlewareUtente middlewareHead;
+
+   @Autowired
+   public UserService(UtenteRepository u, VenditoreRepository v){
+      this.userRepository = u;
+      this.sellerRepository = v;
+   }
 
    public void setMiddleware(MiddlewareUtente m){
       this.middlewareHead = m;
@@ -31,21 +44,21 @@ public class UserService {
       if(!middlewareHead.check(p)){
          throw new DatiIncorrettiException("Errore nella creazione utente");
       }
-      userRepository.put(username, p);
+      userRepository.save(p);
    }
 
    public void creaUtente(Utente p){
       if(!middlewareHead.check(p)){
          throw new DatiIncorrettiException("Errore nella creazione utente");
       }
-      userRepository.put(p.getUsername(), p);
+      userRepository.save(p);
    }
 
    public void creaVenditore(Venditore p){
       if(!middlewareHead.check(p)){
       throw new DatiIncorrettiException("Errore nella creazione utente");
       }
-      sellerRepository.put(p.getUsername(), p);
+      sellerRepository.save(p);
    }
    
    public void creaVenditore(String RagioneSociale, String PIVA, String username, String password,
@@ -54,52 +67,56 @@ public class UserService {
       if(!middlewareHead.check(p)){
          throw new DatiIncorrettiException("Errore nella creazione utente");
       }
-      sellerRepository.put(username, p);
+      sellerRepository.save(p);
    }
 
    public void modificaUtente(String i, Utente p){
-      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
-      userRepository.put(i, p);
+      //TODO consider this
+      if(userRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
+      userRepository.save(p);
    }
 
    public void modificaVenditore(String i, Venditore p){
-      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
-      sellerRepository.put(i, p);
+      if(sellerRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
+      sellerRepository.save(p);
    }
 
    public void rimuoviUtente(String i){
-      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
-      userRepository.remove(i);
+      if(userRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
+      userRepository.deleteById(i);
    }
 
    public void rimuoviVenditore(String i){
-      if(userRepository.get(i) == null) throw new DatiIncorrettiException();
-      sellerRepository.remove(i);
+      if(sellerRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
+      sellerRepository.deleteById(i);
    }
 
    public Utente getUtente(String i){
-      return userRepository.get(i);
+      return userRepository.findById(i).orElseGet(() -> null);
    }
 
    public Venditore getVenditore(String i){
-      return sellerRepository.get(i);
+      return sellerRepository.findById(i).orElseGet(() -> null);
    }
 
-   public Collection<Utente> getElencoUtenti(){
-      return userRepository.values();
+   public Iterable<Utente> getElencoUtenti(){
+      return userRepository.findAll();
    }
 
-   public Collection<Venditore> getElencoVenditore(){
-      return sellerRepository.values();
+   public Iterable<Venditore> getElencoVenditore(){
+      return sellerRepository.findAll();
    }
 
    public void modificaRuoliUtente(List<RuoloUtente> r, String i){
-      userRepository.get(i).setListaRuoli(r);
+      Utente s = userRepository.findById(i).get();
+      s.setListaRuoli(r);
+      userRepository.save(s);
    }
 
    public void modificaRuoliVenditore(List<RuoloVenditore> r, String i){
-      sellerRepository.get(i).setListaRuoli(r);
-      
+      Venditore s = sellerRepository.findById(i).get();
+      s.setListaRuoli(r);
+      sellerRepository.save(s);
    }
 
 }
