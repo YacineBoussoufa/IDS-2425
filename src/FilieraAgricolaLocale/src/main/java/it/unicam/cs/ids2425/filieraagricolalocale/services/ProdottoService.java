@@ -4,21 +4,20 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProdottoService {
 
 
     //todo correttezza venditore
-    public static Map<String, Venditore> repoVenditori = new HashMap<>();
-    private final ContenutoRepository prodottoRepository;
+    private final VenditoreRepository repoVenditori;
+    private final ContenutoRepository repoProdotti;
 
-    public ProdottoService(ContenutoRepository prodottoRepository) {
-        this.prodottoRepository = prodottoRepository;
+    public ProdottoService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
+        this.repoProdotti = repoProdotti;
+        this.repoVenditori = repoVenditori;
     }
 
     private MiddlewareProdotto middlewareHead;
@@ -41,7 +40,7 @@ public class ProdottoService {
             throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
         }
 
-       prodottoRepository.save(contenuto);
+       repoProdotti.save(contenuto);
 
     }
 
@@ -58,7 +57,7 @@ public class ProdottoService {
      */
     @Transactional
     public void modificaContenuto(int id, Contenuto modifiche) {
-        Contenuto attuale = prodottoRepository.findById(id).
+        Contenuto attuale = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
         //tutti gli elementi non vuoti (eccetto id e venditore) sono modificati
@@ -69,7 +68,7 @@ public class ProdottoService {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
 
-        prodottoRepository.save(nuovo);
+        repoProdotti.save(nuovo);
     }
 
     /**
@@ -82,12 +81,12 @@ public class ProdottoService {
      */
     @Transactional
     public void restock(int id, int quantita) {
-        Contenuto contenuto = prodottoRepository.findById(id).
+        Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
         int quantitaAttuale = contenuto.getQuantita();
         contenuto.setQuantita(quantitaAttuale + quantita);
-        prodottoRepository.save(contenuto);
+        repoProdotti.save(contenuto);
 
     }
 
@@ -100,10 +99,10 @@ public class ProdottoService {
      */
     @Transactional
     public void eliminaContenuto(int id) {
-        Contenuto contenuto = prodottoRepository.findById(id).
+        Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
-        prodottoRepository.delete(contenuto);
+        repoProdotti.delete(contenuto);
     }
 
     //TODO

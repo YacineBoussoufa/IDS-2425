@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 public class MarketplaceService {
 
     //todo MOCK DI UNA TABELLA PRODOTTI
-    public static Map<Integer, Prodotto> repoProdotti = ProdottoService.repoProdotti;
-    public static Map<Integer, Pacchetto> repoPacchetti = ProdottoService.repoPacchetti;
-    public static Map<String, Venditore> repoVenditori = ProdottoService.repoVenditori;
+    public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
+    public static Map<Integer, Pacchetto> repoPacchetti = new HashMap<>();
+    public static Map<String, Venditore> repoVenditori = new HashMap<>();
 
     /**
      * Restituisce un prodotto a partire dal suo id.
