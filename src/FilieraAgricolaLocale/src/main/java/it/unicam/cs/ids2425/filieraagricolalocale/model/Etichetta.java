@@ -1,31 +1,35 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Etichetta {
 
-    //todo rimuovere id?
-    public static final Set<Etichetta> listaEtichette = new HashSet<Etichetta>();
-    private static int numeroEtichette = 0;
-    private final int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String nome;
     private String descrizione;
+    @Enumerated(EnumType.STRING)
+    private TipoEtichetta tipo;
 
-    public Etichetta(String nome, String descrizione) {
+    public Etichetta(String nome, String descrizione, TipoEtichetta t) {
         this.nome = nome;
         this.descrizione = descrizione;
-        this.id = generateID();
-        listaEtichette.add(this);
+        this.tipo = t;
     }
 
-    /**
-     * Assegna il numero attuale di etichette create come ID, poi incrementa il numero.
-     *
-     * @return ID per l'istanza di Etichetta
-     */
-    private static synchronized int generateID() {
-        return ++numeroEtichette;
+    public TipoEtichetta getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoEtichetta tipo) {
+        this.tipo = tipo;
     }
 
     public String getNome() {

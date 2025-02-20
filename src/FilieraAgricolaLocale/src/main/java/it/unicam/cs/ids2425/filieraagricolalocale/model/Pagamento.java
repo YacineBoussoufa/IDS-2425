@@ -2,8 +2,14 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Pagamento {
    
+   @Id
+   private int id;
    private String numeroCarta;
    private Date dataScadenza;
    private int cvv;

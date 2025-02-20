@@ -1,25 +1,23 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 public abstract class StatoApprovazione {
 
+    @Id
+    @OneToOne
     protected final Contenuto contenuto;
-    private final LocalDate dataCreazione;
 
     protected StatoApprovazione(Contenuto contenuto) {
-        this.dataCreazione = LocalDate.now();
         this.contenuto = contenuto;
     }
 
-    abstract String statoToString();
+    abstract Stato statoToString();
 
     /**
      * L'implementazione del metodo varia per lo stato del contenuto.
      */
     public abstract void pubblica();
 
-    public LocalDate getDataCreazione() {
-        return dataCreazione;
-    }
 }

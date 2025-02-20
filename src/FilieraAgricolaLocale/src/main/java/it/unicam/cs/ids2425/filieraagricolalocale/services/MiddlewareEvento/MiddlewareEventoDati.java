@@ -2,7 +2,6 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 
 import java.util.Map;
 

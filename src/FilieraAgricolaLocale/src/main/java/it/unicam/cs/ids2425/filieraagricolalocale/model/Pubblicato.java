@@ -7,8 +7,8 @@ public class Pubblicato extends StatoApprovazione {
     }
 
     @Override
-    String statoToString() {
-        return "Pubblicato";
+    Stato statoToString() {
+        return Stato.PUBBLICATO;
     }
 
     /**

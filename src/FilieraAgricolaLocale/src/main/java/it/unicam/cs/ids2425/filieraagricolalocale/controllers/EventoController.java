@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/evento")
+@RequestMapping("/eventi")
 
 public class EventoController {
 
@@ -24,14 +26,42 @@ public class EventoController {
         MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
         es.setMiddleware(me);
 
+        //Todo: TEST
+
+        es.aggiungiEventoV(
+                new VisitaBuilder().setNome("Test").setDescrizione("Test")
+                        .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
+                        .setProposta(new Proposta(null, null,null))
+                        .setData(Date.from(Instant.now()))
+                        .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
+                                "animatoreTest", "password", null))
+                        .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
+                                        "test", null)))
+                        .build()
+        );
+
+        es.aggiungiEventoM(
+                new ManifestazioneBuilder().setNome("Test").setDescrizione("Test")
+                        .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
+                        .setData(Date.from(Instant.now()))
+                        .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
+                                "animatoreTest", "password", null))
+                        .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
+                                "test", null)))
+                        .setAziendePartecipanti(Set.of(new Venditore("Test Azienda", "PIVA", "usernameAzienda", "passwordAzienda"
+                        , null, "Azienda di Test", new POI(0,0,0,TipoPOI.Azienda)
+                        )))
+                        .build()
+        );
+
     }
 
-    @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public ResponseEntity<Object> createEvento(@RequestBody EventoAbstract evento) {
+    @RequestMapping(value = "/visita/crea", method = RequestMethod.POST)
+    public ResponseEntity<Object> createVisita(@RequestBody Visita evento) {
 
         try {
-            es.aggiungiEvento(evento);
-            return new ResponseEntity<>("Evento creato con successo.", HttpStatus.CREATED);
+            es.aggiungiEventoV(evento);
+            return new ResponseEntity<>("Visita creata con successo.", HttpStatus.CREATED);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -40,8 +70,35 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> editEvento(@PathVariable("id") int id, @RequestBody EventoAbstract evento) {
+    @RequestMapping(value = "/manifestazione/crea", method = RequestMethod.POST)
+    public ResponseEntity<Object> createManifestazione(@RequestBody Manifestazione evento) {
+
+        try {
+            es.aggiungiEventoM(evento);
+            return new ResponseEntity<>("Manifestazione creata con successo.", HttpStatus.CREATED);
+        } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(value = "/modifica/visita/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editVisita(@PathVariable("id") int id, @RequestBody Visita evento) {
+        try {
+            es.modificaEvento(id, evento);
+            return new ResponseEntity<>("Evento modificato con successo.", HttpStatus.OK);
+        } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(value = "/modifica/manifestazione/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editManifestazione(@PathVariable("id") int id, @RequestBody Manifestazione evento) {
         try {
             es.modificaEvento(id, evento);
             return new ResponseEntity<>("Evento modificato con successo.", HttpStatus.OK);
@@ -54,7 +111,7 @@ public class EventoController {
     }
 
     @RequestMapping(value = "/eliminaVisita/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deleteVisita(@RequestBody int id) {
+    public ResponseEntity<Object> deleteVisita(@PathVariable("id") int id) {
         try {
             es.rimuoviVisita(id);
             return new ResponseEntity<>("Visita eliminata con successo.", HttpStatus.OK);
@@ -66,7 +123,7 @@ public class EventoController {
     }
 
     @RequestMapping(value = "/eliminaManifestazione/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deleteManifestazione(@RequestBody int id) {
+    public ResponseEntity<Object> deleteManifestazione(@PathVariable("id") int id) {
 
         try {
             es.rimuoviManifestazione(id);
@@ -79,12 +136,12 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/accettaProposta/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> acceptProposta(@RequestBody int id) {
+    @RequestMapping(value = "/accettaProposta/visita/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> acceptProposta(@PathVariable("id") int id) {
 
         try {
             es.accettaProposta(id);
-            return new ResponseEntity<>("Proposta della Visita accettata con successo.", HttpStatus.CREATED);
+            return new ResponseEntity<>("Proposta della Visita accettata con successo.", HttpStatus.OK);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -93,44 +150,42 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/listaVisiteAccettate")
+    @RequestMapping(value = "/visite/accettate")
     public ResponseEntity<Object> getListaVisiteAccettate() {
         return new ResponseEntity<>(es.getRepoVisiteAccettate(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/listaVisiteNonAccettate")
+    @RequestMapping(value = "/visite/nonAccettate")
     public ResponseEntity<Object> getListaVisiteNonAccettate() {
         return new ResponseEntity<>(es.getRepoVisiteNonAccettate(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/listaVisite")
+    @RequestMapping(value = "/visite")
     public ResponseEntity<Object> getListaVisite() {
         return new ResponseEntity<>(es.getRepoVisite(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/listaManifestazioni")
+    @RequestMapping(value = "/manifestazioni")
     public ResponseEntity<Object> getListaManifestazioni() {
         return new ResponseEntity<>(es.getRepoManifestazioni(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/visualizzaUtentiPartecipantiAVisita/{id}")
-    public ResponseEntity<Object> getUtentiPartecipantiAVisita(@RequestBody int id) {
+    @RequestMapping(value = "/utentiPartecipanti/visita/{id}")
+    public ResponseEntity<Object> getUtentiPartecipantiAVisita(@PathVariable("id") int id) {
         return new ResponseEntity<>(es.visualizzaUtentiPartecipantiAVisita(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/visualizzaUtentiPartecipantiAManifestazione/{id}")
-    public ResponseEntity<Object> getUtentiPartecipantiAManifestazione(@RequestBody int id) {
+    @RequestMapping(value = "/utentiPartecipanti/manifestazione/{id}")
+    public ResponseEntity<Object> getUtentiPartecipantiAManifestazione(@PathVariable("id") int id) {
         return new ResponseEntity<>(es.visualizzaUtentiPartecipantiAManifestazione(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/visualizzaAziendePartecipantiAManifestazione/{id}")
-    public ResponseEntity<Object> getAziendePartecipantiAManifestazione(@RequestBody int id) {
+    @RequestMapping(value = "/aziendePartecipanti/manifestazione/{id}")
+    public ResponseEntity<Object> getAziendePartecipantiAManifestazione(@PathVariable("id") int id) {
         return new ResponseEntity<>(es.visualizzaAziendePartecipantiAManifestazione(id), HttpStatus.OK);
     }
 
-    //TODO Aggiungere i vari partecipanti
-
-    @RequestMapping(value = "/aggiungiUtentePartecipanteAVisita/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aggiungiUtentePartecipante/visita/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentePartecipanteAVisita(@PathVariable("id") int id, @RequestBody Utente user) {
         try {
             es.aggiungiUtentePartecipanteAVisita(id, user);
@@ -143,7 +198,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/aggiungiUtentePartecipanteAManifestazione/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aggiungiUtentePartecipante/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentePartecipanteAManifestazione(@PathVariable("id") int id, @RequestBody Utente user) {
         try {
             es.aggiungiUtentePartecipanteAManifestazione(id, user);
@@ -156,7 +211,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/aggiungiAziendaPartecipanteAManifestazione/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aggiungiAziendaPartecipante/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addAziendaPartecipanteAManifestazione(@PathVariable("id") int id, @RequestBody Venditore user) {
         try {
             es.aggiungiAziendaPartecipanteAManifestazione(id, user);
@@ -169,7 +224,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/aggiungiUtentiPartecipantiAVisita/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aggiungiUtentiPartecipanti/visita/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentiPartecipantiAVisita(@PathVariable("id") int id, @RequestBody Set<Utente> user) {
         try {
             es.aggiungiUtentiPartecipantiAVisita(id, user);
@@ -182,7 +237,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/aggiungiUtentiPartecipantiAManifestazione/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aggiungiUtentiPartecipanti/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentiPartecipantiAManifestazione(@PathVariable("id") int id, @RequestBody Set<Utente> user) {
         try {
             es.aggiungiUtentiPartecipantiAManifestazione(id, user);
@@ -195,7 +250,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/aggiungiAziendePartecipantiAManifestazione/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aggiungiAziendePartecipanti/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addAziendePartecipantiAManifestazione(@PathVariable("id") int id, @RequestBody Set<Venditore> user) {
         try {
             es.aggiungiAziendePartecipantiAManifestazione(id, user);

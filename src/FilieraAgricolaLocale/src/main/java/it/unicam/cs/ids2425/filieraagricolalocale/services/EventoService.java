@@ -18,18 +18,23 @@ public class EventoService {
         this.middleware = m;
     }
 
-    public void aggiungiEvento(EventoAbstract evento) {
+    public void aggiungiEventoV(Visita evento) {
 
         if (!middleware.check(evento)) {
             throw new DatiIncorrettiException();
         }
 
-        if(evento instanceof Visita)
-            repoVisite.put(idCounterVisite++, (Visita) evento);
-        else if(evento instanceof Manifestazione)
-            repoManifestazioni.put(idCounterManifestazioni++, (Manifestazione) evento);
-        else
+        repoVisite.put(idCounterVisite++, evento);
+
+    }
+
+    public void aggiungiEventoM(Manifestazione evento) {
+
+        if (!middleware.check(evento)) {
             throw new DatiIncorrettiException();
+        }
+
+        repoManifestazioni.put(idCounterManifestazioni++, evento);
 
     }
 
@@ -160,9 +165,11 @@ public class EventoService {
 
         proposta.setStatoAccettazione(true);
 
+        /*
         if (!middleware.check(visita)) {
             throw new DatiIncorrettiException();
-        }
+        }*/
+
     }
 
     public Map<Integer, Visita> getRepoVisite() {

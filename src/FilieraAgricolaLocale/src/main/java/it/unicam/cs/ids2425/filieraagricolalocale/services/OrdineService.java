@@ -11,8 +11,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Ordine;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
-
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareOrdine;
 
@@ -26,7 +25,7 @@ public class OrdineService {
       this.middlewareHead = m;
    }
 
-   public void creaOrdine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Account u, Indirizzo i, Pagamento m){
+   public void creaOrdine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Utente u, Indirizzo i, Pagamento m){
   
       if(!middlewareHead.check(dataCreazione, mappaProdotti, u, i, m)){
          throw new DatiIncorrettiException("Errore nella creazione ordine");

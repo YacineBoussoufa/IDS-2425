@@ -3,19 +3,19 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO;
 import java.util.Date;
 import java.util.List;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 
 public class OrdineDTO {
 
    private Date d;
    private List<ElementoOrdineDTO> linee;
-   private Account u;
+   private Utente u;
    private Indirizzo i;
    private Pagamento m;
 
-   public OrdineDTO(Date d, List<ElementoOrdineDTO> linee, Account u, Indirizzo i, Pagamento m) {
+   public OrdineDTO(Date d, List<ElementoOrdineDTO> linee, Utente u, Indirizzo i, Pagamento m) {
       this.d = d;
       this.linee = linee;
       this.u = u;
@@ -34,10 +34,10 @@ public class OrdineDTO {
    public void setLinee(List<ElementoOrdineDTO> linee) {
       this.linee = linee;
    }
-   public Account getU() {
+   public Utente getU() {
       return u;
    }
-   public void setU(Account u) {
+   public void setU(Utente u) {
       this.u = u;
    }
    public Indirizzo getI() {
