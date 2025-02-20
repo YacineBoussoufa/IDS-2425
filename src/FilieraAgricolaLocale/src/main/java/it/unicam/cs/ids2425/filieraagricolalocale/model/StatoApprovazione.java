@@ -1,8 +1,16 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "tipo")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Bozza.class, name = "Bozza"),
+        @JsonSubTypes.Type(value = InConvalida.class, name = "InConvalida"),
+        @JsonSubTypes.Type(value = Pubblicato.class, name = "Pubblicato")
+})
 public abstract class StatoApprovazione {
 
     @Id

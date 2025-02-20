@@ -3,20 +3,22 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ProdottoService {
 
-    //todo MOCK DI UNA TABELLA PRODOTTI
-    public static Map<Integer, Prodotto> repoProdotti = new HashMap<>();
-    public static Map<Integer, Pacchetto> repoPacchetti = new HashMap<>();
+
     //todo correttezza venditore
-    public static Map<String, Venditore> repoVenditori = new HashMap<>();
-    public static int idProdottoCounter = 0;
-    public static int idPacchettoCounter = 0;
+    private final VenditoreRepository repoVenditori;
+    private final ContenutoRepository repoProdotti;
+
+    public ProdottoService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
+        this.repoProdotti = repoProdotti;
+        this.repoVenditori = repoVenditori;
+    }
 
     private MiddlewareProdotto middlewareHead;
 
@@ -25,144 +27,82 @@ public class ProdottoService {
     }
 
     /**
-     * Crea un prodotto e controlla i dati inseriti.
+     * Crea un contenuto e controlla i dati inseriti.
      *
-     * @param prodotto Prodotto da aggiungere
+     * @param contenuto Contenuto da aggiungere
      *
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
-    public void creaProdotto(Prodotto prodotto) {
-        //todo id con database
-        //temporaneo per permettere coerenza con database
-        Prodotto p = ProdottoBuilder.copiaDa(prodotto).setId(idProdottoCounter).build();
+    @Transactional
+    public void creaContenuto(Contenuto contenuto) {
 
-        //controllo dati
-        if (middlewareHead.check(p)) {
-            repoProdotti.put(idProdottoCounter, p);
-        } else {
+        if (!middlewareHead.check(contenuto)) {
             throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
         }
 
-        idProdottoCounter++;
+       repoProdotti.save(contenuto);
+
     }
 
     /**
-     * Crea un pacchetto e controlla i dati dei singoli prodotti che lo formano
-     *
-     * @param pacchetto Pacchetto
-     * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
-     */
-    public void creaPacchetto(Pacchetto pacchetto) {
-
-        for (Prodotto prodotto : pacchetto.getListaProdotti()) {
-            if (!middlewareHead.check(prodotto)) {
-                throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
-            }
-        }
-
-        repoPacchetti.put(idPacchettoCounter, pacchetto);
-        idPacchettoCounter++;
-    }
-
-    /**
-     * Modifica un prodotto a partire da un builder.
+     * Modifica un contenuto a partire da un builder.
      * Setterà tutti i campi non vuoti con i campi inseriti dentro il builder.
      * Modificherà poi stato del prodotto in Bozza affinchè si proceda alla convalida delle modifiche.
      *
-     * @param id ID del prodotto da modificare
-     * @param modifiche Prodotto che contiene solo i campi da modificare
+     * @param id ID del contenuto da modificare
+     * @param modifiche Contenuto che contiene solo i campi da modificare
      *
      * @throws ProdottoNonTrovatoException se l'id non è associato a un prodotto nel database
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
-    public void modificaProdotto(int id, Prodotto modifiche) {
-        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException(
-                "Non esiste prodotto con id " + id);
-        Prodotto prodottoEsistente = repoProdotti.get(id);
-        ProdottoBuilder attuale = ProdottoBuilder.copiaDa(prodottoEsistente);
+    @Transactional
+    public void modificaContenuto(int id, Contenuto modifiche) {
+        Contenuto attuale = repoProdotti.findById(id).
+                orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
-        //tutti gli elementi non vuoti sono modificati
-        attuale.setNome(modifiche.getNome() != null ? modifiche.getNome() : attuale.getNome());
-        attuale.setDescrizione(modifiche.getDescrizione() != null ? modifiche.getDescrizione() : attuale.getDescrizione());
-        attuale.setPrezzo(modifiche.getPrezzo() != 0 ? modifiche.getPrezzo() : attuale.getPrezzo());
-        attuale.setQuantita(modifiche.getQuantita() != 0 ? modifiche.getQuantita() : attuale.getQuantita());
-        attuale.setData(modifiche.getData() != null ? modifiche.getData() : attuale.getData());
-        attuale.setPoi(modifiche.getPoi() != null ? modifiche.getPoi() : attuale.getPoi());
-        attuale.setListaEtichette(!modifiche.getListaEtichette().isEmpty() ? modifiche.getListaEtichette()
-                : attuale.getListaEtichette());
-        attuale.setIngredienti(!modifiche.getIngredienti().isEmpty() ? modifiche.getIngredienti() : attuale.getIngredienti());
-
-        //viene creato un nuovo prodotto da mettere allo stesso id; avrà stato Bozza
-        Prodotto prodottoModificato = attuale.build();
+        //tutti gli elementi non vuoti (eccetto id e venditore) sono modificati
+        Contenuto nuovo = attuale.setModifiche(modifiche);
 
         //controllo dati
-        if (middlewareHead.check(prodottoModificato)) {
-            repoProdotti.put(id, prodottoModificato);
-        } else {
+        if (!middlewareHead.check(nuovo)) {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
-    }
 
-    public void modificaPacchetto(int id, Pacchetto pacchetto) {
-        if (!repoPacchetti.containsKey(id)) {
-            throw new ProdottoNonTrovatoException("Non esiste pacchetto con id " + id);
-        }
-
-        if (pacchetto.getPrezzo() <= 0) throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
-
-
-        for (Prodotto p : pacchetto.getListaProdotti()) {
-            if (!middlewareHead.check(p)) {
-                throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
-            }
-        }
-
-        pacchetto.cambiaStato(new Bozza(pacchetto));
-        repoPacchetti.put(id, pacchetto);
-
+        repoProdotti.save(nuovo);
     }
 
     /**
-     * Metodo per aggiungere scorte ad un Prodotto.
+     * Metodo per aggiungere scorte ad un Contenuto.
      *
-     * @param id Identificatore del prodotto
-     * @param quantita Quantità da aggiungere al prodotto, sommata a quella attuale
+     * @param id Identificatore del contenuto
+     * @param quantita Quantità da aggiungere al contenuto, sommata a quella attuale
      *
-     * @throws ProdottoNonTrovatoException Se l'id non corrisponde a un Prodotto nel sistema.
+     * @throws ProdottoNonTrovatoException Se l'id non corrisponde a un Contenuto nel sistema.
      */
+    @Transactional
     public void restock(int id, int quantita) {
-        Prodotto prodotto = repoProdotti.get(id);
-        if (prodotto == null) throw new ProdottoNonTrovatoException("Non esiste prodotto con id " + id);
+        Contenuto contenuto = repoProdotti.findById(id).
+                orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
-        int quantitaAttuale = prodotto.getQuantita();
-        prodotto.setQuantita(quantitaAttuale + quantita);
-        repoProdotti.put(id, prodotto);
+        int quantitaAttuale = contenuto.getQuantita();
+        contenuto.setQuantita(quantitaAttuale + quantita);
+        repoProdotti.save(contenuto);
+
     }
 
     /**
-     * Elimina un prodotto con il suo id.
+     * Elimina un contenuto con il suo id.
      *
-     * @param id Identificatore prodotto
+     * @param id Identificatore contenuto
      *
-     * @throws ProdottoNonTrovatoException se l'id non è associato a un prodotto nel database
+     * @throws ProdottoNonTrovatoException se l'id non è associato a un contenuto nel database
      */
-    public void eliminaProdotto(int id) {
-        if (!repoProdotti.containsKey(id)) throw new ProdottoNonTrovatoException(
-                "Non esiste prodotto con id " + id);
-        repoProdotti.remove(id);
-    }
+    @Transactional
+    public void eliminaContenuto(int id) {
+        Contenuto contenuto = repoProdotti.findById(id).
+                orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
-    /**
-     * Elimina un pacchetto con il suo id.
-     *
-     * @param id Identificatore pacchettp
-     *
-     * @throws ProdottoNonTrovatoException se l'id non è associato a un pacchetto nel database
-     */
-    public void eliminaPacchetto(int id) {
-        if (!repoPacchetti.containsKey(id)) throw new ProdottoNonTrovatoException(
-                "Non esiste pacchetto con id " + id);
-        repoPacchetti.remove(id);
+        repoProdotti.delete(contenuto);
     }
 
     //TODO

@@ -41,7 +41,7 @@ public abstract class Contenuto {
     protected int quantita;
 
 
-    protected Contenuto(ProdottoBuilder builder) {
+    protected Contenuto(ContenutoBuilder builder) {
         this.data = builder.getData();
         this.nome = builder.getNome();
         this.descrizione = builder.getDescrizione();
@@ -53,16 +53,8 @@ public abstract class Contenuto {
         this.venditore = builder.getVenditore();
     }
 
-    protected Contenuto(PacchettoBuilder builder) {
-        this.data = builder.getData();
-        this.nome = builder.getNome();
-        this.descrizione = builder.getDescrizione();
-        this.prezzo = builder.getPrezzo();
-        this.approvato = false;
-        this.data = builder.getData();
-        this.statoApprovazione = new Bozza(this);
-        this.quantita = builder.getQuantita();
-        this.venditore = builder.getVenditore();
+    public Contenuto() {
+
     }
 
     // Initialize the state based on the stored value
@@ -160,6 +152,8 @@ public abstract class Contenuto {
     public void setQuantita(int q) {
        this.quantita = q;
     }
+
+    public abstract Contenuto setModifiche(Contenuto contenuto);
 
 
     /**

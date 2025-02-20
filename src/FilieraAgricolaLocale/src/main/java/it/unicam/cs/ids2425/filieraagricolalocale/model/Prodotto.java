@@ -50,5 +50,30 @@ public class Prodotto extends Contenuto {
         return ingredienti;
     }
 
+    @Override
+    public Prodotto setModifiche(Contenuto contenuto) {
+
+        if (contenuto instanceof Prodotto modifiche) {
+            ProdottoBuilder builder = ProdottoBuilder.copiaDa(modifiche);
+
+            builder.setNome(modifiche.getNome() == null ? getNome() : modifiche.getNome());
+            builder.setDescrizione(modifiche.getDescrizione() == null ? getDescrizione() : modifiche.getDescrizione());
+            builder.setPrezzo(modifiche.getPrezzo() == 0 ? getPrezzo() : modifiche.getPrezzo());
+            builder.setQuantita(modifiche.quantita == 0 ? getQuantita() : modifiche.getQuantita());
+            builder.setData(modifiche.getData() == null ? getData() : modifiche.getData());
+            builder.setPoi(modifiche.getPoi() == null ? getPoi() : modifiche.getPoi());
+            builder.setListaEtichette(modifiche.getListaEtichette().isEmpty() ? getListaEtichette() : modifiche.getListaEtichette());
+            builder.setIngredienti(modifiche.getIngredienti().isEmpty() ? getIngredienti() : modifiche.getIngredienti());
+
+            //Non è previsto che questi campi mutino
+            builder.setId(getId());
+            builder.setVenditore(getVenditore());
+
+            return builder.build();
+        }
+
+        return null;
+
+    }
     
 }
