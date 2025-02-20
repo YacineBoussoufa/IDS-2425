@@ -19,7 +19,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.Mi
 @RequestMapping(value = "/gestioneContenuti")
 public class ProdottoController {
    
-   private ProdottoService ps;
+   private final ProdottoService ps;
 
    //todo gestione diversa di autowired (?)
    //TODO gestire autorizzazioni per la creazione
@@ -31,14 +31,14 @@ public class ProdottoController {
    }
 
    /*
-    * Crea un nuovo prodotto passando i valori in POST
+    * Crea un nuovo contenuto passando i valori in POST
     */
-   @RequestMapping(value = "/prodotto/crea", method = RequestMethod.POST)
-   public ResponseEntity<Object> createProduct(@RequestBody Prodotto prodotto) {
+   @RequestMapping(value = "/contenuto/crea", method = RequestMethod.POST)
+   public ResponseEntity<Object> createContent(@RequestBody Contenuto contenuto) {
 
        try {
-           ps.creaContenuto(prodotto);
-           return new ResponseEntity<>("Prodotto creato con successo.", HttpStatus.CREATED);
+           ps.creaContenuto(contenuto);
+           return new ResponseEntity<>("Contenuto creato con successo.", HttpStatus.CREATED);
        } catch (DatiIncorrettiException e) {
            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
        } catch (Exception e) {
@@ -47,32 +47,15 @@ public class ProdottoController {
 
    }
 
-   /*
-    * Crea un nuovo pacchetto passando i suoi prodotti in POST
-    */
-    @RequestMapping(value = "/pacchetto/crea", method = RequestMethod.POST)
-    public ResponseEntity<Object> createPackage(@RequestBody Pacchetto pacchetto) {
-
-        try {
-            ps.creaContenuto(pacchetto);
-            return new ResponseEntity<>("Pacchetto creato con successo.", HttpStatus.CREATED);
-        } catch (DatiIncorrettiException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
     /*
-     * Modifica un prodotto passando soltanto i dati da modificare in POST
+     * Modifica un contenuto passando soltanto i dati da modificare in POST
      */
-    @RequestMapping(value = "/prodotto/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> editProduct(@PathVariable int id, @RequestBody Prodotto prodotto) {
+    @RequestMapping(value = "/contenuto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editContent(@PathVariable int id, @RequestBody Contenuto contenuto) {
 
         try {
-            ps.modificaContenuto(id, prodotto);
-            return new ResponseEntity<>("Prodotto modificato con successo.", HttpStatus.OK);
+            ps.modificaContenuto(id, contenuto);
+            return new ResponseEntity<>("Contenuto modificato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
@@ -80,53 +63,17 @@ public class ProdottoController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /*
-     * Modifica un pacchetto passandone uno nuovo
-     */
-    @RequestMapping(value = "/pacchetto/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> editPackage(@PathVariable int id, @RequestBody Pacchetto pacchetto) {
-
-        try {
-            ps.modificaContenuto(id, pacchetto);
-            return new ResponseEntity<>("Pacchetto modificato con successo.", HttpStatus.OK);
-        } catch (ProdottoNonTrovatoException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (DatiIncorrettiException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
     }
 
     /*
      * Cancella un prodotto passandone l'id
      */
-    @RequestMapping(value = "/prodotto/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deleteProduct(@RequestBody @PathVariable int id) {
+    @RequestMapping(value = "/contenuto/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteContent(@RequestBody @PathVariable int id) {
 
         try {
             ps.eliminaContenuto(id);
-            return new ResponseEntity<>("Prodotto eliminato con successo.", HttpStatus.OK);
-        } catch (ProdottoNonTrovatoException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    /*
-     * Cancella un pacchetto passandone l'id
-     */
-    @RequestMapping(value = "/pacchetto/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deletePackage(@PathVariable int id) {
-
-        try {
-            ps.eliminaContenuto(id);
-            return new ResponseEntity<>("Pacchetto eliminato con successo.", HttpStatus.OK);
+            return new ResponseEntity<>("Contenuto eliminato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -143,7 +90,7 @@ public class ProdottoController {
 
         try {
             ps.restock(id, quantita);
-            return new ResponseEntity<>("Prodotto restock con successo.", HttpStatus.OK);
+            return new ResponseEntity<>("Contenuto restock con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
