@@ -2,6 +2,8 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
@@ -20,9 +22,9 @@ public class EventoController {
 
     private EventoService es;
 
-    EventoController() {
+    EventoController(VisitaRepository v, ManifestazioneRepository m) {
 
-        es = new EventoService();
+        es = new EventoService(v, m);
         MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
         es.setMiddleware(me);
 

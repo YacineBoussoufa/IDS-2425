@@ -2,17 +2,31 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class EventoService {
 
-    private Map<Integer, Visita> repoVisite = new HashMap<>();
-    private Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
+    //private Map<Integer, Visita> repoVisite = new HashMap<>();
+    //private Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
+
+    private VisitaRepository repoVisite;
+    private ManifestazioneRepository repoManifestazioni;
     private int idCounterVisite = 0;
     private int idCounterManifestazioni = 0;
     private MiddlewareEvento middleware;
+
+    @Autowired
+    public EventoService(VisitaRepository v, ManifestazioneRepository m) {
+        repoVisite = v;
+        repoManifestazioni = m;
+    }
 
     public void setMiddleware(MiddlewareEvento m){
         this.middleware = m;
@@ -24,7 +38,7 @@ public class EventoService {
             throw new DatiIncorrettiException();
         }
 
-        repoVisite.put(idCounterVisite++, evento);
+        repoVisite.save(evento);
 
     }
 
@@ -34,13 +48,13 @@ public class EventoService {
             throw new DatiIncorrettiException();
         }
 
-        repoManifestazioni.put(idCounterManifestazioni++, evento);
+        repoManifestazioni.save(evento);
 
     }
 
     public void modificaEvento(int id, EventoAbstract eventoModificato) {
 
-        if ((!repoManifestazioni.containsKey(id)) && (!repoVisite.containsKey(id))) {
+        if ((repoManifestazioni.findById(id).isEmpty()) && (repoVisite.findById(id).isEmpty())) {
             throw new DatiIncorrettiException();
         }
 
@@ -49,114 +63,96 @@ public class EventoService {
         }
 
         if(eventoModificato instanceof Visita)
-            repoVisite.put(id, (Visita) eventoModificato);
+            repoVisite.save((Visita) eventoModificato);
         else if (eventoModificato instanceof Manifestazione)
-            repoManifestazioni.put(id, (Manifestazione) eventoModificato);
+            repoManifestazioni.save((Manifestazione) eventoModificato);
         else
             throw new DatiIncorrettiException();
     }
 
     public void rimuoviVisita(int id) {
-        if (!repoVisite.containsKey(id)) {
+        if (repoVisite.findById(id).isEmpty()) {
             throw new DatiIncorrettiException();
         }
-        repoVisite.remove(id);
+        repoVisite.deleteById(id);
     }
 
     public void rimuoviManifestazione(int id) {
-        if (!repoManifestazioni.containsKey(id)) {
+        if (repoManifestazioni.findById(id).isEmpty()) {
             throw new DatiIncorrettiException();
         }
-        repoManifestazioni.remove(id);
+        repoManifestazioni.deleteById(id);
     }
 
     public void aggiungiUtentePartecipanteAVisita(int id, Utente utente) {
-        Visita visita = repoVisite.get(id);
-        if (visita != null) {
-            visita.getPersonePartecipanti().add(utente);
-        } else {
-            throw new DatiIncorrettiException();
-        }
+        Visita visita = repoVisite.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
+        visita.getPersonePartecipanti().add(utente);
+        repoVisite.save(visita);
     }
 
     public void aggiungiUtentePartecipanteAManifestazione(int id, Utente utente) {
-        Manifestazione manifestazione = repoManifestazioni.get(id);
-        if (manifestazione != null) {
-            manifestazione.getPersonePartecipanti().add(utente);
-        } else {
-            throw new DatiIncorrettiException();
-        }
+        Manifestazione manifestazione = repoManifestazioni.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
+        manifestazione.getPersonePartecipanti().add(utente);
+        repoManifestazioni.save(manifestazione);
     }
 
     public void aggiungiAziendaPartecipanteAManifestazione(int id, Venditore azienda) {
-        Manifestazione manifestazione = repoManifestazioni.get(id);
-        if (manifestazione != null) {
-            manifestazione.getAziendePartecipanti().add(azienda);
-        } else {
-            throw new DatiIncorrettiException();
-        }
+        Manifestazione manifestazione = repoManifestazioni.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
+        manifestazione.getAziendePartecipanti().add(azienda);
+        repoManifestazioni.save(manifestazione);
     }
 
     public void aggiungiUtentiPartecipantiAVisita(int id, Set<Utente> nuoviPartecipanti) {
-        Visita visita = (Visita) repoVisite.get(id);
-        if (visita != null) {
-            visita.getPersonePartecipanti().addAll(nuoviPartecipanti);
-        } else {
-            throw new DatiIncorrettiException();
-        }
+        Visita visita =  repoVisite.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
+
+        visita.getPersonePartecipanti().addAll(nuoviPartecipanti);
+        repoVisite.save(visita);
     }
 
     public void aggiungiUtentiPartecipantiAManifestazione(int id, Set<Utente> nuoviPartecipanti) {
-        Manifestazione manifestazione = repoManifestazioni.get(id);
-        if (manifestazione != null) {
-            manifestazione.getPersonePartecipanti().addAll(nuoviPartecipanti);
-        } else {
-            throw new DatiIncorrettiException();
-        }
+        Manifestazione manifestazione =  repoManifestazioni.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
+
+        manifestazione.getPersonePartecipanti().addAll(nuoviPartecipanti);
+        repoManifestazioni.save(manifestazione);
     }
 
     public void aggiungiAziendePartecipantiAManifestazione(int id, Set<Venditore> nuoviPartecipanti) {
-        Manifestazione manifestazione = repoManifestazioni.get(id);
-        if (manifestazione != null) {
-            manifestazione.getAziendePartecipanti().addAll(nuoviPartecipanti);
-        } else {
-            throw new DatiIncorrettiException();
-        }
+        Manifestazione manifestazione =  repoManifestazioni.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
+
+        manifestazione.getAziendePartecipanti().addAll(nuoviPartecipanti);
+        repoManifestazioni.save(manifestazione);
     }
 
     public Set<Utente> visualizzaUtentiPartecipantiAVisita(int id) {
-        Visita visita = repoVisite.get(id);
+        Visita visita = repoVisite.findById(id).orElseThrow(() -> new DatiIncorrettiException());
 
-        if (visita != null) {
-            return visita.getPersonePartecipanti();
-        }
-        throw new DatiIncorrettiException();
+        return visita.getPersonePartecipanti();
+
     }
 
     public Set<Utente> visualizzaUtentiPartecipantiAManifestazione(int id) {
-        Manifestazione manifestazione = repoManifestazioni.get(id);
+        Manifestazione manifestazione = repoManifestazioni.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
 
-        if (manifestazione != null) {
-            return manifestazione.getPersonePartecipanti();
-        }
-        throw new DatiIncorrettiException();
+        return manifestazione.getPersonePartecipanti();
     }
 
     public Set<Venditore> visualizzaAziendePartecipantiAManifestazione(int id) {
-        Manifestazione manifestazione = repoManifestazioni.get(id);
+        Manifestazione manifestazione = repoManifestazioni.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
 
-        if (manifestazione != null) {
-            return manifestazione.getAziendePartecipanti();
-        }
-        throw new DatiIncorrettiException();
+        return manifestazione.getAziendePartecipanti();
     }
 
     public void accettaProposta(int id) {
-        Visita visita = repoVisite.get(id);
-
-        if (visita == null) {
-            throw new DatiIncorrettiException();
-        }
+        Visita visita = repoVisite.findById(id)
+                .orElseThrow(() -> new DatiIncorrettiException());
 
         Proposta proposta = visita.getProposta();
         if (proposta == null) {
@@ -172,35 +168,36 @@ public class EventoService {
 
     }
 
-    public Map<Integer, Visita> getRepoVisite() {
-        return repoVisite;
+    public List<Visita> getRepoVisite() {
+        return repoVisite.findAll();
     }
 
-    public Map<Integer, Manifestazione> getRepoManifestazioni() {
-        return repoManifestazioni;
+    public List<Manifestazione> getRepoManifestazioni() {
+        return repoManifestazioni.findAll();
     }
 
-    public Map<Integer, Visita> getRepoVisiteAccettate() {
-        Map<Integer, Visita> visiteAccettate = new HashMap<>();
-        for (Map.Entry<Integer, Visita> entry : repoVisite.entrySet()) {
-            Visita visita = entry.getValue();
+    public List<Visita> getRepoVisiteAccettate() {
+        List<Visita> visiteAccettate = new ArrayList<>();
+
+        for (Visita visita : repoVisite.findAll()) {
             Proposta proposta = visita.getProposta();
             if (proposta != null && proposta.getStatoAccettazione()) {
-                visiteAccettate.put(entry.getKey(), visita);
+                visiteAccettate.add(visita);
             }
         }
         return visiteAccettate;
     }
 
-    public Map<Integer, Visita> getRepoVisiteNonAccettate() {
-        Map<Integer, Visita> visiteRifiutate = new HashMap<>();
-        for (Map.Entry<Integer, Visita> entry : repoVisite.entrySet()) {
-            Visita visita = entry.getValue();
+    public List<Visita> getRepoVisiteNonAccettate() {
+        List<Visita> visiteRifiutate = new ArrayList<>();
+
+        for (Visita visita : repoVisite.findAll()) {
             Proposta proposta = visita.getProposta();
             if (proposta != null && !proposta.getStatoAccettazione()) {
-                visiteRifiutate.put(entry.getKey(), visita);
+                visiteRifiutate.add(visita);
             }
         }
+
         return visiteRifiutate;
     }
 
