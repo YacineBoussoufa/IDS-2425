@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/marketplace")
 public class MarketplaceController {
 
-    private MarketplaceService ms;
+    private final MarketplaceService ms;
 
     @Autowired
     public MarketplaceController(MarketplaceService ms) {
@@ -25,49 +25,40 @@ public class MarketplaceController {
     /*
      * Ottiene un prodotto in GET con il suo id
      */
-    @RequestMapping(value = "/prodotti/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/contenuti/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getProduct(@PathVariable int id) {
 
         try {
-            Prodotto prodotto = ms.visualizzaProdotto(id);
-            return new ResponseEntity<>(prodotto, HttpStatus.OK);
+            Contenuto contenuto = ms.visualizzaContenuto(id);
+            return new ResponseEntity<>(contenuto, HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    /*
+     * Ottieni la lista dei contenuti in GET
+     */
+    @RequestMapping(value = "/contenuti", method = RequestMethod.GET)
+    public ResponseEntity<Object> getContents() {
+        return new ResponseEntity<>(ms.visualizzaContenuti(), HttpStatus.OK);
     }
 
     /*
      * Ottieni la lista dei prodotti in GET
      */
-    @RequestMapping(value = "/prodotti", method = RequestMethod.GET)
+    @RequestMapping(value = "/contenuti/prodotti", method = RequestMethod.GET)
     public ResponseEntity<Object> getProducts() {
         return new ResponseEntity<>(ms.visualizzaProdotti(), HttpStatus.OK);
     }
 
     /*
-     * Ottiene un prodotto in GET con il suo id
-     */
-    @RequestMapping(value = "/pacchetto/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getPackage(@PathVariable int id) {
-
-        try {
-            Pacchetto pacchetto = ms.visualizzaPacchetto(id);
-            return new ResponseEntity<>(pacchetto, HttpStatus.OK);
-        } catch (ProdottoNonTrovatoException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    /*
      * Ottieni la lista dei pacchetti in GET
      */
-    @RequestMapping(value = "/pacchetti", method = RequestMethod.GET)
+    @RequestMapping(value = "/contenuti/pacchetti", method = RequestMethod.GET)
     public ResponseEntity<Object> getPackages() {
         return new ResponseEntity<>(ms.visualizzaPacchetti(), HttpStatus.OK);
     }
@@ -90,31 +81,14 @@ public class MarketplaceController {
     }
 
     /*
-     * Ottieni la lista dei prodotti di un venditore in GET con il suo username
+     * Ottieni la lista dei contenuti di un venditore in GET con il suo username
      */
-    @RequestMapping(value = "/venditori/{username}/prodotti", method = RequestMethod.GET)
+    @RequestMapping(value = "/venditori/{username}/contenuti", method = RequestMethod.GET)
     public ResponseEntity<Object> getVendorProducts(@PathVariable String username) {
 
         try {
-            List<Prodotto> prodotti = ms.visualizzaProdottiVenditore(username);
+            List<Contenuto> prodotti = ms.visualizzaContenutiVenditore(username);
             return new ResponseEntity<>(prodotti, HttpStatus.OK);
-        } catch (VenditoreNonTrovatoException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    /*
-     * Ottieni la lista dei pacchetti di un venditore in GET con il suo username
-     */
-    @RequestMapping(value = "/venditori/{username}/pacchetti", method = RequestMethod.GET)
-    public ResponseEntity<Object> getVendorPackages(@PathVariable String username) {
-
-        try {
-            List<Pacchetto> pacchetti = ms.visualizzaPacchettiVenditore(username);
-            return new ResponseEntity<>(pacchetti, HttpStatus.OK);
         } catch (VenditoreNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {

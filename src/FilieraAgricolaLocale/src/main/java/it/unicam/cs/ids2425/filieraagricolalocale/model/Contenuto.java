@@ -113,6 +113,10 @@ public abstract class Contenuto {
         this.approvato = true;
     }
 
+    public void pubblica() {
+        statoApprovazione.pubblica();
+    }
+
     public boolean getApprovazione() {
         return approvato;
     }
