@@ -22,7 +22,7 @@ public class ProdottoController {
    private final ProdottoService ps;
 
    //todo gestione diversa di autowired (?)
-   //TODO gestire autorizzazioni per la creazione
+   //TODO gestire autorizzazioni
    ProdottoController(ContenutoRepository contenutoRepository, VenditoreRepository venditoreRepository){
        ps = new ProdottoService(contenutoRepository, venditoreRepository);
        MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati(), new MiddlewarePOI());

@@ -4,6 +4,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -13,7 +15,7 @@ import jakarta.persistence.ManyToMany;
 @DiscriminatorValue("PACCHETTO")
 public class Pacchetto extends Contenuto {
 
-   @ManyToMany
+   @ManyToMany(cascade = CascadeType.ALL)
    private Set<Prodotto> listaProdotti;
 
    /**
@@ -41,6 +43,32 @@ public class Pacchetto extends Contenuto {
    
    public void rimuoviProdotto(Prodotto p){
       this.listaProdotti.remove(p);
+   }
+
+   @Override
+   public void approva() {
+      for (Prodotto p : listaProdotti) {
+
+         if (p.getStato() instanceof InConvalida)  {
+            p.approva();
+         } else {
+            throw new DatiIncorrettiException("Non si può approvare un pacchetto con prodotti bozza.");
+         }
+
+      }
+
+      super.approva();
+   }
+
+   @Override
+   public void pubblica() {
+      for (Prodotto p : listaProdotti) {
+         if (p.getStato() instanceof Bozza)  {
+            p.pubblica();
+         }
+      }
+
+      super.pubblica();
    }
 
    @Override
