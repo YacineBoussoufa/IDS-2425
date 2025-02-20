@@ -2,6 +2,9 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.util.ContenutoDeserializer;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
@@ -19,6 +22,7 @@ import jakarta.persistence.Transient;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
+@JsonDeserialize(using = ContenutoDeserializer.class)
 public abstract class Contenuto {
 
     @Id
@@ -158,11 +162,5 @@ public abstract class Contenuto {
     }
 
     public abstract Contenuto setModifiche(Contenuto contenuto);
-
-
-    /**
-     * @return
-     */
-    //TipoContenuto getTipoContenuto();
 
 }

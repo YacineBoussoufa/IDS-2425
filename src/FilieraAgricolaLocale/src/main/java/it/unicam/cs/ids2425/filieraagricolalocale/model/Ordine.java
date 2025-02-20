@@ -42,6 +42,7 @@ public class Ordine {
    public Ordine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Utente u, Indirizzo i, Pagamento m) {
       this.dataCreazione = dataCreazione;
       this.lineeOrdine = new LinkedList<>();
+      //TODO check this (maybe outside in the service)
       for (Contenuto p : mappaProdotti.keySet()) {
          this.lineeOrdine.add(new LineaOrdine(p, this, mappaProdotti.get(p)));
       }

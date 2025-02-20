@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +29,18 @@ public class AccountController {
    
    private UserService uService;
 
-   AccountController(){
-      this.uService = new UserService();
+   @Autowired
+   AccountController(UserService s){
+      this.uService = s;
       MiddlewareUtente m = MiddlewareUtente.link(new MiddlewareUsername(uService));
       this.uService.setMiddleware(m);
       List<RuoloUtente> l = new LinkedList<>();
       l.add(RuoloUtente.Animatore);
       l.add(RuoloUtente.Curatore);
       this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", l));
+      List<RuoloVenditore> lv = new LinkedList<>();
+      lv.add(RuoloVenditore.Produttore);
+      this.uService.creaVenditore("La Tana", "123", "key", "123", lv, "grossa fabbrica", null);
    }
 
    /*

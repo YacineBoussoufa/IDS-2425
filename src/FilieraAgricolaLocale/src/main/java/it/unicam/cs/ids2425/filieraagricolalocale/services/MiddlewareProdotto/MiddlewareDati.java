@@ -1,8 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.TipoPOI;
 
 public class MiddlewareDati extends MiddlewareProdotto {
 
