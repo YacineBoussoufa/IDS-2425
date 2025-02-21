@@ -13,11 +13,11 @@ public class LineaOrdine {
    private int id;
 
    @ManyToOne
-   private final Contenuto prodotto;
+   private Contenuto prodotto;
 
    @ManyToOne
    @JsonBackReference
-   private final Ordine ordine;
+   private Ordine ordine;
 
    private int quantita;
 
@@ -25,6 +25,9 @@ public class LineaOrdine {
       this.prodotto = prodotto;
       this.ordine = ordine;
       this.quantita = quantita;
+   }
+
+   public LineaOrdine() {
    }
 
    public int getId() {

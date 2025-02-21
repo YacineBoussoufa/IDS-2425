@@ -38,11 +38,12 @@ public class OrdineService {
    }
 
    public void creaOrdine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Utente u, Indirizzo i, Pagamento m){
-  
-      if(!middlewareHead.check(dataCreazione, mappaProdotti, u, i, m)){
+
+      Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i, m);
+      if(!middlewareHead.check(o)){
          throw new DatiIncorrettiException("Errore nella creazione ordine");
       }
-      Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i, m);
+      
       ordineRepository.save(o);
    }
 

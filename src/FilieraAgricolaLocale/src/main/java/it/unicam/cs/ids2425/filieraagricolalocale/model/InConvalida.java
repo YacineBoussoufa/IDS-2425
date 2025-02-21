@@ -7,7 +7,7 @@ public class InConvalida extends StatoApprovazione {
     }
 
     @Override
-    Stato statoToString() {
+    public Stato statoToString() {
         return Stato.INCONVALIDA;
     }
 

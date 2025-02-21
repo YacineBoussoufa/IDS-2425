@@ -12,6 +12,6 @@ public class AccountExceptionController {
 
    @ExceptionHandler(value = DatiIncorrettiException.class)
    public ResponseEntity<Object> exception(DatiIncorrettiException exception) {
-       return new ResponseEntity<>("Account non trovato", HttpStatus.NOT_FOUND);
+       return new ResponseEntity<>("Errore presente nei dati inviati", HttpStatus.NOT_FOUND);
    }
 }

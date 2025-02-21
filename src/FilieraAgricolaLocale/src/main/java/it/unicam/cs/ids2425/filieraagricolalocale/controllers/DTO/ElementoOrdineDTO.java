@@ -6,10 +6,19 @@ public class ElementoOrdineDTO {
    
    private int quantita;
    private Contenuto p;
-   
-   public ElementoOrdineDTO(int quantita, Contenuto p) {
+   private int id;
+
+ 
+   public ElementoOrdineDTO(int quantita, Contenuto p, int id) {
       this.quantita = quantita;
       this.p = p;
+      this.id = id;
+   }
+   public int getId() {
+      return id;
+   }
+   public void setId(int id) {
+      this.id = id;
    }
    public int getQuantita() {
       return quantita;

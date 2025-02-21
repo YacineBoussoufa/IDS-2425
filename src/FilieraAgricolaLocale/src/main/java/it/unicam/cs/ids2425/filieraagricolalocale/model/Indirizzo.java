@@ -27,6 +27,10 @@ public class Indirizzo {
       this.dettagli = dettagli;
    }
 
+   public Indirizzo (){
+      
+   }
+
    public int getId() {
       return id;
    }
