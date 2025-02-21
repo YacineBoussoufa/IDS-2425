@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers.security;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -52,5 +53,11 @@ public class WebSecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance(); // Permette di usare password in chiaro
 	}
+
+	@Bean
+	public UserDetailsService userDetailsService(UserService userService) {
+		return new MyUserDetails(userService);
+	}
+
 
 }

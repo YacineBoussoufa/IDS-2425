@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
 public class MyUserDetails implements UserDetailsService{
 
@@ -25,6 +26,7 @@ public class MyUserDetails implements UserDetailsService{
       this.userService = uS;
    }
 
+   @Transactional
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
       Utente user = userService.getUtente(username);
