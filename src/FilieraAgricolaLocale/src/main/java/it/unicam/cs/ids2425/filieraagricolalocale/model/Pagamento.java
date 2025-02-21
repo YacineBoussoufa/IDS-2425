@@ -20,6 +20,10 @@ public class Pagamento {
       this.cvv = cvv;
    }
    
+   public Pagamento (){
+      
+   }
+
    public String getNumeroCarta() {
       return numeroCarta;
    }

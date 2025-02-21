@@ -25,9 +25,11 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareIndirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareOrdine;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewarePagamento;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewarePubblicato;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareQuantita;
 
 @RestController
@@ -36,13 +38,16 @@ public class OrdineController {
 
    private OrdineService oService;
    private MarketplaceService mService;
+   private ProdottoService pService;
    
    @Autowired
-   OrdineController(OrdineService oS, MarketplaceService mS){
+   OrdineController(OrdineService oS, MarketplaceService mS, ProdottoService pS){
       // TODO fixare questa responsabilita'
       this.mService = mS;
       this.oService = oS;
-      MiddlewareOrdine m = MiddlewareOrdine.link(new MiddlewareIndirizzo(), new MiddlewarePagamento(), new MiddlewareQuantita(mService));
+      this.pService = pS;
+      MiddlewareOrdine m = MiddlewareOrdine.link(new MiddlewareIndirizzo(), new MiddlewarePagamento(), 
+      new MiddlewareQuantita(mService, pService), new MiddlewarePubblicato(mService));
       this.oService.setMiddleware(m);
 
    }
@@ -55,6 +60,8 @@ public class OrdineController {
       
       Map<Contenuto, Integer> mappa = new HashMap<>();
       for (ElementoOrdineDTO elementoOrdineDTO : d.getLinee()) {
+         elementoOrdineDTO.getP().setId(elementoOrdineDTO.getId());
+         System.out.println(elementoOrdineDTO.getP().getId());
          mappa.put(elementoOrdineDTO.getP(), elementoOrdineDTO.getQuantita());
       }
       oService.creaOrdine(d.getD(), mappa, d.getU(), d.getI(), d.getM());;

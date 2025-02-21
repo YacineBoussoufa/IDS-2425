@@ -7,7 +7,7 @@ public class Bozza extends StatoApprovazione {
     }
 
     @Override
-    Stato statoToString() {
+    public Stato statoToString() {
         return Stato.BOZZA;
     }
 

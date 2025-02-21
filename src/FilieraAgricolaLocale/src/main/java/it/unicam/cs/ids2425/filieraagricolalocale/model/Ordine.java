@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,22 +23,22 @@ public class Ordine {
    
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
-   private final int id;
-   private final Date dataCreazione;
+   private int id;
+   private Date dataCreazione;
    private Date dataDiConsegna; // stimata
 
-   @OneToMany
+   @OneToMany(cascade = CascadeType.ALL)
    @JsonManagedReference
-   private final List<LineaOrdine> lineeOrdine;
+   private List<LineaOrdine> lineeOrdine;
 
    @ManyToOne
    private Utente user;
 
-   @OneToOne
+   @OneToOne(cascade = CascadeType.ALL)
    private Indirizzo indirizzo;
 
-   @OneToOne
-   private final Pagamento metodo;
+   @OneToOne(cascade = CascadeType.ALL)
+   private Pagamento metodo;
 
    public Ordine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Utente u, Indirizzo i, Pagamento m) {
       this.dataCreazione = dataCreazione;
@@ -50,7 +51,10 @@ public class Ordine {
       this.indirizzo = i;
       this.dataDiConsegna = Date.from(Instant.now().plus(Duration.ofDays(7)));
       this.metodo = m;
-      this.id = 0;
+   }
+
+   public Ordine () {
+
    }
 
    public Pagamento getMetodo() {

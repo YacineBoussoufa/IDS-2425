@@ -4,6 +4,8 @@ import java.util.Date;
 
 public interface ContenutoBuilder {
 
+   ContenutoBuilder setId(int id);
+   int getId();
    ContenutoBuilder setNome(String nome);
    String getNome();
    ContenutoBuilder setDescrizione(String descrizione);

@@ -2,29 +2,25 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.LineaOrdine;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Ordine;
-
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Stato;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 
-public class MiddlewareQuantita extends MiddlewareOrdine {
+public class MiddlewarePubblicato extends MiddlewareOrdine {
 
    private MarketplaceService marketplaceService;
-   private ProdottoService prodottoService;
 
-   public MiddlewareQuantita(MarketplaceService p, ProdottoService ps){
+   public MiddlewarePubblicato(MarketplaceService p){
       this.marketplaceService = p;
-      this.prodottoService = ps;
    }
 
    @Override
   
    public boolean check(Ordine o) {
       for (LineaOrdine p : o.getArticoli()) {
-
-         if(marketplaceService.visualizzaContenuto(p.getProdotto().getId()).getQuantita() < p.getQuantita())
+        
+         if(marketplaceService.visualizzaContenuto(p.getProdotto().getId()).getStato().statoToString() != Stato.PUBBLICATO)
             return false;
 
-         prodottoService.restock(p.getProdotto().getId(), -(p.getQuantita()));
       }
       return checkNext(o);
    }

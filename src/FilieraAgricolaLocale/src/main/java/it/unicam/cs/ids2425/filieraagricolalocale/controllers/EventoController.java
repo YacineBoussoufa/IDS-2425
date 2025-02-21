@@ -30,31 +30,31 @@ public class EventoController {
 
         //Todo: TEST
 
-        es.aggiungiEventoV(
-                new VisitaBuilder().setNome("Test").setDescrizione("Test")
-                        .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
-                        .setProposta(new Proposta(null, null,null))
-                        .setData(Date.from(Instant.now()))
-                        .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
-                                "animatoreTest", "password", null))
-                        .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
-                                        "test", null)))
-                        .build()
-        );
+        // es.aggiungiEventoV(
+        //         new VisitaBuilder().setNome("Test").setDescrizione("Test")
+        //                 .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
+        //                 .setProposta(new Proposta(null, null,null))
+        //                 .setData(Date.from(Instant.now()))
+        //                 .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
+        //                         "animatoreTest", "password", null))
+        //                 .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
+        //                                 "test", null)))
+        //                 .build()
+        // );
 
-        es.aggiungiEventoM(
-                new ManifestazioneBuilder().setNome("Test").setDescrizione("Test")
-                        .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
-                        .setData(Date.from(Instant.now()))
-                        .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
-                                "animatoreTest", "password", null))
-                        .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
-                                "test", null)))
-                        .setAziendePartecipanti(Set.of(new Venditore("Test Azienda", "PIVA", "usernameAzienda", "passwordAzienda"
-                        , null, "Azienda di Test", new POI(0,0,0,TipoPOI.Azienda)
-                        )))
-                        .build()
-        );
+        // es.aggiungiEventoM(
+        //         new ManifestazioneBuilder().setNome("Test").setDescrizione("Test")
+        //                 .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
+        //                 .setData(Date.from(Instant.now()))
+        //                 .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
+        //                         "animatoreTest", "password", null))
+        //                 .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
+        //                         "test", null)))
+        //                 .setAziendePartecipanti(Set.of(new Venditore("Test Azienda", "PIVA", "usernameAzienda", "passwordAzienda"
+        //                 , null, "Azienda di Test", new POI(0,0,0,TipoPOI.Azienda)
+        //                 )))
+        //                 .build()
+        // );
 
     }
 
