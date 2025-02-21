@@ -32,7 +32,7 @@ public class AccountController {
       MiddlewareUtente m = MiddlewareUtente.link(new MiddlewareUsername(uService));
       this.uService.setMiddleware(m);
       List<RuoloUtente> l = new LinkedList<>();
-      l.add(RuoloUtente.Animatore);
+      l.add(RuoloUtente.Gestore);
       l.add(RuoloUtente.Curatore);
       this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", l));
       List<RuoloVenditore> lv = new LinkedList<>();
