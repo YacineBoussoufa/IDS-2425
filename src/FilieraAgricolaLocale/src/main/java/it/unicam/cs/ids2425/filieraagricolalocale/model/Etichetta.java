@@ -24,6 +24,10 @@ public class Etichetta {
         this.tipo = t;
     }
 
+    public Etichetta() {
+
+    }
+
     public TipoEtichetta getTipo() {
         return tipo;
     }

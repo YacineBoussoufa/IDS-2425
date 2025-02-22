@@ -73,6 +73,8 @@ public class ProdottoService {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
 
+        //per impedire la duplicazione
+        this.eliminaContenuto(id);
         repoProdotti.save(nuovo);
     }
 

@@ -13,13 +13,8 @@ import java.util.*;
 @Service
 public class EventoService {
 
-    //private Map<Integer, Visita> repoVisite = new HashMap<>();
-    //private Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
-
-    private VisitaRepository repoVisite;
-    private ManifestazioneRepository repoManifestazioni;
-    private int idCounterVisite = 0;
-    private int idCounterManifestazioni = 0;
+    private final VisitaRepository repoVisite;
+    private final ManifestazioneRepository repoManifestazioni;
     private MiddlewareEvento middleware;
 
     @Autowired

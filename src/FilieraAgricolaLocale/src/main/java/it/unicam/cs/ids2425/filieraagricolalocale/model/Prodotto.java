@@ -64,16 +64,16 @@ public class Prodotto extends Contenuto {
 
             builder.setNome(modifiche.getNome() == null ? getNome() : modifiche.getNome());
             builder.setDescrizione(modifiche.getDescrizione() == null ? getDescrizione() : modifiche.getDescrizione());
-            builder.setPrezzo(modifiche.getPrezzo() == 0 ? getPrezzo() : modifiche.getPrezzo());
-            builder.setQuantita(modifiche.quantita == 0 ? getQuantita() : modifiche.getQuantita());
+            builder.setPrezzo(modifiche.getPrezzo() <= 0 ? getPrezzo() : modifiche.getPrezzo());
+            builder.setQuantita(modifiche.quantita <= 0 ? getQuantita() : modifiche.getQuantita());
             builder.setData(modifiche.getData() == null ? getData() : modifiche.getData());
             builder.setPoi(modifiche.getPoi() == null ? getPoi() : modifiche.getPoi());
             builder.setListaEtichette(modifiche.getListaEtichette().isEmpty() ? getListaEtichette() : modifiche.getListaEtichette());
             builder.setIngredienti(modifiche.getIngredienti().isEmpty() ? getIngredienti() : modifiche.getIngredienti());
 
             //Non è previsto che questi campi mutino
-            builder.setId(getId());
-            builder.setVenditore(getVenditore());
+            builder.setId(this.getId());
+            builder.setVenditore(this.getVenditore());
 
             return builder.build();
         }
