@@ -15,7 +15,7 @@ public class MiddlewareUsername extends MiddlewareUtente {
   
    public boolean check(Account u) {
 
-      if(userS.getUtente(u.getUsername()) != null) return false;
+      if(userS.getAccount(u.getUsername()) != null) return false;
 
       return checkNext(u);
    }

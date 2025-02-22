@@ -27,6 +27,8 @@ public class WebSecurityConfig {
 					.authorizeHttpRequests((requests) -> requests
 							.requestMatchers("/account/listaVenditori").hasRole("Gestore")
 							.requestMatchers("/account/listaUtenti").permitAll()
+							//prova
+							.requestMatchers("/mappa").hasRole("Produttore")
 							.anyRequest().authenticated()
 							// .requestMatchers("/autenticato/").authenticated()
 							// .requestMatchers("/richieste/ruoli/", "/richieste/eliminazione/","/categorie/", "/gestisci/")

@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers.security;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +30,7 @@ public class MyUserDetails implements UserDetailsService{
    @Transactional
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      Utente user = userService.getUtente(username);
+      Account user = userService.getAccount(username);
       if(user==null) throw new UsernameNotFoundException("User not found");
 
       Collection<? extends GrantedAuthority> authorities = user.getListaRuoli().stream()
@@ -40,10 +41,10 @@ public class MyUserDetails implements UserDetailsService{
                 authorities);
    }
 
-   public Utente getCurrentUser() {
+   public Account getCurrentUser() {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String username = authentication.getName();
-      return userService.getUtente(username);
+      return userService.getAccount(username);
    }
    
 }
