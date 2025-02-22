@@ -1,22 +1,26 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Proposta {
 
+    @Id
+    int idVisita;
+
     private boolean statoAccettazione;
+
+    @JsonIgnore
     @ManyToOne
     private Utente animatore;
 
-    @JsonBackReference
-    @Id
     @OneToOne
+    @MapsId
+    @JsonIgnore
     private Visita visita;
+
+    @JsonIgnore
     @ManyToOne
     private Venditore venditore;
 
@@ -24,7 +28,12 @@ public class Proposta {
         this.animatore=animatore;
         this.visita=visita;
         this.venditore = venditore;
+
         this.statoAccettazione=false;
+    }
+
+    public Proposta() {
+
     }
 
     public boolean getStatoAccettazione() {

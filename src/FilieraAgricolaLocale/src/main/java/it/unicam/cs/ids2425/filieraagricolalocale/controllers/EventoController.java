@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
@@ -27,34 +28,6 @@ public class EventoController {
         es = new EventoService(v, m);
         MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
         es.setMiddleware(me);
-
-        //Todo: TEST
-
-        // es.aggiungiEventoV(
-        //         new VisitaBuilder().setNome("Test").setDescrizione("Test")
-        //                 .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
-        //                 .setProposta(new Proposta(null, null,null))
-        //                 .setData(Date.from(Instant.now()))
-        //                 .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
-        //                         "animatoreTest", "password", null))
-        //                 .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
-        //                                 "test", null)))
-        //                 .build()
-        // );
-
-        // es.aggiungiEventoM(
-        //         new ManifestazioneBuilder().setNome("Test").setDescrizione("Test")
-        //                 .setNumeroMaxPartecipanti(10).setPuntoDiInteresse(new POI(0,0,0,TipoPOI.Evento))
-        //                 .setData(Date.from(Instant.now()))
-        //                 .setAnimatore(new Utente("Animatore", "Animatore", Date.from(Instant.now()),
-        //                         "animatoreTest", "password", null))
-        //                 .setPersonePartecipanti(Set.of(new Utente("test","test", Date.from(Instant.now()), "test",
-        //                         "test", null)))
-        //                 .setAziendePartecipanti(Set.of(new Venditore("Test Azienda", "PIVA", "usernameAzienda", "passwordAzienda"
-        //                 , null, "Azienda di Test", new POI(0,0,0,TipoPOI.Azienda)
-        //                 )))
-        //                 .build()
-        // );
 
     }
 
@@ -90,7 +63,9 @@ public class EventoController {
     public ResponseEntity<Object> editVisita(@PathVariable("id") int id, @RequestBody Visita evento) {
         try {
             es.modificaEvento(id, evento);
-            return new ResponseEntity<>("Evento modificato con successo.", HttpStatus.OK);
+            return new ResponseEntity<>("Visita modificata con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -103,7 +78,9 @@ public class EventoController {
     public ResponseEntity<Object> editManifestazione(@PathVariable("id") int id, @RequestBody Manifestazione evento) {
         try {
             es.modificaEvento(id, evento);
-            return new ResponseEntity<>("Evento modificato con successo.", HttpStatus.OK);
+            return new ResponseEntity<>("Manifestazione modificata con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -117,8 +94,10 @@ public class EventoController {
         try {
             es.rimuoviVisita(id);
             return new ResponseEntity<>("Visita eliminata con successo.", HttpStatus.OK);
-        } catch (DatiIncorrettiException e) {
+        } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -144,6 +123,8 @@ public class EventoController {
         try {
             es.accettaProposta(id);
             return new ResponseEntity<>("Proposta della Visita accettata con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -174,17 +155,35 @@ public class EventoController {
 
     @RequestMapping(value = "/utentiPartecipanti/visita/{id}")
     public ResponseEntity<Object> getUtentiPartecipantiAVisita(@PathVariable("id") int id) {
-        return new ResponseEntity<>(es.visualizzaUtentiPartecipantiAVisita(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(es.visualizzaUtentiPartecipantiAVisita(id), HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(value = "/utentiPartecipanti/manifestazione/{id}")
     public ResponseEntity<Object> getUtentiPartecipantiAManifestazione(@PathVariable("id") int id) {
-        return new ResponseEntity<>(es.visualizzaUtentiPartecipantiAManifestazione(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(es.visualizzaUtentiPartecipantiAManifestazione(id), HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(value = "/aziendePartecipanti/manifestazione/{id}")
     public ResponseEntity<Object> getAziendePartecipantiAManifestazione(@PathVariable("id") int id) {
-        return new ResponseEntity<>(es.visualizzaAziendePartecipantiAManifestazione(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(es.visualizzaAziendePartecipantiAManifestazione(id), HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(value = "/aggiungiUtentePartecipante/visita/{id}", method = RequestMethod.PUT)
@@ -192,6 +191,8 @@ public class EventoController {
         try {
             es.aggiungiUtentePartecipanteAVisita(id, user);
             return new ResponseEntity<>("Utente aggiunto con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -205,6 +206,8 @@ public class EventoController {
         try {
             es.aggiungiUtentePartecipanteAManifestazione(id, user);
             return new ResponseEntity<>("Utente aggiunto con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -218,6 +221,8 @@ public class EventoController {
         try {
             es.aggiungiAziendaPartecipanteAManifestazione(id, user);
             return new ResponseEntity<>("Azienda aggiunta con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -231,6 +236,8 @@ public class EventoController {
         try {
             es.aggiungiUtentiPartecipantiAVisita(id, user);
             return new ResponseEntity<>("Utenti aggiunti con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -244,6 +251,8 @@ public class EventoController {
         try {
             es.aggiungiUtentiPartecipantiAManifestazione(id, user);
             return new ResponseEntity<>("Utenti aggiunti con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -257,6 +266,8 @@ public class EventoController {
         try {
             es.aggiungiAziendePartecipantiAManifestazione(id, user);
             return new ResponseEntity<>("Aziende aggiunte con successo.", HttpStatus.OK);
+        } catch (EventoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {

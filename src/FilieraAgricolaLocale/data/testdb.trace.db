@@ -1,0 +1,6 @@
+2025-02-19 20:48:19.594383+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]INFORMATION_SCHEMA.COLUMNS S"; expected "INSERT"; SQL statement:
+INFORMATION_SCHEMA.COLUMNS S [42001-232]
+2025-02-19 20:48:23.123972+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]INFORMATION_SCHEMA.COLUMNS S"; expected "INSERT"; SQL statement:
+INFORMATION_SCHEMA.COLUMNS S [42001-232]

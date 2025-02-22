@@ -12,9 +12,8 @@ public class VisitaBuilder implements EventoBuilder{
     private int numeroMaxPartecipanti;
     private POI puntoDiInteresse;
     private Utente animatore;
-
-    private Set<Utente> personePartecipanti;
-    private Proposta proposta;
+    private Set<Utente> personePartecipanti = new HashSet<>();
+    private Venditore propostaVenditore;
 
     public Visita build() {
         return new Visita(this);
@@ -79,21 +78,17 @@ public class VisitaBuilder implements EventoBuilder{
     }
 
     public VisitaBuilder setPersonePartecipanti(Set<Utente> personePartecipanti) {
-        if (this.personePartecipanti == null) {
-            this.personePartecipanti = new HashSet<>(); // Initialize if null
-        }
-
         this.personePartecipanti.clear();
         this.personePartecipanti.addAll(personePartecipanti);
         return this;
     }
 
-    public Proposta getProposta() {
-        return proposta;
+    public Venditore getPropostaVenditore() {
+        return propostaVenditore;
     }
 
-    public VisitaBuilder setProposta(Proposta proposta) {
-        this.proposta = proposta;
+    public VisitaBuilder setPropostaVenditore(Venditore propostaVenditore) {
+        this.propostaVenditore = propostaVenditore;
         return this;
     }
 
