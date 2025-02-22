@@ -6,6 +6,8 @@ public class MiddlewareDati extends MiddlewareProdotto {
 
     @Override
     public boolean check(Contenuto contenuto) {
+        if (contenuto == null) return false;
+
         if (contenuto.getNome() == null || contenuto.getNome().isEmpty()) return false;
 
         else if (contenuto.getPrezzo() <= 0) return false;
