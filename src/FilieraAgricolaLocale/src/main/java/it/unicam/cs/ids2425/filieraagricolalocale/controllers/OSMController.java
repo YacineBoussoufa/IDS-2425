@@ -19,8 +19,8 @@ public class OSMController {
     private final OSMService os;
 
     @Autowired
-    public OSMController(OSMService os) {
-        this.os = os;
+    public OSMController(InitFacade i) {
+        this.os = i.getOsmS();
     }
 
     @RequestMapping(method = RequestMethod.GET)

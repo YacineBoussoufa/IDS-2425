@@ -3,17 +3,11 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.Set;
 
 @RestController
@@ -23,15 +17,13 @@ public class EventoController {
 
     private EventoService es;
 
-    EventoController(VisitaRepository v, ManifestazioneRepository m) {
+    EventoController(InitFacade i) {
 
-        es = new EventoService(v, m);
-        MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
-        es.setMiddleware(me);
+        es = i.geteS();
 
     }
 
-    @RequestMapping(value = "/visita/crea", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea/visita", method = RequestMethod.POST)
     public ResponseEntity<Object> createVisita(@RequestBody Visita evento) {
 
         try {
@@ -45,7 +37,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/manifestazione/crea", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea/manifestazione", method = RequestMethod.POST)
     public ResponseEntity<Object> createManifestazione(@RequestBody Manifestazione evento) {
 
         try {
@@ -89,7 +81,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/eliminaVisita/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/elimina/visita/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteVisita(@PathVariable("id") int id) {
         try {
             es.rimuoviVisita(id);
@@ -103,7 +95,7 @@ public class EventoController {
         }
     }
 
-    @RequestMapping(value = "/eliminaManifestazione/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/elimina/manifestazione/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteManifestazione(@PathVariable("id") int id) {
 
         try {
@@ -133,7 +125,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/visite/accettate")
+    @RequestMapping(value = "/visite")
     public ResponseEntity<Object> getListaVisiteAccettate() {
         return new ResponseEntity<>(es.getRepoVisiteAccettate(), HttpStatus.OK);
     }
@@ -143,10 +135,12 @@ public class EventoController {
         return new ResponseEntity<>(es.getRepoVisiteNonAccettate(), HttpStatus.OK);
     }
 
+    /*
     @RequestMapping(value = "/visite")
     public ResponseEntity<Object> getListaVisite() {
         return new ResponseEntity<>(es.getRepoVisite(), HttpStatus.OK);
     }
+    */
 
     @RequestMapping(value = "/manifestazioni")
     public ResponseEntity<Object> getListaManifestazioni() {

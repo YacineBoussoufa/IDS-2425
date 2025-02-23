@@ -16,6 +16,7 @@ public class EventoService {
 
     private final VisitaRepository repoVisite;
     private final ManifestazioneRepository repoManifestazioni;
+
     private MiddlewareEvento middleware;
 
     @Autowired
