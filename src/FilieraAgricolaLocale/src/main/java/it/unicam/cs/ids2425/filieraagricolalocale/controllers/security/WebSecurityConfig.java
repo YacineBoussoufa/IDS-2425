@@ -9,12 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,21 +22,29 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 					.authorizeHttpRequests((requests) -> requests
-							.requestMatchers("/account/listaVenditori").hasRole("Gestore")
-							.requestMatchers("/account/listaUtenti").permitAll()
+							// Account Controller
+							.requestMatchers("/account/listaUtenti").hasRole("Gestore")
+							.requestMatchers("/account/eliminaUtente/**").hasRole("Gestore")
+							.requestMatchers("/account/eliminaVenditore/**").hasRole("Gestore")
+							.requestMatchers("/account/modificaUtente/**").hasRole("Gestore")
+							.requestMatchers("/account/modificaVenditore/**").hasRole("Gestore")
+							.requestMatchers("/account/modificaRuoliVenditore/**").hasRole("Gestore")
+							.requestMatchers("/account/modificaRuoliUtente/**").hasRole("Gestore")
+							.requestMatchers("/account/listaVenditori").permitAll()
+							.requestMatchers("/account/ricercaUtente/**").permitAll()
+							.requestMatchers("/account/ricercaVenditore/**").permitAll()
+							.requestMatchers("/account/creaUtente").permitAll()
+							.requestMatchers("/account/creaVenditore").permitAll()
+							// Ordini Controller
+							.requestMatchers("/ordini/creaOrdine").permitAll()
+							.requestMatchers("/ordini/ricercaOrdine/**").permitAll()
+							.requestMatchers("/ordini/ricercaOrdineUtente/**").permitAll()
+							.requestMatchers("/ordini/ricercaOrdineVenditore/**").permitAll()
+							.requestMatchers("/ordini/modificaIndirizzo/**").permitAll()
+							.requestMatchers("/ordini/modificaDataConsegna/**").hasAnyRole("Gestore", "Produttore", "Trasformatore", "Distributore")
 							//prova
 							.requestMatchers("/mappa").hasRole("Produttore")
 							.anyRequest().authenticated()
-							// .requestMatchers("/autenticato/").authenticated()
-							// .requestMatchers("/richieste/ruoli/", "/richieste/eliminazione/","/categorie/", "/gestisci/")
-							// .hasRole("GESTORE_DELLA_PIATTAFORMA")
-							// .requestMatchers("/operatore/", "/categorie").hasAnyRole("PRODUTTORE","TRASFORMATORE","DISTRIBUTORE_DI_TIPICITA")
-							// .requestMatchers("/operatore/produttore").hasRole("PRODUTTORE")
-							// .requestMatchers("/operatore/trasformatore").hasRole("TRASFORMATORE")
-							// .requestMatchers("/operatore/distributore").hasRole("DISTRIBUTORE")
-							// .requestMatchers("/richieste/validazione/").hasRole("CURATORE")
-							// .requestMatchers("/attivita/**").hasRole("ANIMATORE_DELLA_FILIERA")
-							//.anyRequest().authenticated()
 					)
 					.csrf(AbstractHttpConfigurer::disable)
 					.headers(headers -> headers

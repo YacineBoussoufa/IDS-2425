@@ -2,17 +2,11 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.Set;
 
 @RestController
@@ -22,11 +16,9 @@ public class EventoController {
 
     private EventoService es;
 
-    EventoController(VisitaRepository v, ManifestazioneRepository m) {
+    EventoController(InitFacade i) {
 
-        es = new EventoService(v, m);
-        MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
-        es.setMiddleware(me);
+        es = i.geteS();
 
         //Todo: TEST
 

@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import org.springframework.transaction.annotation.Transactional;
 

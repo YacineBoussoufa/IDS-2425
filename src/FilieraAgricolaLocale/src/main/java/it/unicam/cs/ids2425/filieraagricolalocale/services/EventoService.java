@@ -18,8 +18,6 @@ public class EventoService {
 
     private VisitaRepository repoVisite;
     private ManifestazioneRepository repoManifestazioni;
-    private int idCounterVisite = 0;
-    private int idCounterManifestazioni = 0;
     private MiddlewareEvento middleware;
 
     @Autowired

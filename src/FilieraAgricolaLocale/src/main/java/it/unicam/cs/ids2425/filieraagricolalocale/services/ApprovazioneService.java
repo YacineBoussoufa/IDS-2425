@@ -4,6 +4,8 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,7 @@ public class ApprovazioneService {
 
     private final ContenutoRepository repoProdotti;
 
+    @Autowired
     public ApprovazioneService(ContenutoRepository repoProdotti) {
         this.repoProdotti = repoProdotti;
     }

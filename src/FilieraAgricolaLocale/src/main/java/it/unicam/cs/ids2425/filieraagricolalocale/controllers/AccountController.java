@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUsername;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
 
 @RestController
 @RequestMapping("/account")
@@ -27,10 +25,9 @@ public class AccountController {
    private UserService uService;
 
    @Autowired
-   AccountController(UserService s){
-      this.uService = s;
-      MiddlewareUtente m = MiddlewareUtente.link(new MiddlewareUsername(uService));
-      this.uService.setMiddleware(m);
+   AccountController(InitFacade i){
+      this.uService = i.getuS();
+
       List<RuoloUtente> l = new LinkedList<>();
       l.add(RuoloUtente.Gestore);
       l.add(RuoloUtente.Curatore);

@@ -15,8 +15,8 @@ public class ApprovazioneController {
     private final ApprovazioneService as;
 
     @Autowired
-    public ApprovazioneController(ApprovazioneService as) {
-        this.as = as;
+    public ApprovazioneController(InitFacade i) {
+        this.as = i.getaS();
     }
 
     /*

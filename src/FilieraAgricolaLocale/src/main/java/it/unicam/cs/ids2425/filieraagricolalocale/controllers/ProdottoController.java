@@ -4,16 +4,11 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewarePOI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareDati;
 
 @RestController
 @RequestMapping(value = "/gestioneContenuti")
@@ -21,14 +16,10 @@ public class ProdottoController {
    
    private final ProdottoService ps;
 
-   //todo gestione diversa di autowired (?)
    //TODO gestire autorizzazioni
-   ProdottoController(ContenutoRepository contenutoRepository, VenditoreRepository venditoreRepository){
-       ps = new ProdottoService(contenutoRepository, venditoreRepository);
-       MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati(), new MiddlewarePOI());
-       ps.setMiddleware(mp);
-
-   }
+    ProdottoController(InitFacade i){
+       ps = i.getpS();
+    }    
 
    /*
     * Crea un nuovo contenuto passando i valori in POST

@@ -5,6 +5,8 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoE
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -18,6 +20,7 @@ public class OSMService {
     private final ManifestazioneRepository repoManifestazioni;
     private final POIRepository repoPOI;
 
+    @Autowired
     public OSMService(VenditoreRepository repoVenditori, ContenutoRepository repoProdotti,
                       VisitaRepository repoVisite, ManifestazioneRepository repoManifestazioni, POIRepository repoPOI) {
         this.repoVenditori = repoVenditori;

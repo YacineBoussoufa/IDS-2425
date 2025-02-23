@@ -18,8 +18,8 @@ public class MarketplaceController {
     private final MarketplaceService ms;
 
     @Autowired
-    public MarketplaceController(MarketplaceService ms) {
-        this.ms = ms;
+    public MarketplaceController(InitFacade i) {
+        this.ms = i.getmS();
     }
 
     /*
