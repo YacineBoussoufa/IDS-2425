@@ -23,14 +23,18 @@ public class MiddlewareEventoDati extends MiddlewareEvento {
 
         if(evento instanceof Visita) {
             for (Visita eventiEsistenti : eventoService.getRepoVisite()) {
+                if (evento.equals(eventiEsistenti)) continue;
+
                 if (eventiEsistenti.getData().equals(evento.getData()) &&
                         eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
                     return false;
                 }
             }
-        }else if(evento instanceof Manifestazione) {
+        } else if(evento instanceof Manifestazione) {
 
             for (Manifestazione eventiEsistenti : eventoService.getRepoManifestazioni()) {
+                if (evento.equals(eventiEsistenti)) continue;
+
                 if (eventiEsistenti.getData().equals(evento.getData()) &&
                         eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
                     return false;
