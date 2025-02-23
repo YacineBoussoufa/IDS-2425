@@ -4,6 +4,9 @@ import java.util.List;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -129,6 +132,15 @@ public class UserService {
       Venditore s = sellerRepository.findById(i).get();
       s.setListaRuoli(r);
       sellerRepository.save(s);
+   }
+
+   public Account getCurrentUser() {
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+         return null;
+      }
+      String username = authentication.getName();
+      return getAccount(username);
    }
 
 }

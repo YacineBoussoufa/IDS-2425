@@ -42,8 +42,6 @@ public class WebSecurityConfig {
 							.requestMatchers("/ordini/ricercaOrdineVenditore/**").permitAll()
 							.requestMatchers("/ordini/modificaIndirizzo/**").permitAll()
 							.requestMatchers("/ordini/modificaDataConsegna/**").hasAnyRole("Gestore", "Produttore", "Trasformatore", "Distributore")
-							//prova
-							.requestMatchers("/mappa").hasRole("Produttore")
 							// Eventi Controller
 							.requestMatchers("/*/crea").hasRole("Animatore")
 							.requestMatchers("/modifica/**").hasRole("Animatore")
@@ -54,7 +52,15 @@ public class WebSecurityConfig {
 							.requestMatchers("/accettaProposta/visita/*").hasAnyRole("Produttore", "Trasformatore", "Distributore")
 							.requestMatchers("/aggiungi**").hasRole("Animatore")
 							.requestMatchers("/**Partecipanti**").hasRole("Animatore")
-
+							// Prodotto Controller
+							.requestMatchers("/gestioneContenuti/**").hasAnyRole("Produttore", "Trasformatore", "Distributore")
+							// Marketplace Controller
+							.requestMatchers("/marketplace/**").permitAll()
+							// Approvazione Controller
+							.requestMatchers("/richiesta/**").hasAnyRole("Produttore", "Trasformatore", "Distributore")
+							.requestMatchers("/convalida/**").hasRole("Curatore")
+							// OSM Controller
+							.requestMatchers("/mappa/**").permitAll()
 							.anyRequest().authenticated()
 					)
 					.csrf(AbstractHttpConfigurer::disable)

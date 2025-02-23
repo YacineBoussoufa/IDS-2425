@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
@@ -31,6 +32,13 @@ public class ProdottoService {
       this.middlewareHead = m;
     }
 
+    private void controlloAutorizzazione(Contenuto contenuto, Account venditore) {
+        if (!contenuto.getVenditore().equals(venditore)) {
+            throw new NonAutorizzatoException("Il venditore " + venditore.getUsername() + " non può fare operazioni su " +
+                    contenuto.getNome());
+        }
+    }
+
     /**
      * Crea un contenuto e controlla i dati inseriti.
      *
@@ -39,7 +47,9 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     @Transactional
-    public void creaContenuto(Contenuto contenuto) {
+    public void creaContenuto(Contenuto contenuto, Account venditore) {
+
+        controlloAutorizzazione(contenuto, venditore);
 
         if (!middlewareHead.check(contenuto)) {
             throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
@@ -61,9 +71,11 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     @Transactional
-    public void modificaContenuto(int id, Contenuto modifiche) {
+    public void modificaContenuto(int id, Contenuto modifiche, Account venditore) {
         Contenuto attuale = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
+
+        controlloAutorizzazione(modifiche, venditore);
 
         //tutti gli elementi non vuoti (eccetto id e venditore) sono modificati
         Contenuto nuovo = attuale.setModifiche(modifiche);
@@ -74,7 +86,7 @@ public class ProdottoService {
         }
 
         //per impedire la duplicazione
-        this.eliminaContenuto(id);
+        this.eliminaContenuto(id, venditore);
         repoProdotti.save(nuovo);
     }
 
@@ -87,9 +99,11 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException Se l'id non corrisponde a un Contenuto nel sistema.
      */
     @Transactional
-    public void restock(int id, int quantita) {
+    public void restock(int id, int quantita, Account venditore) {
         Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
+
+        controlloAutorizzazione(contenuto, venditore);
 
         int quantitaAttuale = contenuto.getQuantita();
         contenuto.setQuantita(quantitaAttuale + quantita);
@@ -105,9 +119,11 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a un contenuto nel database
      */
     @Transactional
-    public void eliminaContenuto(int id) {
+    public void eliminaContenuto(int id, Account venditore) {
         Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
+
+        controlloAutorizzazione(contenuto, venditore);
 
         repoProdotti.delete(contenuto);
     }

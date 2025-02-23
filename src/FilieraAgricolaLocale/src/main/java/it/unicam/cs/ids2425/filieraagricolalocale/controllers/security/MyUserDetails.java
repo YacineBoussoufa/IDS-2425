@@ -39,11 +39,11 @@ public class MyUserDetails implements UserDetailsService{
                 user.getPassword(),
                 authorities);
    }
-
+   /*
    public Account getCurrentUser() {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String username = authentication.getName();
       return userService.getAccount(username);
    }
-   
+   */
 }

@@ -24,7 +24,7 @@ public class MiddlewareQuantita extends MiddlewareOrdine {
          if(marketplaceService.visualizzaContenuto(p.getProdotto().getId()).getQuantita() < p.getQuantita())
             return false;
 
-         prodottoService.restock(p.getProdotto().getId(), -(p.getQuantita()));
+         prodottoService.restock(p.getProdotto().getId(), -(p.getQuantita()), p.getProdotto().getVenditore());
       }
       return checkNext(o);
    }

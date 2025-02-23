@@ -1,9 +1,11 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +17,12 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
 public class ProdottoController {
    
    private final ProdottoService ps;
+   private final UserService us;
 
    //TODO gestire autorizzazioni
     ProdottoController(InitFacade i){
        ps = i.getpS();
+       us = i.getuS();
     }    
 
    /*
@@ -27,11 +31,15 @@ public class ProdottoController {
    @RequestMapping(value = "/contenuto/crea", method = RequestMethod.POST)
    public ResponseEntity<Object> createContent(@RequestBody Contenuto contenuto) {
 
+
        try {
-           ps.creaContenuto(contenuto);
+           Account account = us.getCurrentUser();
+           ps.creaContenuto(contenuto, account);
            return new ResponseEntity<>("Contenuto creato con successo.", HttpStatus.CREATED);
        } catch (DatiIncorrettiException e) {
            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+       } catch (NonAutorizzatoException e) {
+           return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
        } catch (Exception e) {
            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
        }
@@ -45,12 +53,15 @@ public class ProdottoController {
     public ResponseEntity<Object> editContent(@PathVariable int id, @RequestBody Contenuto contenuto) {
 
         try {
-            ps.modificaContenuto(id, contenuto);
+            Account account = us.getCurrentUser();
+            ps.modificaContenuto(id, contenuto, account);
             return new ResponseEntity<>("Contenuto modificato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NonAutorizzatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -63,10 +74,13 @@ public class ProdottoController {
     public ResponseEntity<Object> deleteContent(@RequestBody @PathVariable int id) {
 
         try {
-            ps.eliminaContenuto(id);
+            Account account = us.getCurrentUser();
+            ps.eliminaContenuto(id, account);
             return new ResponseEntity<>("Contenuto eliminato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (NonAutorizzatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -83,6 +97,8 @@ public class ProdottoController {
             return new ResponseEntity<>(ps.generaLinkSocial(site, id), HttpStatus.OK);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (NonAutorizzatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -96,10 +112,13 @@ public class ProdottoController {
     public ResponseEntity<Object> restock(@PathVariable int id, @RequestBody int quantita) {
 
         try {
-            ps.restock(id, quantita);
+            Account account = us.getCurrentUser();
+            ps.restock(id, quantita, account);
             return new ResponseEntity<>("Contenuto restock con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (NonAutorizzatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
