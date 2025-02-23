@@ -50,7 +50,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/visita/crea", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea/visita", method = RequestMethod.POST)
     public ResponseEntity<Object> createVisita(@RequestBody Visita evento) {
 
         try {
@@ -64,7 +64,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/manifestazione/crea", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea/manifestazione", method = RequestMethod.POST)
     public ResponseEntity<Object> createManifestazione(@RequestBody Manifestazione evento) {
 
         try {
@@ -104,7 +104,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/eliminaVisita/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/elimina/visita/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteVisita(@PathVariable("id") int id) {
         try {
             es.rimuoviVisita(id);
@@ -116,7 +116,7 @@ public class EventoController {
         }
     }
 
-    @RequestMapping(value = "/eliminaManifestazione/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/elimina/manifestazione/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteManifestazione(@PathVariable("id") int id) {
 
         try {
@@ -144,7 +144,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/visite/accettate")
+    @RequestMapping(value = "/visite")
     public ResponseEntity<Object> getListaVisiteAccettate() {
         return new ResponseEntity<>(es.getRepoVisiteAccettate(), HttpStatus.OK);
     }
@@ -154,10 +154,12 @@ public class EventoController {
         return new ResponseEntity<>(es.getRepoVisiteNonAccettate(), HttpStatus.OK);
     }
 
+    /*
     @RequestMapping(value = "/visite")
     public ResponseEntity<Object> getListaVisite() {
         return new ResponseEntity<>(es.getRepoVisite(), HttpStatus.OK);
     }
+    */
 
     @RequestMapping(value = "/manifestazioni")
     public ResponseEntity<Object> getListaManifestazioni() {

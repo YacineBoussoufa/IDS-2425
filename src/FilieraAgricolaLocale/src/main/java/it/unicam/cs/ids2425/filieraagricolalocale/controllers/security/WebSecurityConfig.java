@@ -44,6 +44,17 @@ public class WebSecurityConfig {
 							.requestMatchers("/ordini/modificaDataConsegna/**").hasAnyRole("Gestore", "Produttore", "Trasformatore", "Distributore")
 							//prova
 							.requestMatchers("/mappa").hasRole("Produttore")
+							// Eventi Controller
+							.requestMatchers("/*/crea").hasRole("Animatore")
+							.requestMatchers("/modifica/**").hasRole("Animatore")
+							.requestMatchers("/elimina/**").hasRole("Animatore")
+							.requestMatchers("/visite").permitAll()
+							.requestMatchers("/manifestazioni").permitAll()
+							.requestMatchers("visite/nonAccettate").hasRole("Animatore")
+							.requestMatchers("/accettaProposta/visita/*").hasAnyRole("Produttore", "Trasformatore", "Distributore")
+							.requestMatchers("/aggiungi**").hasRole("Animatore")
+							.requestMatchers("/**Partecipanti**").hasRole("Animatore")
+
 							.anyRequest().authenticated()
 					)
 					.csrf(AbstractHttpConfigurer::disable)
