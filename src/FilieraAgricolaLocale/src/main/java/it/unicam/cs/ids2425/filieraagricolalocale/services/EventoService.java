@@ -157,9 +157,12 @@ public class EventoService {
 
         proposta.setStatoAccettazione(true);
 
+        /* Non togliere il commento (da ricontrollare)
+
         if (!middleware.check(visita)) {
             throw new DatiIncorrettiException();
         }
+        */
 
         repoVisite.save(visita);
 
