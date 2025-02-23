@@ -112,9 +112,10 @@ public class ProdottoService {
         repoProdotti.delete(contenuto);
     }
 
-    //TODO
-    public String generaLinkSocial() {
-        return "";
+    public String generaLinkSocial(String site, int id) {
+        if (repoProdotti.findById(id).isPresent()) {
+            return Social.generateLink(site, id);
+        } else throw new ProdottoNonTrovatoException("Non esiste contenuto con id " + id);
     }
 
 }

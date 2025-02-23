@@ -83,6 +83,22 @@ public class ProdottoController {
     }
 
     /*
+     * Restituisce un link per la condivisione social
+     */
+    @RequestMapping(value = "/contenuto/{id}/condividi", method = RequestMethod.GET)
+    public ResponseEntity<Object> getContent(@PathVariable int id, @RequestBody String site) {
+
+        try {
+            return new ResponseEntity<>(ps.generaLinkSocial(site, id), HttpStatus.OK);
+        } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    /*
      * Aggiunge quantità ad un contenuto
      */
     @RequestMapping(value = "/restock/{id}", method = RequestMethod.PUT)
