@@ -44,4 +44,8 @@ public class Visita extends EventoAbstract {
         this.personePartecipanti = personePartecipanti;
     }
 
+    public int getNumeroPartecipanti() {
+        return personePartecipanti.size();
+    }
+
 }
