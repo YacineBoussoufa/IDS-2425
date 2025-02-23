@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
@@ -17,14 +18,14 @@ public class Visita extends EventoAbstract {
     private Set<Utente> personePartecipanti;
 
     @JsonManagedReference
-    @OneToOne
+    @OneToOne(mappedBy = "visita", cascade = CascadeType.ALL)
     private final Proposta proposta;
 
     public Visita(VisitaBuilder builder) {
         super(builder);
 
         this.personePartecipanti = builder.getPersonePartecipanti();
-        this.proposta = builder.getProposta();
+        this.proposta = new Proposta(getAnimatore(), this, builder.getPropostaVenditore());
     }
 
     public Visita() {

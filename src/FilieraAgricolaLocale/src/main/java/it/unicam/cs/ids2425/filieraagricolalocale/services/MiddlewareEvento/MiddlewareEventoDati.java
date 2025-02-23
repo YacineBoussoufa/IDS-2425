@@ -21,38 +21,20 @@ public class MiddlewareEventoDati extends MiddlewareEvento {
         if (evento.getPuntoDiInteresse() == null) return false;
         if (evento.getNumeroMaxPartecipanti() <= 0) return false;
 
-        /*final Map<Integer, Visita> eventiVisita = eventoService.getRepoVisite();
-        final Map<Integer, Manifestazione> eventiManifestazione = eventoService.getRepoManifestazioni();
-
-        if(evento instanceof Visita) {
-            for (Visita eventiEsistenti : eventiVisita.values()) {
-                if (eventiEsistenti.getData().equals(evento.getData()) &&
-                        eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
-                    return false;
-                }
-            }
-        }
-        else if(evento instanceof Manifestazione) {
-            for (Manifestazione eventiEsistenti : eventiManifestazione.values()) {
-                if (eventiEsistenti.getData().equals(evento.getData()) &&
-                        eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
-                    return false;
-                }
-            }
-        }
-        else
-            return false;*/
-
         if(evento instanceof Visita) {
             for (Visita eventiEsistenti : eventoService.getRepoVisite()) {
+                if (evento.equals(eventiEsistenti)) continue;
+
                 if (eventiEsistenti.getData().equals(evento.getData()) &&
                         eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
                     return false;
                 }
             }
-        }else if(evento instanceof Manifestazione) {
+        } else if(evento instanceof Manifestazione) {
 
             for (Manifestazione eventiEsistenti : eventoService.getRepoManifestazioni()) {
+                if (evento.equals(eventiEsistenti)) continue;
+
                 if (eventiEsistenti.getData().equals(evento.getData()) &&
                         eventiEsistenti.getPuntoDiInteresse().equals(evento.getPuntoDiInteresse())) {
                     return false;

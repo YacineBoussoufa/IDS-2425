@@ -73,6 +73,8 @@ public class ProdottoService {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
 
+        //per impedire la duplicazione
+        this.eliminaContenuto(id);
         repoProdotti.save(nuovo);
     }
 
@@ -110,9 +112,10 @@ public class ProdottoService {
         repoProdotti.delete(contenuto);
     }
 
-    //TODO
-    public String generaLinkSocial() {
-        return "";
+    public String generaLinkSocial(String site, int id) {
+        if (repoProdotti.findById(id).isPresent()) {
+            return Social.generateLink(site, id);
+        } else throw new ProdottoNonTrovatoException("Non esiste contenuto con id " + id);
     }
 
 }

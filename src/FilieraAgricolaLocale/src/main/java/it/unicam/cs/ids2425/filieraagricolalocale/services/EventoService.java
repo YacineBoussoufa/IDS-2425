@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
@@ -13,11 +14,9 @@ import java.util.*;
 @Service
 public class EventoService {
 
-    //private Map<Integer, Visita> repoVisite = new HashMap<>();
-    //private Map<Integer, Manifestazione> repoManifestazioni = new HashMap<>();
+    private final VisitaRepository repoVisite;
+    private final ManifestazioneRepository repoManifestazioni;
 
-    private VisitaRepository repoVisite;
-    private ManifestazioneRepository repoManifestazioni;
     private MiddlewareEvento middleware;
 
     @Autowired
@@ -53,11 +52,11 @@ public class EventoService {
     public void modificaEvento(int id, EventoAbstract eventoModificato) {
 
         if ((repoManifestazioni.findById(id).isEmpty()) && (repoVisite.findById(id).isEmpty())) {
-            throw new DatiIncorrettiException();
+            throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
         }
 
         if (!middleware.check(eventoModificato)) {
-            throw new DatiIncorrettiException();
+            throw new DatiIncorrettiException("Dati dell'evento incorretti");
         }
 
         if(eventoModificato instanceof Visita)
@@ -70,42 +69,42 @@ public class EventoService {
 
     public void rimuoviVisita(int id) {
         if (repoVisite.findById(id).isEmpty()) {
-            throw new DatiIncorrettiException();
+            throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
         }
         repoVisite.deleteById(id);
     }
 
     public void rimuoviManifestazione(int id) {
         if (repoManifestazioni.findById(id).isEmpty()) {
-            throw new DatiIncorrettiException();
+            throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
         }
         repoManifestazioni.deleteById(id);
     }
 
     public void aggiungiUtentePartecipanteAVisita(int id, Utente utente) {
         Visita visita = repoVisite.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
         visita.getPersonePartecipanti().add(utente);
         repoVisite.save(visita);
     }
 
     public void aggiungiUtentePartecipanteAManifestazione(int id, Utente utente) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
         manifestazione.getPersonePartecipanti().add(utente);
         repoManifestazioni.save(manifestazione);
     }
 
     public void aggiungiAziendaPartecipanteAManifestazione(int id, Venditore azienda) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
         manifestazione.getAziendePartecipanti().add(azienda);
         repoManifestazioni.save(manifestazione);
     }
 
     public void aggiungiUtentiPartecipantiAVisita(int id, Set<Utente> nuoviPartecipanti) {
         Visita visita =  repoVisite.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         visita.getPersonePartecipanti().addAll(nuoviPartecipanti);
         repoVisite.save(visita);
@@ -113,7 +112,7 @@ public class EventoService {
 
     public void aggiungiUtentiPartecipantiAManifestazione(int id, Set<Utente> nuoviPartecipanti) {
         Manifestazione manifestazione =  repoManifestazioni.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         manifestazione.getPersonePartecipanti().addAll(nuoviPartecipanti);
         repoManifestazioni.save(manifestazione);
@@ -121,14 +120,14 @@ public class EventoService {
 
     public void aggiungiAziendePartecipantiAManifestazione(int id, Set<Venditore> nuoviPartecipanti) {
         Manifestazione manifestazione =  repoManifestazioni.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         manifestazione.getAziendePartecipanti().addAll(nuoviPartecipanti);
         repoManifestazioni.save(manifestazione);
     }
 
     public Set<Utente> visualizzaUtentiPartecipantiAVisita(int id) {
-        Visita visita = repoVisite.findById(id).orElseThrow(() -> new DatiIncorrettiException());
+        Visita visita = repoVisite.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         return visita.getPersonePartecipanti();
 
@@ -136,21 +135,21 @@ public class EventoService {
 
     public Set<Utente> visualizzaUtentiPartecipantiAManifestazione(int id) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         return manifestazione.getPersonePartecipanti();
     }
 
     public Set<Venditore> visualizzaAziendePartecipantiAManifestazione(int id) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         return manifestazione.getAziendePartecipanti();
     }
 
     public void accettaProposta(int id) {
         Visita visita = repoVisite.findById(id)
-                .orElseThrow(() -> new DatiIncorrettiException());
+                .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
         Proposta proposta = visita.getProposta();
         if (proposta == null) {
@@ -159,10 +158,12 @@ public class EventoService {
 
         proposta.setStatoAccettazione(true);
 
-        /*
         if (!middleware.check(visita)) {
             throw new DatiIncorrettiException();
-        }*/
+        }
+
+
+        repoVisite.save(visita);
 
     }
 

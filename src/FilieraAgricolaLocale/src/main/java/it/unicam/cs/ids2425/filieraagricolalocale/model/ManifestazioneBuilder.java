@@ -13,8 +13,8 @@ public class ManifestazioneBuilder implements EventoBuilder {
     private POI puntoDiInteresse;
     private Utente animatore;
 
-    private Set<Venditore> aziendePartecipanti;
-    private Set<Utente> personePartecipanti;
+    private Set<Venditore> aziendePartecipanti = new HashSet<>();
+    private Set<Utente> personePartecipanti = new HashSet<>();
 
     public Manifestazione build() {
         return new Manifestazione(this);
@@ -80,10 +80,6 @@ public class ManifestazioneBuilder implements EventoBuilder {
     }
 
     public ManifestazioneBuilder setPersonePartecipanti(Set<Utente> personePartecipanti) {
-        if (this.personePartecipanti == null) {
-            this.personePartecipanti = new HashSet<>(); // Initialize if null
-        }
-
         this.personePartecipanti.clear();
         this.personePartecipanti.addAll(personePartecipanti);
         return this;
@@ -94,10 +90,6 @@ public class ManifestazioneBuilder implements EventoBuilder {
     }
 
     public ManifestazioneBuilder setAziendePartecipanti(Set<Venditore> aziendePartecipanti) {
-        if (this.aziendePartecipanti == null) {
-            this.aziendePartecipanti = new HashSet<>(); // Initialize if null
-        }
-
         this.aziendePartecipanti.clear();
         this.aziendePartecipanti.addAll(aziendePartecipanti);
         return this;
