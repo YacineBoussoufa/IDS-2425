@@ -75,8 +75,6 @@ public class ProdottoService {
         Contenuto attuale = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
-        controlloAutorizzazione(modifiche, venditore);
-
         //tutti gli elementi non vuoti (eccetto id e venditore) sono modificati
         Contenuto nuovo = attuale.setModifiche(modifiche);
 
@@ -84,6 +82,8 @@ public class ProdottoService {
         if (!middlewareHead.check(nuovo)) {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
+
+        controlloAutorizzazione(nuovo, venditore);
 
         //per impedire la duplicazione
         this.eliminaContenuto(id, venditore);

@@ -33,7 +33,7 @@ public class ApprovazioneController {
     public ResponseEntity<Object> requestValidation(@PathVariable int id) {
 
         //controllo poco raffinato autorizzazione
-        if (us.getCurrentUser().getUsername().equals(ms.visualizzaContenuto(id).getVenditore().getUsername())) {
+        if (!us.getCurrentUser().getUsername().equals(ms.visualizzaContenuto(id).getVenditore().getUsername())) {
             return new ResponseEntity<>("Accesso al contenuto " + id +" non autorizzato", HttpStatus.UNAUTHORIZED);
         }
 
