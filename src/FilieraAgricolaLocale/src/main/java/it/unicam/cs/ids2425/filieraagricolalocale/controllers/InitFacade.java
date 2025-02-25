@@ -1,16 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.services.ApprovazioneService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.OSMService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareIndirizzo;
@@ -35,10 +29,11 @@ public class InitFacade {
    private final OSMService osmS;
    private final ProdottoService pS;
    private final UserService uS;
+   private final AutorizzazioneService authS;
 
    @Autowired
    public InitFacade(ApprovazioneService aS, EventoService eS, MarketplaceService mS, OrdineService oS, OSMService osmS,
-         ProdottoService pS, UserService uS) {
+         ProdottoService pS, UserService uS, AutorizzazioneService AuthS) {
       this.aS = aS;
       this.eS = eS;
       this.mS = mS;
@@ -46,6 +41,7 @@ public class InitFacade {
       this.osmS = osmS;
       this.pS = pS;
       this.uS = uS;
+      this.authS = AuthS;
       this.initMiddlewareEvento();
       this.initMiddlewareOrdine();
       this.initMiddlewareProdotto();
@@ -93,6 +89,9 @@ public class InitFacade {
    }
    public UserService getuS() {
       return uS;
+   }
+   public AutorizzazioneService getAuthS() {
+      return authS;
    }
 
 }

@@ -5,6 +5,8 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.services.AutorizzazioneService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,15 @@ public class ProdottoController {
    
    private final ProdottoService ps;
    private final UserService us;
+   private final AutorizzazioneService auth;
+   private final MarketplaceService ms;
 
    //TODO gestire autorizzazioni
     ProdottoController(InitFacade i){
        ps = i.getpS();
        us = i.getuS();
+       auth = i.getAuthS();
+       ms = i.getmS();
     }    
 
    /*
@@ -31,10 +37,11 @@ public class ProdottoController {
    @RequestMapping(value = "/contenuto/crea", method = RequestMethod.POST)
    public ResponseEntity<Object> createContent(@RequestBody Contenuto contenuto) {
 
-
        try {
            Account account = us.getCurrentUser();
-           ps.creaContenuto(contenuto, account);
+           auth.controlloAutorizzazioneProdotto(contenuto, account);
+
+           ps.creaContenuto(contenuto);
            return new ResponseEntity<>("Contenuto creato con successo.", HttpStatus.CREATED);
        } catch (DatiIncorrettiException e) {
            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -54,7 +61,10 @@ public class ProdottoController {
 
         try {
             Account account = us.getCurrentUser();
-            ps.modificaContenuto(id, contenuto, account);
+            Contenuto contenutoAttuale = ms.visualizzaContenuto(id);
+            auth.controlloAutorizzazioneProdotto(contenutoAttuale, account);
+
+            ps.modificaContenuto(id, contenuto);
             return new ResponseEntity<>("Contenuto modificato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -75,7 +85,10 @@ public class ProdottoController {
 
         try {
             Account account = us.getCurrentUser();
-            ps.eliminaContenuto(id, account);
+            Contenuto contenuto = ms.visualizzaContenuto(id);
+            auth.controlloAutorizzazioneProdotto(contenuto, account);
+
+            ps.eliminaContenuto(id);
             return new ResponseEntity<>("Contenuto eliminato con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -113,7 +126,10 @@ public class ProdottoController {
 
         try {
             Account account = us.getCurrentUser();
-            ps.restock(id, quantita, account);
+            Contenuto contenuto = ms.visualizzaContenuto(id);
+            auth.controlloAutorizzazioneProdotto(contenuto, account);
+
+            ps.restock(id, quantita);
             return new ResponseEntity<>("Contenuto restock con successo.", HttpStatus.OK);
         } catch (ProdottoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

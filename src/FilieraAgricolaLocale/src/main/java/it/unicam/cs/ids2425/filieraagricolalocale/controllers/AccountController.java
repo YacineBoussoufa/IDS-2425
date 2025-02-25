@@ -7,6 +7,7 @@ import java.util.List;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.AutorizzazioneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,12 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 public class AccountController {
    
    private UserService uService;
+   private AutorizzazioneService auth;
 
    @Autowired
    AccountController(InitFacade i){
       this.uService = i.getuS();
+      this.auth = i.getAuthS();
 
       List<RuoloUtente> l = new LinkedList<>();
       l.add(RuoloUtente.Gestore);
@@ -63,13 +66,12 @@ public class AccountController {
     */
 	@RequestMapping(value = "/eliminaUtente/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<Object> rimuoviUtente(@PathVariable("id") String id) {
-      // check if authorized
-      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
-         if(!uService.getCurrentUser().getUsername().equals(id))
-            throw new NonAutorizzatoException();
-      }
-      uService.rimuoviUtente(id);
-      return new ResponseEntity<>("Utente eliminato con successo", HttpStatus.OK);
+        Account currentAccount = uService.getCurrentUser();
+        Account controlledAccount = uService.getAccount(id);
+        auth.controlloAutorizzazioneAccount(currentAccount, controlledAccount);
+
+        uService.rimuoviUtente(id);
+        return new ResponseEntity<>("Utente eliminato con successo", HttpStatus.OK);
 	}
 	
    /*
@@ -77,12 +79,13 @@ public class AccountController {
     */
 	@RequestMapping(value = "/eliminaVenditore/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<Object> rimuoviVenditore(@PathVariable("id") String id) {
-      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
-         if(!uService.getCurrentUser().getUsername().equals(id))
-            throw new NonAutorizzatoException();
-      }
-      uService.rimuoviVenditore(id);
-      return new ResponseEntity<>("Venditore eliminato con successo", HttpStatus.OK);
+
+        Account currentAccount = uService.getCurrentUser();
+        Account controlledAccount = uService.getAccount(id);
+        auth.controlloAutorizzazioneAccount(currentAccount, controlledAccount);
+
+        uService.rimuoviVenditore(id);
+        return new ResponseEntity<>("Venditore eliminato con successo", HttpStatus.OK);
    }
 
    /*
@@ -90,10 +93,11 @@ public class AccountController {
     */
    @RequestMapping(value = "/modificaUtente/{id}", method = RequestMethod.PUT)
       public ResponseEntity<Object> modificaUtente(@PathVariable("id") String id, @RequestBody Utente u) {
-      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
-         if(!uService.getCurrentUser().getUsername().equals(id))
-            throw new NonAutorizzatoException();
-      }
+
+       Account currentAccount = uService.getCurrentUser();
+       Account controlledAccount = uService.getAccount(id);
+       auth.controlloAutorizzazioneAccount(currentAccount, controlledAccount);
+
       uService.modificaUtente(id, u);
       return new ResponseEntity<>("Utente modificato con successo", HttpStatus.OK);
 	}
@@ -103,10 +107,11 @@ public class AccountController {
     */
    @RequestMapping(value = "/modificaVenditore/{id}", method = RequestMethod.PUT)
       public ResponseEntity<Object> modificaVenditore(@PathVariable("id") String id, @RequestBody Venditore u) {
-      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
-         if(!uService.getCurrentUser().getUsername().equals(id))
-            throw new NonAutorizzatoException();
-      }
+
+       Account currentAccount = uService.getCurrentUser();
+       Account controlledAccount = uService.getAccount(id);
+       auth.controlloAutorizzazioneAccount(currentAccount, controlledAccount);
+
       uService.modificaVenditore(id, u);
       return new ResponseEntity<>("Venditore modificato con successo", HttpStatus.OK);
    }

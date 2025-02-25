@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
-import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
@@ -32,13 +31,6 @@ public class ProdottoService {
       this.middlewareHead = m;
     }
 
-    private void controlloAutorizzazione(Contenuto contenuto, Account venditore) {
-        if (!contenuto.getVenditore().equals(venditore)) {
-            throw new NonAutorizzatoException("Il venditore " + venditore.getUsername() + " non può fare operazioni su " +
-                    contenuto.getNome());
-        }
-    }
-
     /**
      * Crea un contenuto e controlla i dati inseriti.
      *
@@ -47,9 +39,7 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     @Transactional
-    public void creaContenuto(Contenuto contenuto, Account venditore) {
-
-        controlloAutorizzazione(contenuto, venditore);
+    public void creaContenuto(Contenuto contenuto) {
 
         if (!middlewareHead.check(contenuto)) {
             throw new DatiIncorrettiException("I dati inseriti non sono accettabili.");
@@ -71,7 +61,7 @@ public class ProdottoService {
      * @throws DatiIncorrettiException se i dati non sono accettati dall'handler
      */
     @Transactional
-    public void modificaContenuto(int id, Contenuto modifiche, Account venditore) {
+    public void modificaContenuto(int id, Contenuto modifiche) {
         Contenuto attuale = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
@@ -83,10 +73,8 @@ public class ProdottoService {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
 
-        controlloAutorizzazione(nuovo, venditore);
-
         //per impedire la duplicazione
-        this.eliminaContenuto(id, venditore);
+        this.eliminaContenuto(id);
         repoProdotti.save(nuovo);
     }
 
@@ -99,11 +87,9 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException Se l'id non corrisponde a un Contenuto nel sistema.
      */
     @Transactional
-    public void restock(int id, int quantita, Account venditore) {
+    public void restock(int id, int quantita) {
         Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
-
-        controlloAutorizzazione(contenuto, venditore);
 
         int quantitaAttuale = contenuto.getQuantita();
         contenuto.setQuantita(quantitaAttuale + quantita);
@@ -119,11 +105,9 @@ public class ProdottoService {
      * @throws ProdottoNonTrovatoException se l'id non è associato a un contenuto nel database
      */
     @Transactional
-    public void eliminaContenuto(int id, Account venditore) {
+    public void eliminaContenuto(int id) {
         Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
-
-        controlloAutorizzazione(contenuto, venditore);
 
         repoProdotti.delete(contenuto);
     }
