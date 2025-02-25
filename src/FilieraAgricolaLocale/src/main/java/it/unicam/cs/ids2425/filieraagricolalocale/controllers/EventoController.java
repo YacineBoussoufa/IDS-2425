@@ -2,18 +2,15 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NumeroMassimoUtentiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.AutorizzazioneService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.Set;
 
 @RestController
@@ -21,17 +18,17 @@ import java.util.Set;
 
 public class EventoController {
 
-    private EventoService es;
+    private final EventoService es;
+    private final UserService us;
+    private final AutorizzazioneService auth;
 
-    EventoController(VisitaRepository v, ManifestazioneRepository m) {
-
-        es = new EventoService(v, m);
-        MiddlewareEvento me = MiddlewareEvento.link(new MiddlewareEventoDati(es));
-        es.setMiddleware(me);
-
+    EventoController(InitFacade i) {
+        es = i.geteS();
+        us = i.getuS();
+        auth = i.getAuthS();
     }
 
-    @RequestMapping(value = "/visita/crea", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea/visita", method = RequestMethod.POST)
     public ResponseEntity<Object> createVisita(@RequestBody Visita evento) {
 
         try {
@@ -45,7 +42,7 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/manifestazione/crea", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea/manifestazione", method = RequestMethod.POST)
     public ResponseEntity<Object> createManifestazione(@RequestBody Manifestazione evento) {
 
         try {
@@ -62,6 +59,9 @@ public class EventoController {
     @RequestMapping(value = "/modifica/visita/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> editVisita(@PathVariable("id") int id, @RequestBody Visita evento) {
         try {
+            Account account = us.getCurrentUser();
+            auth.controlloAutorizzazioneEvento(evento, account);
+
             es.modificaEvento(id, evento);
             return new ResponseEntity<>("Visita modificata con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
@@ -77,6 +77,9 @@ public class EventoController {
     @RequestMapping(value = "/modifica/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> editManifestazione(@PathVariable("id") int id, @RequestBody Manifestazione evento) {
         try {
+            Account account = us.getCurrentUser();
+            auth.controlloAutorizzazioneEvento(evento, account);
+
             es.modificaEvento(id, evento);
             return new ResponseEntity<>("Manifestazione modificata con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
@@ -89,9 +92,13 @@ public class EventoController {
 
     }
 
-    @RequestMapping(value = "/eliminaVisita/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/elimina/visita/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteVisita(@PathVariable("id") int id) {
         try {
+            Account account = us.getCurrentUser();
+            Visita visita = es.getVisita(id);
+            auth.controlloAutorizzazioneEvento(visita, account);
+
             es.rimuoviVisita(id);
             return new ResponseEntity<>("Visita eliminata con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
@@ -103,10 +110,14 @@ public class EventoController {
         }
     }
 
-    @RequestMapping(value = "/eliminaManifestazione/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/elimina/manifestazione/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteManifestazione(@PathVariable("id") int id) {
 
         try {
+            Account account = us.getCurrentUser();
+            Manifestazione manifestazione = es.getManifestazione(id);
+            auth.controlloAutorizzazioneEvento(manifestazione, account);
+
             es.rimuoviManifestazione(id);
             return new ResponseEntity<>("Manifestazione eliminata con successo.", HttpStatus.OK);
         } catch (DatiIncorrettiException e) {
@@ -121,6 +132,10 @@ public class EventoController {
     public ResponseEntity<Object> acceptProposta(@PathVariable("id") int id) {
 
         try {
+            Account account = us.getCurrentUser();
+            Visita visita = es.getVisita(id);
+            auth.controlloAutorizzazioneEvento(visita, account);
+
             es.accettaProposta(id);
             return new ResponseEntity<>("Proposta della Visita accettata con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
@@ -189,13 +204,20 @@ public class EventoController {
     @RequestMapping(value = "/aggiungiUtentePartecipante/visita/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentePartecipanteAVisita(@PathVariable("id") int id, @RequestBody Utente user) {
         try {
+            Account account = us.getCurrentUser();
+            Visita visita = es.getVisita(id);
+            auth.controlloAutorizzazioneEvento(visita, account);
+
             es.aggiungiUtentePartecipanteAVisita(id, user);
             return new ResponseEntity<>("Utente aggiunto con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
+        } catch(NumeroMassimoUtentiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -204,11 +226,17 @@ public class EventoController {
     @RequestMapping(value = "/aggiungiUtentePartecipante/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentePartecipanteAManifestazione(@PathVariable("id") int id, @RequestBody Utente user) {
         try {
+            Account account = us.getCurrentUser();
+            Manifestazione manifestazione = es.getManifestazione(id);
+            auth.controlloAutorizzazioneEvento(manifestazione, account);
+
             es.aggiungiUtentePartecipanteAManifestazione(id, user);
             return new ResponseEntity<>("Utente aggiunto con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(NumeroMassimoUtentiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -219,11 +247,17 @@ public class EventoController {
     @RequestMapping(value = "/aggiungiAziendaPartecipante/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addAziendaPartecipanteAManifestazione(@PathVariable("id") int id, @RequestBody Venditore user) {
         try {
+            Account account = us.getCurrentUser();
+            Manifestazione manifestazione = es.getManifestazione(id);
+            auth.controlloAutorizzazioneEvento(manifestazione, account);
+
             es.aggiungiAziendaPartecipanteAManifestazione(id, user);
             return new ResponseEntity<>("Azienda aggiunta con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(NumeroMassimoUtentiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -234,11 +268,17 @@ public class EventoController {
     @RequestMapping(value = "/aggiungiUtentiPartecipanti/visita/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentiPartecipantiAVisita(@PathVariable("id") int id, @RequestBody Set<Utente> user) {
         try {
+            Account account = us.getCurrentUser();
+            Visita visita = es.getVisita(id);
+            auth.controlloAutorizzazioneEvento(visita, account);
+
             es.aggiungiUtentiPartecipantiAVisita(id, user);
             return new ResponseEntity<>("Utenti aggiunti con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(NumeroMassimoUtentiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -249,11 +289,17 @@ public class EventoController {
     @RequestMapping(value = "/aggiungiUtentiPartecipanti/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addUtentiPartecipantiAManifestazione(@PathVariable("id") int id, @RequestBody Set<Utente> user) {
         try {
+            Account account = us.getCurrentUser();
+            Manifestazione manifestazione = es.getManifestazione(id);
+            auth.controlloAutorizzazioneEvento(manifestazione, account);
+
             es.aggiungiUtentiPartecipantiAManifestazione(id, user);
             return new ResponseEntity<>("Utenti aggiunti con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(NumeroMassimoUtentiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -264,11 +310,17 @@ public class EventoController {
     @RequestMapping(value = "/aggiungiAziendePartecipanti/manifestazione/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> addAziendePartecipantiAManifestazione(@PathVariable("id") int id, @RequestBody Set<Venditore> user) {
         try {
+            Account account = us.getCurrentUser();
+            Manifestazione manifestazione = es.getManifestazione(id);
+            auth.controlloAutorizzazioneEvento(manifestazione, account);
+
             es.aggiungiAziendePartecipantiAManifestazione(id, user);
             return new ResponseEntity<>("Aziende aggiunte con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(NumeroMassimoUtentiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,17 +1,13 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
-
 public class ElementoOrdineDTO {
    
    private int quantita;
-   private Contenuto p;
    private int id;
 
  
-   public ElementoOrdineDTO(int quantita, Contenuto p, int id) {
+   public ElementoOrdineDTO(int quantita, int id) {
       this.quantita = quantita;
-      this.p = p;
       this.id = id;
    }
    public int getId() {
@@ -25,12 +21,6 @@ public class ElementoOrdineDTO {
    }
    public void setQuantita(int quantita) {
       this.quantita = quantita;
-   }
-   public Contenuto getP() {
-      return p;
-   }
-   public void setP(Contenuto p) {
-      this.p = p;
    }
 
    

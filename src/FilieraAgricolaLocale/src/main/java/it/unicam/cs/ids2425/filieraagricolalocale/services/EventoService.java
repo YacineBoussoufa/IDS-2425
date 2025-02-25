@@ -2,6 +2,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NumeroMassimoUtentiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ManifestazioneRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VisitaRepository;
@@ -9,6 +10,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.Midd
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -16,6 +18,7 @@ public class EventoService {
 
     private final VisitaRepository repoVisite;
     private final ManifestazioneRepository repoManifestazioni;
+
     private MiddlewareEvento middleware;
 
     @Autowired
@@ -48,10 +51,18 @@ public class EventoService {
 
     }
 
+    public Visita getVisita(int id) {
+        return repoVisite.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste visita con id " + id));
+    }
+
+    public Manifestazione getManifestazione(int id) {
+        return repoManifestazioni.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste manifestazione con id " + id));
+    }
+
     public void modificaEvento(int id, EventoAbstract eventoModificato) {
 
         if ((repoManifestazioni.findById(id).isEmpty()) && (repoVisite.findById(id).isEmpty())) {
-            throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
+            throw new EventoNonTrovatoException("Non esiste evento con id " + id);
         }
 
         if (!middleware.check(eventoModificato)) {
@@ -83,6 +94,10 @@ public class EventoService {
     public void aggiungiUtentePartecipanteAVisita(int id, Utente utente) {
         Visita visita = repoVisite.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
+
+        if (visita.getNumeroPartecipanti() > visita.getNumeroMaxPartecipanti() )
+            throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+
         visita.getPersonePartecipanti().add(utente);
         repoVisite.save(visita);
     }
@@ -90,6 +105,10 @@ public class EventoService {
     public void aggiungiUtentePartecipanteAManifestazione(int id, Utente utente) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
+
+        if(manifestazione.getNumeroPartecipanti() > manifestazione.getNumeroMaxPartecipanti() )
+            throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+
         manifestazione.getPersonePartecipanti().add(utente);
         repoManifestazioni.save(manifestazione);
     }
@@ -97,6 +116,10 @@ public class EventoService {
     public void aggiungiAziendaPartecipanteAManifestazione(int id, Venditore azienda) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
+
+        if(manifestazione.getNumeroPartecipanti() > manifestazione.getNumeroMaxPartecipanti() )
+            throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+
         manifestazione.getAziendePartecipanti().add(azienda);
         repoManifestazioni.save(manifestazione);
     }
@@ -104,6 +127,9 @@ public class EventoService {
     public void aggiungiUtentiPartecipantiAVisita(int id, Set<Utente> nuoviPartecipanti) {
         Visita visita =  repoVisite.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
+
+        if((visita.getNumeroPartecipanti() + nuoviPartecipanti.size()) > visita.getNumeroMaxPartecipanti() )
+            throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
 
         visita.getPersonePartecipanti().addAll(nuoviPartecipanti);
         repoVisite.save(visita);
@@ -113,6 +139,9 @@ public class EventoService {
         Manifestazione manifestazione =  repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
+        if((manifestazione.getNumeroPartecipanti()+nuoviPartecipanti.size()) > manifestazione.getNumeroMaxPartecipanti() )
+            throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+
         manifestazione.getPersonePartecipanti().addAll(nuoviPartecipanti);
         repoManifestazioni.save(manifestazione);
     }
@@ -120,6 +149,9 @@ public class EventoService {
     public void aggiungiAziendePartecipantiAManifestazione(int id, Set<Venditore> nuoviPartecipanti) {
         Manifestazione manifestazione =  repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
+
+        if((manifestazione.getNumeroPartecipanti()+nuoviPartecipanti.size()) > manifestazione.getNumeroMaxPartecipanti() )
+            throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
 
         manifestazione.getAziendePartecipanti().addAll(nuoviPartecipanti);
         repoManifestazioni.save(manifestazione);
@@ -161,9 +193,7 @@ public class EventoService {
             throw new DatiIncorrettiException();
         }
 
-
         repoVisite.save(visita);
-
     }
 
     public List<Visita> getRepoVisite() {
@@ -171,7 +201,13 @@ public class EventoService {
     }
 
     public List<Manifestazione> getRepoManifestazioni() {
-        return repoManifestazioni.findAll();
+        List<Manifestazione> listaManifestazioni = new ArrayList<>();
+
+        for(Manifestazione manifestazione : repoManifestazioni.findAll())
+            if(manifestazione.getData().after(Date.from(Instant.now())))
+                listaManifestazioni.add(manifestazione);
+
+        return listaManifestazioni;
     }
 
     public List<Visita> getRepoVisiteAccettate() {
@@ -179,7 +215,7 @@ public class EventoService {
 
         for (Visita visita : repoVisite.findAll()) {
             Proposta proposta = visita.getProposta();
-            if (proposta != null && proposta.getStatoAccettazione()) {
+            if (proposta != null && proposta.getStatoAccettazione() && visita.getData().after(Date.from(Instant.now()) )) {
                 visiteAccettate.add(visita);
             }
         }

@@ -42,4 +42,8 @@ public class Manifestazione extends EventoAbstract {
 		this.personePartecipanti = personePartecipanti;
 	}
 
+	public int getNumeroPartecipanti() {
+		return (personePartecipanti.size()+aziendePartecipanti.size());
+	}
+
 }

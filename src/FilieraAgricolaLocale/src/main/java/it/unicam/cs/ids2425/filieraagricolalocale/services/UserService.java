@@ -2,17 +2,17 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import java.util.List;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloVenditore;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.UtenteRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
@@ -99,6 +99,21 @@ public class UserService {
       return sellerRepository.findById(i).orElseGet(() -> null);
    }
 
+   public Account getAccount(String i){
+      Optional<Utente> user = userRepository.findById(i);
+      if (user.isPresent()) {
+         return user.get();
+      }
+
+      Optional<Venditore> seller = sellerRepository.findById(i);
+      if (seller.isPresent()) {
+         return seller.get();
+      }
+
+      return null;
+
+   }
+
    public Iterable<Utente> getElencoUtenti(){
       return userRepository.findAll();
    }
@@ -117,6 +132,15 @@ public class UserService {
       Venditore s = sellerRepository.findById(i).get();
       s.setListaRuoli(r);
       sellerRepository.save(s);
+   }
+
+   public Account getCurrentUser() {
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+         return null;
+      }
+      String username = authentication.getName();
+      return getAccount(username);
    }
 
 }

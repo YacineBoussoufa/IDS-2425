@@ -5,11 +5,11 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovato
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("MarketplaceService")
@@ -18,6 +18,7 @@ public class MarketplaceService {
     private final ContenutoRepository repoProdotti;
     private final VenditoreRepository repoVenditori;
 
+    @Autowired
     public MarketplaceService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
         this.repoProdotti = repoProdotti;
         this.repoVenditori = repoVenditori;
