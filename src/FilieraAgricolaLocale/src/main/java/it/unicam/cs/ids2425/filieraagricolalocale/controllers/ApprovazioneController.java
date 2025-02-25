@@ -3,6 +3,9 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.ApprovazioneService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.ProdottoService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +16,14 @@ public class ApprovazioneController {
 
     //TODO GESTIONE AUTORIZZAZIONI RUOLI
     private final ApprovazioneService as;
+    private final UserService us;
+    private final MarketplaceService ms;
 
     @Autowired
     public ApprovazioneController(InitFacade i) {
         this.as = i.getaS();
+        this.us = i.getuS();
+        this.ms = i.getmS();
     }
 
     /*
@@ -24,6 +31,11 @@ public class ApprovazioneController {
      */
     @RequestMapping(value = "/richiesta/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> requestValidation(@PathVariable int id) {
+
+        //controllo poco raffinato autorizzazione
+        if (!us.getCurrentUser().getUsername().equals(ms.visualizzaContenuto(id).getVenditore().getUsername())) {
+            return new ResponseEntity<>("Accesso al contenuto " + id +" non autorizzato", HttpStatus.UNAUTHORIZED);
+        }
 
         try {
             as.inviaRichiesta(id);

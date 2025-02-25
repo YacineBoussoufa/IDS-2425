@@ -103,4 +103,14 @@ public non-sealed class Venditore implements Account {
 	public void setLocalizzazione(POI Localizzazione) {
 		this.Localizzazione=Localizzazione;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+	   if (o instanceof Venditore venditore) {
+		   //username è la chiave primaria
+		   return venditore.getUsername().equals(this.username);
+	   } else {
+		   return false;
+	   }
+	}
 }
