@@ -10,6 +10,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.Midd
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -192,7 +193,13 @@ public class EventoService {
     }
 
     public List<Manifestazione> getRepoManifestazioni() {
-        return repoManifestazioni.findAll();
+        List<Manifestazione> listaManifestazioni = new ArrayList<>();
+
+        for(Manifestazione manifestazione : repoManifestazioni.findAll())
+            if(manifestazione.getData().after(Date.from(Instant.now())))
+                listaManifestazioni.add(manifestazione);
+
+        return listaManifestazioni;
     }
 
     public List<Visita> getRepoVisiteAccettate() {
@@ -200,7 +207,7 @@ public class EventoService {
 
         for (Visita visita : repoVisite.findAll()) {
             Proposta proposta = visita.getProposta();
-            if (proposta != null && proposta.getStatoAccettazione()) {
+            if (proposta != null && proposta.getStatoAccettazione() && visita.getData().after(Date.from(Instant.now()) )) {
                 visiteAccettate.add(visita);
             }
         }
