@@ -53,7 +53,8 @@ public class WebSecurityConfig {
 							.requestMatchers("/aggiungi**").hasRole("Animatore")
 							.requestMatchers("/**Partecipanti**").hasRole("Animatore")
 							// Prodotto Controller
-							.requestMatchers("/gestioneContenuti/**").hasAnyRole("Produttore", "Trasformatore", "Distributore")
+							.requestMatchers("/gestioneContenuti/contenuto/crea").hasAnyRole("Produttore", "Trasformatore", "Distributore")
+							.requestMatchers("/gestioneContenuti/contenuto").hasAnyRole("Produttore", "Trasformatore", "Distributore", "Gestore")
 							// Marketplace Controller
 							.requestMatchers("/marketplace/**").permitAll()
 							// Approvazione Controller

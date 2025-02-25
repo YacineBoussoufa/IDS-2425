@@ -51,10 +51,18 @@ public class EventoService {
 
     }
 
+    public Visita getVisita(int id) {
+        return repoVisite.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste visita con id " + id));
+    }
+
+    public Manifestazione getManifestazione(int id) {
+        return repoManifestazioni.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste manifestazione con id " + id));
+    }
+
     public void modificaEvento(int id, EventoAbstract eventoModificato) {
 
         if ((repoManifestazioni.findById(id).isEmpty()) && (repoVisite.findById(id).isEmpty())) {
-            throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
+            throw new EventoNonTrovatoException("Non esiste evento con id " + id);
         }
 
         if (!middleware.check(eventoModificato)) {

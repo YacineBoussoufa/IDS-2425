@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.EventoAbstract;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,18 @@ public class AutorizzazioneService {
 
         if (!currentAccount.getUsername().equals(controlledAccount.getUsername())) {
             throw new NonAutorizzatoException("L'account " + currentAccount.getUsername() +
-                    " con cui si ha fatto l'accesso non può cancellare l'account " + controlledAccount.getUsername());
+                    " con cui si è fatto l'accesso non può operare sull'account " + controlledAccount.getUsername());
+        }
+    }
+
+    public void controlloAutorizzazioneEvento(EventoAbstract evento, Account account) {
+        if (account.getListaRuoli().contains(RuoloUtente.Gestore)) {
+            return;
+        }
+
+        if (!account.getUsername().equals(evento.getAnimatore().getUsername())) {
+            throw new NonAutorizzatoException("L'account " + account.getUsername() +
+                    "con cui si è fatto l'accesso non può operare sull'evento di " + evento.getAnimatore().getUsername());
         }
     }
 
