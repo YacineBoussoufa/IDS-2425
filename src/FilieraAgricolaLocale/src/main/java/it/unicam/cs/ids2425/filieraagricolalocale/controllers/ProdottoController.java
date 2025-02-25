@@ -62,6 +62,8 @@ public class ProdottoController {
         try {
             Account account = us.getCurrentUser();
             Contenuto contenutoAttuale = ms.visualizzaContenuto(id);
+            contenuto.setId(id);
+            System.out.println(contenuto.getId());
             auth.controlloAutorizzazioneProdotto(contenutoAttuale, account);
 
             ps.modificaContenuto(id, contenuto);

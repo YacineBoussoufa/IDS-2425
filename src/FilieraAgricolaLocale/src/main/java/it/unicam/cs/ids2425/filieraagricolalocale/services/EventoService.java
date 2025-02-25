@@ -70,11 +70,9 @@ public class EventoService {
         }
 
         if(eventoModificato instanceof Visita) {
-            repoVisite.deleteById(id);
             repoVisite.save((Visita) eventoModificato);
         }
         else if (eventoModificato instanceof Manifestazione) {
-            repoManifestazioni.deleteById(id);
             repoManifestazioni.save((Manifestazione) eventoModificato);
         }
         else

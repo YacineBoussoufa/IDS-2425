@@ -62,7 +62,7 @@ public class EventoController {
         try {
             Account account = us.getCurrentUser();
             auth.controlloAutorizzazioneEvento(evento, account);
-
+            evento.setId(id);
             es.modificaEvento(id, evento);
             return new ResponseEntity<>("Visita modificata con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {
@@ -82,7 +82,7 @@ public class EventoController {
         try {
             Account account = us.getCurrentUser();
             auth.controlloAutorizzazioneEvento(evento, account);
-
+            evento.setId(id);
             es.modificaEvento(id, evento);
             return new ResponseEntity<>("Manifestazione modificata con successo.", HttpStatus.OK);
         } catch (EventoNonTrovatoException e) {

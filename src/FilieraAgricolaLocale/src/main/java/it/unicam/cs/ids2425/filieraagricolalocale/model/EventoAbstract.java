@@ -87,6 +87,10 @@ public abstract class EventoAbstract {
         return this.animatore;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
