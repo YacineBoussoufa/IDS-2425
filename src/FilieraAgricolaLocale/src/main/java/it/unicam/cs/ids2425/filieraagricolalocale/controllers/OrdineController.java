@@ -20,6 +20,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 
@@ -29,11 +30,13 @@ public class OrdineController {
 
    private OrdineService oService;
    private UserService uService;
-   
+   private MarketplaceService mService;
+
    @Autowired
    OrdineController(InitFacade i){
       this.oService = i.getoS();
       this.uService = i.getuS();
+      this.mService = i.getmS();
    }
 
    /*
@@ -44,9 +47,7 @@ public class OrdineController {
       
       Map<Contenuto, Integer> mappa = new HashMap<>();
       for (ElementoOrdineDTO elementoOrdineDTO : d.getLinee()) {
-         elementoOrdineDTO.getP().setId(elementoOrdineDTO.getId());
-         System.out.println(elementoOrdineDTO.getP().getId());
-         mappa.put(elementoOrdineDTO.getP(), elementoOrdineDTO.getQuantita());
+         mappa.put(mService.visualizzaContenuto(elementoOrdineDTO.getId()), elementoOrdineDTO.getQuantita());
       }
       oService.creaOrdine(d.getD(), mappa, d.getU(), d.getI(), d.getM());;
       return new ResponseEntity<>("Ordine creato con successo", HttpStatus.CREATED);
