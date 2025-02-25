@@ -16,21 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ElementoOrdineDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.OrdineDTO;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 
 @RestController
 @RequestMapping("/ordini")
 public class OrdineController {
 
    private OrdineService oService;
+   private UserService uService;
    
    @Autowired
    OrdineController(InitFacade i){
-      // TODO fixare questa responsabilita'
       this.oService = i.getoS();
-
+      this.uService = i.getuS();
    }
 
    /*
@@ -53,8 +56,8 @@ public class OrdineController {
     * Modifica data consegna
     */
    @RequestMapping(value = "/modificaDataConsegna/{id}", method = RequestMethod.PUT)
-      public ResponseEntity<Object> modificaDataConsegna(@PathVariable("id") int id, @RequestBody Date d) {
-         oService.modificaDataDiConsegna(id, d);
+   public ResponseEntity<Object> modificaDataConsegna(@PathVariable("id") int id, @RequestBody Date d) {
+      oService.modificaDataDiConsegna(id, d);
       return new ResponseEntity<>("Data consegna modificata con successo", HttpStatus.OK);
 	}
 
@@ -63,6 +66,10 @@ public class OrdineController {
     */
    @RequestMapping(value = "/modificaIndirizzo/{id}", method = RequestMethod.PUT)
    public ResponseEntity<Object> modificaIndirizzo(@PathVariable("id") int id, @RequestBody Indirizzo d) {
+      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
+         if(!uService.getCurrentUser().getUsername().equals(oService.getOrdine(id).getUser().getUsername()))
+            throw new NonAutorizzatoException();
+      }
       oService.modificaIndirizzo(id, d);
       return new ResponseEntity<>("Indirizzo modificato con successo", HttpStatus.OK);
    }

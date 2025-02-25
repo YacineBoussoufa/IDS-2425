@@ -23,25 +23,25 @@ public class WebSecurityConfig {
 		http
 					.authorizeHttpRequests((requests) -> requests
 							// Account Controller
-							.requestMatchers("/account/listaUtenti").hasRole("Gestore")
-							.requestMatchers("/account/eliminaUtente/**").hasRole("Gestore")
-							.requestMatchers("/account/eliminaVenditore/**").hasRole("Gestore")
-							.requestMatchers("/account/modificaUtente/**").hasRole("Gestore")
-							.requestMatchers("/account/modificaVenditore/**").hasRole("Gestore")
 							.requestMatchers("/account/modificaRuoliVenditore/**").hasRole("Gestore")
 							.requestMatchers("/account/modificaRuoliUtente/**").hasRole("Gestore")
+							.requestMatchers("/account/listaUtenti").permitAll()
+							.requestMatchers("/account/eliminaVenditore/**").permitAll()
+							.requestMatchers("/account/modificaUtente/**").permitAll()
+							.requestMatchers("/account/modificaVenditore/**").permitAll()
+							.requestMatchers("/account/eliminaUtente/**").permitAll()
 							.requestMatchers("/account/listaVenditori").permitAll()
 							.requestMatchers("/account/ricercaUtente/**").permitAll()
 							.requestMatchers("/account/ricercaVenditore/**").permitAll()
 							.requestMatchers("/account/creaUtente").permitAll()
 							.requestMatchers("/account/creaVenditore").permitAll()
 							// Ordini Controller
+							.requestMatchers("/ordini/modificaDataConsegna/**").hasAnyRole("Gestore", "Produttore", "Trasformatore", "Distributore")
 							.requestMatchers("/ordini/creaOrdine").permitAll()
 							.requestMatchers("/ordini/ricercaOrdine/**").permitAll()
 							.requestMatchers("/ordini/ricercaOrdineUtente/**").permitAll()
 							.requestMatchers("/ordini/ricercaOrdineVenditore/**").permitAll()
 							.requestMatchers("/ordini/modificaIndirizzo/**").permitAll()
-							.requestMatchers("/ordini/modificaDataConsegna/**").hasAnyRole("Gestore", "Produttore", "Trasformatore", "Distributore")
 							// Eventi Controller
 							.requestMatchers("/*/crea").hasRole("Animatore")
 							.requestMatchers("/modifica/**").hasRole("Animatore")

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,8 +62,13 @@ public class AccountController {
     * Elimina profilo utente
     */
 	@RequestMapping(value = "/eliminaUtente/{id}", method = RequestMethod.DELETE)
-      public ResponseEntity<Object> rimuoviUtente(@PathVariable("id") String id) {
-         uService.rimuoviUtente(id);
+   public ResponseEntity<Object> rimuoviUtente(@PathVariable("id") String id) {
+      // check if authorized
+      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
+         if(!uService.getCurrentUser().getUsername().equals(id))
+            throw new NonAutorizzatoException();
+      }
+      uService.rimuoviUtente(id);
       return new ResponseEntity<>("Utente eliminato con successo", HttpStatus.OK);
 	}
 	
@@ -71,6 +77,10 @@ public class AccountController {
     */
 	@RequestMapping(value = "/eliminaVenditore/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<Object> rimuoviVenditore(@PathVariable("id") String id) {
+      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
+         if(!uService.getCurrentUser().getUsername().equals(id))
+            throw new NonAutorizzatoException();
+      }
       uService.rimuoviVenditore(id);
       return new ResponseEntity<>("Venditore eliminato con successo", HttpStatus.OK);
    }
@@ -80,6 +90,10 @@ public class AccountController {
     */
    @RequestMapping(value = "/modificaUtente/{id}", method = RequestMethod.PUT)
       public ResponseEntity<Object> modificaUtente(@PathVariable("id") String id, @RequestBody Utente u) {
+      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
+         if(!uService.getCurrentUser().getUsername().equals(id))
+            throw new NonAutorizzatoException();
+      }
       uService.modificaUtente(id, u);
       return new ResponseEntity<>("Utente modificato con successo", HttpStatus.OK);
 	}
@@ -89,6 +103,10 @@ public class AccountController {
     */
    @RequestMapping(value = "/modificaVenditore/{id}", method = RequestMethod.PUT)
       public ResponseEntity<Object> modificaVenditore(@PathVariable("id") String id, @RequestBody Venditore u) {
+      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
+         if(!uService.getCurrentUser().getUsername().equals(id))
+            throw new NonAutorizzatoException();
+      }
       uService.modificaVenditore(id, u);
       return new ResponseEntity<>("Venditore modificato con successo", HttpStatus.OK);
    }
