@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.AutorizzazioneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +30,6 @@ public class AccountController {
    AccountController(InitFacade i){
       this.uService = i.getuS();
       this.auth = i.getAuthS();
-
-      List<RuoloUtente> l = new LinkedList<>();
-      l.add(RuoloUtente.Gestore);
-      l.add(RuoloUtente.Curatore);
-      l.add(RuoloUtente.Animatore);
-      this.uService.creaUtente(new Utente("Michele", "Antiqus", Date.from(Instant.now()), "micky", "ciao", l));
-      List<RuoloVenditore> lv = new LinkedList<>();
-      lv.add(RuoloVenditore.Produttore);
-      this.uService.creaVenditore("La Tana", "123", "key", "123", lv, "grossa fabbrica",
-              new POI(0, 0, 0, TipoPOI.Azienda));
    }
 
    /*
