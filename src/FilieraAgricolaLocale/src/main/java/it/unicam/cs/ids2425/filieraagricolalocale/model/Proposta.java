@@ -7,7 +7,8 @@ import jakarta.persistence.*;
 public class Proposta {
 
     @Id
-    int idVisita;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int idProposta;
 
     private boolean statoAccettazione;
 
@@ -15,8 +16,7 @@ public class Proposta {
     @ManyToOne
     private Utente animatore;
 
-    @OneToOne
-    @MapsId
+    @ManyToOne
     @JsonIgnore
     private Visita visita;
 
