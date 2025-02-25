@@ -69,10 +69,14 @@ public class EventoService {
             throw new DatiIncorrettiException("Dati dell'evento incorretti");
         }
 
-        if(eventoModificato instanceof Visita)
+        if(eventoModificato instanceof Visita) {
+            repoVisite.deleteById(id);
             repoVisite.save((Visita) eventoModificato);
-        else if (eventoModificato instanceof Manifestazione)
+        }
+        else if (eventoModificato instanceof Manifestazione) {
+            repoManifestazioni.deleteById(id);
             repoManifestazioni.save((Manifestazione) eventoModificato);
+        }
         else
             throw new DatiIncorrettiException();
     }

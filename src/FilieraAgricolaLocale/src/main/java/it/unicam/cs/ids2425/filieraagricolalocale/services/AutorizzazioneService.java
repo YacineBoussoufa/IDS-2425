@@ -1,10 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Account;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.EventoAbstract;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +38,12 @@ public class AutorizzazioneService {
         if (!account.getUsername().equals(evento.getAnimatore().getUsername())) {
             throw new NonAutorizzatoException("L'account " + account.getUsername() +
                     "con cui si è fatto l'accesso non può operare sull'evento di " + evento.getAnimatore().getUsername());
+        }
+    }
+
+    public void controlloAutorizzazioneProposta(Visita visita, Account account) {
+        if (!visita.getProposta().getVenditore().equals(account)) {
+            throw new NonAutorizzatoException("Non si è autorizzati ad accettare la proposta");
         }
     }
 

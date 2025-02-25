@@ -3,8 +3,6 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
 
-import java.util.Map;
-
 public class MiddlewareEventoDati extends MiddlewareEvento {
 
     private EventoService eventoService;
