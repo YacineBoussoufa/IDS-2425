@@ -1,0 +1,1589 @@
+{
+	"info": {
+		"_postman_id": "33859e38-6bcb-444c-ae23-930e04d76271",
+		"name": "Filiera Agricola Locale",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40343340",
+		"_collection_link": "https://ids2425.postman.co/workspace/FilieraAgricolaLocale~ad7e4db9-fa2e-4437-9d0b-44d335bacf0b/collection/40343340-33859e38-6bcb-444c-ae23-930e04d76271?action=share&source=collection_link&creator=40343340"
+	},
+	"item": [
+		{
+			"name": "AccountController",
+			"item": [
+				{
+					"name": "Crea Utente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Lorenzo\",\r\n        \"cognome\": \"DeLaurentis\",\r\n        \"dataDiNascita\": \"2025-02-18T23:07:59.350+00:00\",\r\n        \"username\": \"dela\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": []\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/account/creaUtente",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"creaUtente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Venditori",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/listaVenditori",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"listaVenditori"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Utenti",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/listaUtenti",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"listaUtenti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Utente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/ricercaUtente/micky",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"ricercaUtente",
+								"micky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Utente",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/eliminaUtente/dela",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"eliminaUtente",
+								"dela"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Utente",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "dela",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Vincenzo\",\r\n        \"cognome\": \"sdsdsdsd\",\r\n        \"dataDiNascita\": \"2025-02-18T23:07:59.350+00:00\",\r\n        \"username\": \"dela\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": []\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/account/modificaUtente/dela",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"modificaUtente",
+								"dela"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Ruoli Utente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"Gestore\",\r\n    \"Animatore\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/account/modificaRuoliUtente/micky",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"modificaRuoliUtente",
+								"micky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crea Venditore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"ashley\",\r\n    \"password\": \"123\",\r\n    \"listaRuoli\": [\r\n        \"Distributore\"\r\n    ],\r\n    \"descrizione\": \"fabbrica piccola\",\r\n    \"localizzazione\": null,\r\n    \"ragioneSociale\": \"Le petit fabrique\",\r\n    \"piva\": \"12443\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/account/creaVenditore",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"creaVenditore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Venditori",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/listaVenditori",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"listaVenditori"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ProductController",
+			"item": [
+				{
+					"name": "Crea Prodotto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Mela rossa\",\r\n    \"descrizione\": \"Prodotto bianco\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": {\r\n        \"username\": \"key\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Produttore\"\r\n        ],\r\n        \"localizzazione\": {\r\n            \"latitudine\" : 1,\r\n            \"longitudine\" : 2,\r\n            \"altitudine\" : 4,\r\n            \"tipo\" : \"Azienda\"\r\n        },\r\n        \"descrizione\": \"grossa fabbrica\",\r\n        \"ragioneSociale\": \"La Tana\",\r\n        \"piva\": \"123\"\r\n    },\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"poi\" : {\r\n        \"latitudine\" : 400,\r\n        \"longitudine\" : 12,\r\n        \"altitudine\" : 0,\r\n        \"tipo\" : \"Prodotto\"\r\n    },\r\n    \"listaEtichette\" : [],\r\n    \"ingredienti\" : []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/gestioneContenuti/contenuto/crea",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gestioneContenuti",
+								"contenuto",
+								"crea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Contenuto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"nome\": \"Mela rossa\",\r\n    \"descrizione\": \"Prodotto arcobaleno\",\r\n    \"prezzo\": 2000.0,\r\n    \"quantita\": 5,\r\n    \"data\": null,\r\n    \"poi\": {\r\n        \"latitudine\": 0,\r\n        \"longitudine\": 5,\r\n        \"altitudine\": 6,\r\n        \"tipo\": \"Prodotto\"\r\n    },\r\n    \"listaEtichette\": [],\r\n    \"ingredienti\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/gestioneContenuti/contenuto/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gestioneContenuti",
+								"contenuto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crea Pacchetto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "ashley",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Pacchettone\",\r\n    \"descrizione\": \"Prodotto bianco\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Produttore\"\r\n        ],\r\n        \"localizzazione\": {\r\n            \"latitudine\": 1,\r\n            \"longitudine\": 2,\r\n            \"altitudine\": 4,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"descrizione\": \"grossa fabbrica\",\r\n        \"ragioneSociale\": \"La Tana\",\r\n        \"piva\": \"123\"\r\n    },\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"listaProdotti\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/gestioneContenuti/contenuto/crea",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gestioneContenuti",
+								"contenuto",
+								"crea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina Contenuto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/gestioneContenuti/contenuto/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gestioneContenuti",
+								"contenuto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MarketplaceController",
+			"item": [
+				{
+					"name": "Get Contenuti",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/contenuti",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"contenuti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contenuti Pubblicati",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/listaContenutiPubblicati",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"listaContenutiPubblicati"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pacchetti",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/contenuti/pacchetti",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"contenuti",
+								"pacchetti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contenuti Bozza",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/listaContenutiBozza",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"listaContenutiBozza"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Prodotti",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/contenuti/prodotti",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"contenuti",
+								"prodotti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Venditori",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/venditori",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"venditori"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contenuti Venditore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/marketplace/venditori/key/contenuti",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"marketplace",
+								"venditori",
+								"key",
+								"contenuti"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ApprovazioneController",
+			"item": [
+				{
+					"name": "Richiesta Approvazione Prodotto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/richiesta/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"richiesta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convalida Prodotto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "true",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/convalida/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"convalida",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OSMController",
+			"item": [
+				{
+					"name": "Get Mappa",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/mappa",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mappa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get POI Prodotto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/mappa/prodotti/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mappa",
+								"prodotti",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trova POI",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"tipo\": \"Azienda\",\r\n        \"latitudine\": 0.0,\r\n        \"longitudine\": 0.0,\r\n        \"altitudine\": 0.0\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/mappa/find",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mappa",
+								"find"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OrdiniController",
+			"item": [
+				{
+					"name": "Crea Ordine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"d\": \"2025-02-19T00:09:11.562+00:00\",\r\n    \"linee\": [\r\n        {\r\n            \"quantita\": 1,\r\n            \"id\": 1\r\n        }\r\n    ],\r\n    \"u\": {\r\n        \"nome\": \"Michele\",\r\n        \"cognome\": \"Antiqus\",\r\n        \"dataDiNascita\": \"2025-02-21T00:45:15.463+00:00\",\r\n        \"username\": \"micky\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": [\r\n            \"Animatore\",\r\n            \"Curatore\"\r\n        ]\r\n    },\r\n    \"i\": {\r\n        \"via\": \"ciao\",\r\n        \"civico\": 56,\r\n        \"provincia\": \"MC\",\r\n        \"comune\": \"dmdsd\",\r\n        \"regione\": \"Regione\",\r\n        \"dettagli\": null,\r\n        \"id\": 0,\r\n        \"cap\": \"62100\"\r\n    },\r\n    \"m\": {\r\n        \"numeroCarta\": \"3434\",\r\n        \"dataScadenza\": null,\r\n        \"cvv\": 0\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ordini/creaOrdine",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"creaOrdine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ordine by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ordini/ricercaOrdine/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"ricercaOrdine",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ordini by Utente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ordini/ricercaOrdineUtente/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"ricercaOrdineUtente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ordini by Venditore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ordini/ricercaOrdineVenditore/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"ricercaOrdineVenditore",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Data di Consegna",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ordini/modificaDataConsegna/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"modificaDataConsegna",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EventoController",
+			"item": [
+				{
+					"name": "Crea Visita",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2026-02-19T14:36:10.750+00:00\",\r\n    \"nome\": \"Eventino\",\r\n    \"descrizione\": \"Piccolo Evento\",\r\n    \"numeroMaxPartecipanti\": 10,\r\n    \"puntoDiInteresse\": {\r\n        \"latitudine\": 0.0,\r\n        \"longitudine\": 0.0,\r\n        \"altitudine\": 0.0,\r\n        \"tipo\": \"Evento\"\r\n    },\r\n    \"animatore\": {\r\n        \"nome\": \"Michele\",\r\n        \"cognome\": \"Antiqus\",\r\n        \"dataDiNascita\": \"2025-02-22T20:25:53.680+00:00\",\r\n        \"username\": \"micky\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": [\r\n            \"Gestore\",\r\n            \"Curatore\",\r\n            \"Animatore\"\r\n        ]\r\n    },\r\n    \"personePartecipanti\": [],\r\n    \"propostaVenditore\" : {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Distributore\"\r\n        ],\r\n        \"localizzazione\": {\r\n            \"altitudine\": 0.0,\r\n            \"latitudine\": 0.0,\r\n            \"longitudine\": 0.0,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"piva\": \"12443\",\r\n        \"descrizione\": \"fabbrica piccola\",\r\n        \"ragioneSociale\": \"Le petit fabrique\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/crea/visita",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"crea",
+								"visita"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crea Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2026-02-19T14:36:10.750+00:00\",\r\n    \"nome\": \"Manifestazione Grande\",\r\n    \"descrizione\": \"Una grossa Manifestazione\",\r\n    \"numeroMaxPartecipanti\": 10,\r\n    \"puntoDiInteresse\": {\r\n        \"tipo\": \"Evento\",\r\n        \"latitudine\": 0.0,\r\n        \"longitudine\": 0.0,\r\n        \"altitudine\": 0.0\r\n    },\r\n    \"animatore\": {\r\n        \"nome\": \"Michele\",\r\n        \"cognome\": \"Antiqus\",\r\n        \"dataDiNascita\": \"2025-02-22T21:55:54.448+00:00\",\r\n        \"username\": \"micky\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": [\r\n            \"Gestore\",\r\n            \"Curatore\",\r\n            \"Animatore\"\r\n        ]\r\n    },\r\n    \"aziendePartecipanti\": [\r\n        {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Distributore\"\r\n        ],\r\n        \"piva\": \"12443\",\r\n        \"localizzazione\": {\r\n            \"latitudine\": 0.0,\r\n            \"longitudine\": 0.0,\r\n            \"altitudine\": 0.0,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"descrizione\": \"fabbrica piccola\",\r\n        \"ragioneSociale\": \"Le petit fabrique\"\r\n    }\r\n    ],\r\n    \"personePartecipanti\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/crea/manifestazione",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"crea",
+								"manifestazione"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Visita",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2026-02-19T14:36:10.750+00:00\",\r\n    \"nome\": \"Eventino EDITATO\",\r\n    \"descrizione\": \"Piccolo Evento EDITATO\",\r\n    \"numeroMaxPartecipanti\": 10,\r\n    \"puntoDiInteresse\": {\r\n        \"latitudine\": 0.0,\r\n        \"longitudine\": 0.0,\r\n        \"altitudine\": 0.0,\r\n        \"tipo\": \"Evento\"\r\n    },\r\n    \"animatore\": {\r\n        \"nome\": \"Michele\",\r\n        \"cognome\": \"Antiqus\",\r\n        \"dataDiNascita\": \"2025-02-22T20:25:53.680+00:00\",\r\n        \"username\": \"micky\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": [\r\n            \"Gestore\",\r\n            \"Curatore\",\r\n            \"Animatore\"\r\n        ]\r\n    },\r\n    \"personePartecipanti\": [],\r\n    \"propostaVenditore\" : {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Distributore\"\r\n        ],\r\n        \"localizzazione\": {\r\n            \"altitudine\": 0.0,\r\n            \"latitudine\": 0.0,\r\n            \"longitudine\": 0.0,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"piva\": \"12443\",\r\n        \"descrizione\": \"fabbrica piccola\",\r\n        \"ragioneSociale\": \"Le petit fabrique\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/modifica/visita/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"modifica",
+								"visita",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2026-02-19T14:36:10.750+00:00\",\r\n    \"nome\": \"Manifestazione Grande EDIT\",\r\n    \"descrizione\": \"Una Manifestazione EDITATA\",\r\n    \"numeroMaxPartecipanti\": 10,\r\n    \"puntoDiInteresse\": {\r\n        \"tipo\": \"Evento\",\r\n        \"latitudine\": 0.0,\r\n        \"longitudine\": 0.0,\r\n        \"altitudine\": 0.0\r\n    },\r\n    \"animatore\": {\r\n        \"nome\": \"Michele\",\r\n        \"cognome\": \"Antiqus\",\r\n        \"dataDiNascita\": \"2025-02-22T21:55:54.448+00:00\",\r\n        \"username\": \"micky\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": [\r\n            \"Gestore\",\r\n            \"Curatore\",\r\n            \"Animatore\"\r\n        ]\r\n    },\r\n    \"aziendePartecipanti\": [\r\n        {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Distributore\"\r\n        ],\r\n        \"piva\": \"12443\",\r\n        \"localizzazione\": {\r\n            \"latitudine\": 0.0,\r\n            \"longitudine\": 0.0,\r\n            \"altitudine\": 0.0,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"descrizione\": \"fabbrica piccola\",\r\n        \"ragioneSociale\": \"Le petit fabrique\"\r\n    }\r\n    ],\r\n    \"personePartecipanti\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/modifica/manifestazione/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"modifica",
+								"manifestazione",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina Visita",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/elimina/visita/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"elimina",
+								"visita",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/elimina/manifestazione/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"elimina",
+								"manifestazione",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Visite (solo accettate)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/visite/accettate",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"visite",
+								"accettate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Manifestazioni",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/manifestazioni",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"manifestazioni"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista Visite Non Accettate",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/visite/nonAccettate",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"visite",
+								"nonAccettate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accetta Proposta",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ashley",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/accettaProposta/visita/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"accettaProposta",
+								"visita",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi Utenti Partecipanti Visita",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n        {\r\n        \"nome\": \"Lorenzo\",\r\n        \"cognome\": \"DeLaurentis\",\r\n        \"dataDiNascita\": \"2025-02-18T23:07:59.350+00:00\",\r\n        \"username\": \"dela\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": []\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/aggiungiUtentiPartecipanti/visita/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"aggiungiUtentiPartecipanti",
+								"visita",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi Utenti Partecipanti Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n        {\r\n        \"nome\": \"Lorenzo\",\r\n        \"cognome\": \"DeLaurentis\",\r\n        \"dataDiNascita\": \"2025-02-18T23:07:59.350+00:00\",\r\n        \"username\": \"dela\",\r\n        \"password\": \"ciao\",\r\n        \"listaRuoli\": []\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/aggiungiUtentiPartecipanti/manifestazione/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"aggiungiUtentiPartecipanti",
+								"manifestazione",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi Aziende Partecipanti Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Distributore\"\r\n        ],\r\n        \"descrizione\": \"fabbrica piccola\",\r\n        \"localizzazione\": {\r\n            \"altitudine\": 0.0,\r\n            \"latitudine\": 0.0,\r\n            \"longitudine\": 0.0,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"ragioneSociale\": \"Le petit fabrique\",\r\n        \"piva\": \"12443\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/eventi/aggiungiAziendePartecipanti/manifestazione/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"aggiungiAziendePartecipanti",
+								"manifestazione",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Utenti Partecipanti Visita",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/utentiPartecipanti/visita/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"utentiPartecipanti",
+								"visita",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Utenti Partecipanti Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/utentiPartecipanti/manifestazione/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"utentiPartecipanti",
+								"manifestazione",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aziende Partecipanti Manifestazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ciao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "micky",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventi/aziendePartecipanti/manifestazione/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventi",
+								"aziendePartecipanti",
+								"manifestazione",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
