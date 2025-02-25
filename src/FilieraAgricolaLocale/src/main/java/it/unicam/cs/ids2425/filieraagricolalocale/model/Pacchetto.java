@@ -76,26 +76,22 @@ public class Pacchetto extends Contenuto {
    }
 
    @Override
-   public Pacchetto setModifiche(Contenuto contenuto) {
+   public void setModifiche(Contenuto contenuto) {
 
       if (contenuto instanceof Pacchetto modifiche) {
-         PacchettoBuilder builder = PacchettoBuilder.copiaDa(modifiche);
 
-         builder.setNome(modifiche.getNome() == null ? getNome() : modifiche.getNome());
-         builder.setDescrizione(modifiche.getDescrizione() == null ? getDescrizione() : modifiche.getDescrizione());
-         builder.setPrezzo(modifiche.getPrezzo() == 0 ? getPrezzo() : modifiche.getPrezzo());
-         builder.setQuantita(modifiche.getQuantita() == 0 ? getQuantita() : modifiche.getQuantita());
-         builder.setData(modifiche.getData() == null ? getData() : modifiche.getData());
-         builder.setListaProdotti(modifiche.getListaProdotti() == null ? getListaProdotti() : modifiche.getListaProdotti());
+         setNome(modifiche.getNome() == null ? getNome() : modifiche.getNome());
+         setDescrizione(modifiche.getDescrizione() == null ? getDescrizione() : modifiche.getDescrizione());
+         setPrezzo(modifiche.getPrezzo() == 0 ? getPrezzo() : modifiche.getPrezzo());
+         setQuantita(modifiche.getQuantita() == 0 ? getQuantita() : modifiche.getQuantita());
+         setData(modifiche.getData() == null ? getData() : modifiche.getData());
+         setListaProdotti(modifiche.getListaProdotti() == null ? getListaProdotti() : modifiche.getListaProdotti());
 
          //Non è previsto che questi campi mutino
-         builder.setId(getId());
-         builder.setVenditore(getVenditore());
+         setId(getId());
+         setVenditore(getVenditore());
 
-         return builder.build();
       }
-
-      return null;
 
    }
 

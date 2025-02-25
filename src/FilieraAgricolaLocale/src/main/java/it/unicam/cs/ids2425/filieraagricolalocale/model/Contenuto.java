@@ -161,7 +161,7 @@ public abstract class Contenuto {
        this.quantita = q;
     }
 
-    public abstract Contenuto setModifiche(Contenuto contenuto);
+    public abstract void setModifiche(Contenuto contenuto);
 
     public abstract String getTipo();
 

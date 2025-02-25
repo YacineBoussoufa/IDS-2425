@@ -14,17 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProdottoService {
 
-
-    //todo correttezza venditore
-    private final VenditoreRepository repoVenditori;
     private final ContenutoRepository repoProdotti;
     private MiddlewareProdotto middlewareHead;
 
 
     @Autowired
-    public ProdottoService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
+    public ProdottoService(ContenutoRepository repoProdotti) {
         this.repoProdotti = repoProdotti;
-        this.repoVenditori = repoVenditori;
     }
 
     public void setMiddleware(MiddlewareProdotto m){
@@ -66,16 +62,14 @@ public class ProdottoService {
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
         //tutti gli elementi non vuoti (eccetto id e venditore) sono modificati
-        Contenuto nuovo = attuale.setModifiche(modifiche);
+        attuale.setModifiche(modifiche);
 
         //controllo dati
-        if (!middlewareHead.check(nuovo)) {
+        if (!middlewareHead.check(attuale)) {
             throw new DatiIncorrettiException("I dati modificati non sono accettabili.");
         }
 
-        //per impedire la duplicazione
-        this.eliminaContenuto(id);
-        repoProdotti.save(nuovo);
+        repoProdotti.save(attuale);
     }
 
     /**

@@ -57,29 +57,46 @@ public class Prodotto extends Contenuto {
     }
 
     @Override
-    public Prodotto setModifiche(Contenuto contenuto) {
+    public void setModifiche(Contenuto contenuto) {
 
         if (contenuto instanceof Prodotto modifiche) {
-            ProdottoBuilder builder = ProdottoBuilder.copiaDa(modifiche);
 
-            builder.setNome(modifiche.getNome() == null ? getNome() : modifiche.getNome());
-            builder.setDescrizione(modifiche.getDescrizione() == null ? getDescrizione() : modifiche.getDescrizione());
-            builder.setPrezzo(modifiche.getPrezzo() <= 0 ? getPrezzo() : modifiche.getPrezzo());
-            builder.setQuantita(modifiche.quantita <= 0 ? getQuantita() : modifiche.getQuantita());
-            builder.setData(modifiche.getData() == null ? getData() : modifiche.getData());
-            builder.setPoi(modifiche.getPoi() == null ? getPoi() : modifiche.getPoi());
-            builder.setListaEtichette(modifiche.getListaEtichette().isEmpty() ? getListaEtichette() : modifiche.getListaEtichette());
-            builder.setIngredienti(modifiche.getIngredienti().isEmpty() ? getIngredienti() : modifiche.getIngredienti());
+            setNome(modifiche.getNome() == null ? getNome() : modifiche.getNome());
+            setDescrizione(modifiche.getDescrizione() == null ? getDescrizione() : modifiche.getDescrizione());
+            setPrezzo(modifiche.getPrezzo() <= 0 ? getPrezzo() : modifiche.getPrezzo());
+            setQuantita(modifiche.quantita <= 0 ? getQuantita() : modifiche.getQuantita());
+            setData(modifiche.getData() == null ? getData() : modifiche.getData());
+            setPoi(modifiche.getPoi() == null ? getPoi() : modifiche.getPoi());
+            setListaEtichette(modifiche.getListaEtichette().isEmpty() ? getListaEtichette() : modifiche.getListaEtichette());
+            setIngredienti(modifiche.getIngredienti().isEmpty() ? getIngredienti() : modifiche.getIngredienti());
 
             //Non è previsto che questi campi mutino
-            builder.setId(this.getId());
-            builder.setVenditore(this.getVenditore());
-
-            return builder.build();
+            setId(this.getId());
+            setVenditore(this.getVenditore());
         }
 
-        return null;
+    }
 
+    private void setIngredienti(Set<Prodotto> ingredienti) {
+        if (ingredienti == null) {
+            return;
+        }
+
+        this.ingredienti.clear();
+        this.ingredienti.addAll(ingredienti);
+    }
+
+    private void setListaEtichette(Set<Etichetta> listaEtichette) {
+        if (listaEtichette == null) {
+            return;
+        }
+
+        this.listaEtichette.clear();
+        this.listaEtichette.addAll(listaEtichette);
+    }
+
+    private void setPoi(POI poi) {
+        this.poi = poi;
     }
 
     @Override
