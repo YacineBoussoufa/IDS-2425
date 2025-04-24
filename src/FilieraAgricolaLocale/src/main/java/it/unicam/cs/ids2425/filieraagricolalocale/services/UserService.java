@@ -111,7 +111,6 @@ public class UserService {
       }
 
       return null;
-
    }
 
    public Iterable<Utente> getElencoUtenti(){
@@ -141,6 +140,66 @@ public class UserService {
       }
       String username = authentication.getName();
       return getAccount(username);
+   }
+
+   
+   /**
+    * @param id utente
+    * @return carrello utente
+    */
+   public Carrello getCarrelloUtente(String id){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      return u.getCarrello();
+   }
+
+   /**
+      * @param id utente, contenuto, quantita
+      * @return 
+      */
+   public void aggiungiContenutoCarrello(String id, Contenuto p, int quantita){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().aggiungiContenuto(p, quantita);
+      userRepository.save(u);
+   }
+   
+   /**
+      * @param id utente, contenuto
+      * @return 
+      */
+   public void rimuoviContenutoCarrello(String id, Contenuto p){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().rimuoviContenuto(p);
+      userRepository.save(u);
+   }
+
+   /**
+      * @param id utente, contenuto, quantita
+      * @return 
+      */
+   public void modificaQuantitaCarrello(String id, Contenuto p, int quantita){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().modificaQuantita(p, quantita);
+      userRepository.save(u);
+   }
+
+   /**
+      * @param id utente
+      * @return 
+      */
+   public void svuotaCarrello(String id){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().svuota();
+      userRepository.save(u);
    }
 
 }

@@ -1,8 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ElementoOrdineDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.OrdineDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 
@@ -30,13 +26,11 @@ public class OrdineController {
 
    private OrdineService oService;
    private UserService uService;
-   private MarketplaceService mService;
 
    @Autowired
    OrdineController(InitFacade i){
       this.oService = i.getoS();
       this.uService = i.getuS();
-      this.mService = i.getmS();
    }
 
    /*
@@ -45,11 +39,11 @@ public class OrdineController {
    @RequestMapping(value = "/creaOrdine", method = RequestMethod.POST)
    public ResponseEntity<Object> creaOrdine(@RequestBody OrdineDTO d) {
       
-      Map<Contenuto, Integer> mappa = new HashMap<>();
-      for (ElementoOrdineDTO elementoOrdineDTO : d.getLinee()) {
-         mappa.put(mService.visualizzaContenuto(elementoOrdineDTO.getId()), elementoOrdineDTO.getQuantita());
-      }
-      oService.creaOrdine(d.getD(), mappa, d.getU(), d.getI(), d.getM());;
+      // recupera l'utente dalla repo
+      Utente u = uService.getUtente(d.getU());
+
+      oService.creaOrdine(d.getD(), u, d.getI(), d.getM());
+      uService.svuotaCarrello(u.getUsername());
       return new ResponseEntity<>("Ordine creato con successo", HttpStatus.CREATED);
 	}
 

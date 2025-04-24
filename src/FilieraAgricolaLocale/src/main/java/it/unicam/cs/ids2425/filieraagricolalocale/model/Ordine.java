@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -40,13 +39,9 @@ public class Ordine {
    @OneToOne(cascade = CascadeType.ALL)
    private Pagamento metodo;
 
-   public Ordine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Utente u, Indirizzo i, Pagamento m) {
+   public Ordine(Date dataCreazione, Carrello mappaProdotti, Utente u, Indirizzo i, Pagamento m) {
       this.dataCreazione = dataCreazione;
-      this.lineeOrdine = new LinkedList<>();
-      //TODO check this (maybe outside in the service)
-      for (Contenuto p : mappaProdotti.keySet()) {
-         this.lineeOrdine.add(new LineaOrdine(p, this, mappaProdotti.get(p)));
-      }
+      this.lineeOrdine = Ordine.convertiCarrello(mappaProdotti, this);
       this.user = u;
       this.indirizzo = i;
       this.dataDiConsegna = Date.from(Instant.now().plus(Duration.ofDays(7)));
@@ -102,4 +97,15 @@ public class Ordine {
       return lineeOrdine;
    }
    
+   public static List<LineaOrdine> convertiCarrello(Carrello c, Ordine o){
+
+      List<LineaOrdine> l = new LinkedList<LineaOrdine>();
+
+      for (SlotCarrello s : c.getCarrello()) {
+         l.add(new LineaOrdine(s.getProdotto(), o, s.getQuantita()));
+      }
+
+      return l;
+   }
+
 }

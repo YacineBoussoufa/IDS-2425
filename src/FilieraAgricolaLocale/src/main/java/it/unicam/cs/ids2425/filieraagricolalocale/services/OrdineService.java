@@ -3,7 +3,7 @@ package it.unicam.cs.ids2425.filieraagricolalocale.services;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.Ordine;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Pagamento;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.OrdineRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareOrdine;
 
 @Service
@@ -34,9 +33,9 @@ public class OrdineService {
       this.middlewareHead = m;
    }
 
-   public void creaOrdine(Date dataCreazione, Map<Contenuto, Integer> mappaProdotti, Utente u, Indirizzo i, Pagamento m){
+   public void creaOrdine(Date dataCreazione, Utente u, Indirizzo i, Pagamento m){
 
-      Ordine o = new Ordine(dataCreazione, mappaProdotti, u, i, m);
+      Ordine o = new Ordine(dataCreazione, u.getCarrello(), u, i, m);
       if(!middlewareHead.check(o)){
          throw new DatiIncorrettiException("Errore nella creazione ordine");
       }

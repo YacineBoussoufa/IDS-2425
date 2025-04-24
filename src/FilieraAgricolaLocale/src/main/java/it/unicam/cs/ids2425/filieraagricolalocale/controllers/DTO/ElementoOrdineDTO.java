@@ -2,10 +2,10 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO;
 
 public class ElementoOrdineDTO {
    
+
    private int quantita;
    private int id;
 
- 
    public ElementoOrdineDTO(int quantita, int id) {
       this.quantita = quantita;
       this.id = id;

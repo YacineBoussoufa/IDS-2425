@@ -1,12 +1,16 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.LinkedList;
+
 import java.util.List;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ElementoOrdineDTO;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.AutorizzazioneService;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +29,13 @@ public class AccountController {
    
    private UserService uService;
    private AutorizzazioneService auth;
+   private MarketplaceService mService;
 
    @Autowired
    AccountController(InitFacade i){
       this.uService = i.getuS();
       this.auth = i.getAuthS();
+      this.mService = i.getmS();
    }
 
    /*
@@ -141,6 +147,72 @@ public class AccountController {
    public ResponseEntity<Object> modificaRuoliVenditore(@PathVariable("id") String id, @RequestBody List<RuoloVenditore> u) {
       uService.modificaRuoliVenditore(u, id);
       return new ResponseEntity<>("Ruoli venditore modificati con successo", HttpStatus.OK);
+   }
+
+   /*
+   * Aggiunge un contenuto al carrello passando i valori in POST
+   */
+   @RequestMapping(value = "/carrello/aggiungiContenuto", method = RequestMethod.POST)
+   public ResponseEntity<Object> addContentToCart(@RequestBody ElementoOrdineDTO d) {
+        
+      Account account = uService.getCurrentUser();
+      if(account instanceof Venditore) throw new NonAutorizzatoException();
+      uService.aggiungiContenutoCarrello(account.getUsername(), mService.visualizzaContenuto(d.getId()), d.getQuantita());
+
+      return new ResponseEntity<>("Elemento aggiunto con successo", HttpStatus.CREATED);
+	}
+
+   /*
+   * Ottiene il carrello in GET con il suo id
+   */
+   @RequestMapping(value = "/carrello/{id}", method = RequestMethod.GET)
+   public ResponseEntity<Object> getCart(@PathVariable String id) {
+
+      try {
+         Carrello c = uService.getCarrelloUtente(id);
+         return new ResponseEntity<>(c, HttpStatus.OK);
+      } catch (DatiIncorrettiException e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+      } catch (Exception e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+   }
+
+   /*
+   * Cancella un contenuto dal carrello passandone l'id
+   */
+   @RequestMapping(value = "/carrello/{id}", method = RequestMethod.DELETE)
+   public ResponseEntity<Object> removeContentFromCart(@RequestBody @PathVariable int id) {
+
+      try {
+         Account account = uService.getCurrentUser();
+         if(account instanceof Venditore) throw new NonAutorizzatoException();
+
+         uService.rimuoviContenutoCarrello(account.getUsername(), mService.visualizzaContenuto(id));
+         return new ResponseEntity<>("Contenuto rimosso dal carrello con successo.", HttpStatus.OK);
+      } catch (ProdottoNonTrovatoException e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+      } catch (NonAutorizzatoException e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+      } catch (Exception e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+   }
+
+   /*
+   * Aggiunge un contenuto al carrello passando i valori in POST
+   */
+   @RequestMapping(value = "/carrello/modificaQuantitaContenuto", method = RequestMethod.PUT)
+   public ResponseEntity<Object> editQuantityCart(@RequestBody ElementoOrdineDTO d) {
+         
+      Account account = uService.getCurrentUser();
+      if(account instanceof Venditore) throw new NonAutorizzatoException();
+
+      uService.modificaQuantitaCarrello(account.getUsername(), mService.visualizzaContenuto(d.getId()), d.getQuantita());
+
+      return new ResponseEntity<>("Elemento aggiunto con successo", HttpStatus.CREATED);
    }
 
 

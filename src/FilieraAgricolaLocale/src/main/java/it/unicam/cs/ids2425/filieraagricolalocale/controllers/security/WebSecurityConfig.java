@@ -35,6 +35,7 @@ public class WebSecurityConfig {
 							.requestMatchers("/account/ricercaVenditore/**").permitAll()
 							.requestMatchers("/account/creaUtente").permitAll()
 							.requestMatchers("/account/creaVenditore").permitAll()
+							.requestMatchers("/account/carrello/**").permitAll()
 							// Ordini Controller
 							.requestMatchers("/ordini/modificaDataConsegna/**").hasAnyRole("Gestore", "Produttore", "Trasformatore", "Distributore")
 							.requestMatchers("/ordini/creaOrdine").permitAll()

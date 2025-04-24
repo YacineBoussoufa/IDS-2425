@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -12,6 +15,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public non-sealed class Utente implements Account {
@@ -22,7 +26,11 @@ public non-sealed class Utente implements Account {
    @Id
    private String username;
    private String password;
-   
+
+   @OneToOne(cascade = CascadeType.ALL)
+   @JsonManagedReference
+   private Carrello carrello;
+
    @ElementCollection(targetClass = RuoloUtente.class) 
    @CollectionTable(name = "RUOLI_UTENTE",
       joinColumns = @JoinColumn(name = "username"))
@@ -45,6 +53,7 @@ public non-sealed class Utente implements Account {
       this.dataDiNascita = dataDiNascita;
       this.username = username;
       this.password = password;
+      this.carrello = new Carrello(this);
      
       if (listaRuoli != null) {
          this.listaRuoli.addAll(listaRuoli);
@@ -105,4 +114,7 @@ public non-sealed class Utente implements Account {
       this.password = password;
    }
    
+   public Carrello getCarrello() {
+      return carrello;
+   }
 }

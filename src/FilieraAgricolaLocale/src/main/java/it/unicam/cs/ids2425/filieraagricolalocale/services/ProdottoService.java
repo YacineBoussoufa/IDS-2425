@@ -4,7 +4,6 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
-import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 
 import org.springframework.beans.factory.annotation.Autowired;
