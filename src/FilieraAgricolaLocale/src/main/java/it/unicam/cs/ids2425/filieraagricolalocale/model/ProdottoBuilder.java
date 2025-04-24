@@ -13,7 +13,6 @@ public class ProdottoBuilder implements ContenutoBuilder{
     private double prezzo = 0;
     private int quantita = 0;
     private Venditore venditore;
-    private POI poi;
     private Date data;
     private final Set<Etichetta> listaEtichette = new HashSet<>();
     private final Set<Prodotto> ingredienti = new HashSet<>();
@@ -30,7 +29,6 @@ public class ProdottoBuilder implements ContenutoBuilder{
         builder.setPrezzo(prodotto.getPrezzo());
         builder.setQuantita(prodotto.getQuantita());
         builder.setVenditore(prodotto.getVenditore());
-        builder.setPoi(prodotto.getPoi());
         builder.setData(prodotto.getData());
         builder.setListaEtichette(prodotto.getListaEtichette());
         builder.setIngredienti(prodotto.getIngredienti());
@@ -88,15 +86,6 @@ public class ProdottoBuilder implements ContenutoBuilder{
 
     public ProdottoBuilder setVenditore(Venditore venditore) {
         this.venditore = venditore;
-        return this;
-    }
-
-    public POI getPoi() {
-        return poi;
-    }
-
-    public ProdottoBuilder setPoi(POI poi) {
-        this.poi = poi;
         return this;
     }
 

@@ -18,13 +18,14 @@ import org.springframework.stereotype.Component;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEvento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareEvento.MiddlewareEventoDati;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareCarrello;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareIndirizzo;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareOrdine;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewarePagamento;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewarePubblicato;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareOrdine.MiddlewareQuantita;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareDati;
-import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewarePOI;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewarePacchetto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareProdotto.MiddlewareProdotto;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUsername;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.MiddlewareUtente.MiddlewareUtente;
@@ -79,12 +80,12 @@ public class InitFacade {
 
    private void initMiddlewareOrdine(){
       MiddlewareOrdine m = MiddlewareOrdine.link(new MiddlewareIndirizzo(), new MiddlewarePagamento(), 
-      new MiddlewareQuantita(mS, pS), new MiddlewarePubblicato(mS));
+      new MiddlewareQuantita(mS, pS), new MiddlewarePubblicato(mS), new MiddlewareCarrello());
       this.oS.setMiddleware(m);
    }
 
    private void initMiddlewareProdotto(){
-      MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati(), new MiddlewarePOI());
+      MiddlewareProdotto mp = MiddlewareProdotto.link(new MiddlewareDati(), new MiddlewarePacchetto());
       pS.setMiddleware(mp);
    }
 

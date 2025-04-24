@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
-import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OSMService;
@@ -28,32 +27,6 @@ public class OSMController {
 
         try {
             List<POI> poiList = os.visualizzaMappa();
-            return new ResponseEntity<>(poiList, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    @RequestMapping(value = "/prodotti/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> findProduct(@PathVariable int id) {
-
-        try {
-            POI poi = os.visualizzaProdotto(id);
-            return new ResponseEntity<>(poi, HttpStatus.OK);
-        } catch (ProdottoNonTrovatoException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    @RequestMapping(value = "/prodotti", method = RequestMethod.GET)
-    public ResponseEntity<Object> findProducts() {
-
-        try {
-            List<POI> poiList = os.visualizzaProdotti();
             return new ResponseEntity<>(poiList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
