@@ -135,7 +135,7 @@ public class AccountController {
     * Modifica ruoli utente
     */
    @RequestMapping(value = "/modificaRuoliUtente/{id}", method = RequestMethod.PUT)
-   public ResponseEntity<Object> modificaRuoliUtente(@PathVariable("id") String id, @RequestBody List<RuoloUtente> u) {
+   public ResponseEntity<Object> modificaRuoliUtente(@PathVariable("id") String id, @RequestBody List<Ruolo> u) {
       uService.modificaRuoliUtente(u, id);
       return new ResponseEntity<>("Ruoli Utente modificati con successo", HttpStatus.OK);
    }
@@ -144,7 +144,7 @@ public class AccountController {
     * Modifica ruoli venditore
     */
     @RequestMapping(value = "/modificaRuoliVenditore/{id}", method = RequestMethod.PUT)
-   public ResponseEntity<Object> modificaRuoliVenditore(@PathVariable("id") String id, @RequestBody List<RuoloVenditore> u) {
+   public ResponseEntity<Object> modificaRuoliVenditore(@PathVariable("id") String id, @RequestBody List<Ruolo> u) {
       uService.modificaRuoliVenditore(u, id);
       return new ResponseEntity<>("Ruoli venditore modificati con successo", HttpStatus.OK);
    }

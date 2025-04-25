@@ -31,7 +31,7 @@ public non-sealed class Utente implements Account {
    @JsonManagedReference
    private Carrello carrello;
 
-   @ElementCollection(targetClass = RuoloUtente.class) 
+   @ElementCollection(targetClass = Ruolo.class) 
    @CollectionTable(name = "RUOLI_UTENTE",
       joinColumns = @JoinColumn(name = "username"))
    @Column(name = "IdRuolo")
@@ -47,7 +47,7 @@ public non-sealed class Utente implements Account {
     * @param username
     * @param listaRuoli
     */
-   public Utente(String nome, String cognome, Date dataDiNascita, String username, String password, List<RuoloUtente> listaRuoli) {
+   public Utente(String nome, String cognome, Date dataDiNascita, String username, String password, List<Ruolo> listaRuoli) {
       this.nome = nome;
       this.cognome = cognome;
       this.dataDiNascita = dataDiNascita;
@@ -81,7 +81,7 @@ public non-sealed class Utente implements Account {
       return listaRuoli;
    }
 
-   public void setListaRuoli(List<RuoloUtente> listaRuoli) {
+   public void setListaRuoli(List<Ruolo> listaRuoli) {
       if (listaRuoli != null) {
          this.listaRuoli.clear();
          this.listaRuoli.addAll(listaRuoli);
