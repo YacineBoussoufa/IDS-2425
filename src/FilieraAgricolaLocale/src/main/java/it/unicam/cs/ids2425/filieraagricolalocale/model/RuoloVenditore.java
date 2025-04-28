@@ -1,6 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
-public enum RuoloVenditore implements Ruolo{
+public enum RuoloVenditore {
     Produttore("Produttore"),
     Trasformatore("Trasformatore"),
     Distributore("Distributore");

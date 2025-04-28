@@ -14,7 +14,7 @@ public non-sealed class Venditore implements Account {
 	private String username;
 	private String password;
 
-	@ElementCollection(targetClass = RuoloVenditore.class) 
+	@ElementCollection(targetClass = Ruolo.class) 
    @CollectionTable(name = "RUOLI_VENDITORE",
       joinColumns = @JoinColumn(name = "username"))
    @Column(name = "IdRuolo")
@@ -27,7 +27,7 @@ public non-sealed class Venditore implements Account {
    public Venditore(){}
 
 	public Venditore(String RagioneSociale, String PIVA, String username, String password,
-					 List<RuoloVenditore> listaRuoli, String Descrizione, POI Localizzazione) {
+					 List<Ruolo> listaRuoli, String Descrizione, POI Localizzazione) {
 		this.RagioneSociale=RagioneSociale;
 		this.PIVA=PIVA;
 		this.username=username;
@@ -81,7 +81,7 @@ public non-sealed class Venditore implements Account {
 		return listaRuoli;
 	}
 
-	public void setListaRuoli(List<RuoloVenditore> listaRuoli) {
+	public void setListaRuoli(List<Ruolo> listaRuoli) {
 		if (listaRuoli != null) {
 			this.listaRuoli.clear();
 			this.listaRuoli.addAll(listaRuoli);

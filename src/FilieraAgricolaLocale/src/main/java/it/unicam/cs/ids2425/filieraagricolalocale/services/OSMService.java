@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
-import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.*;
@@ -15,16 +14,14 @@ import java.util.*;
 public class OSMService {
 
     private final VenditoreRepository repoVenditori;
-    private final ContenutoRepository repoProdotti;
     private final VisitaRepository repoVisite;
     private final ManifestazioneRepository repoManifestazioni;
     private final POIRepository repoPOI;
 
     @Autowired
-    public OSMService(VenditoreRepository repoVenditori, ContenutoRepository repoProdotti,
+    public OSMService(VenditoreRepository repoVenditori,
                       VisitaRepository repoVisite, ManifestazioneRepository repoManifestazioni, POIRepository repoPOI) {
         this.repoVenditori = repoVenditori;
-        this.repoProdotti = repoProdotti;
         this.repoVisite = repoVisite;
         this.repoManifestazioni = repoManifestazioni;
         this.repoPOI = repoPOI;
@@ -67,44 +64,6 @@ public class OSMService {
 
         for (Venditore v : venditore) {
             poiList.add(v.getLocalizzazione());
-        }
-
-        return poiList;
-    }
-
-    /**
-     * Visualizza il POI di un prodotto
-     *
-     * @param id Identificatore del prodotto
-     * @return POI del prodotto
-     *
-     * @throws ProdottoNonTrovatoException se l'id non è associato a nessun prodotto
-     */
-    public POI visualizzaProdotto(int id) {
-        Contenuto contenuto = repoProdotti.findById(id).
-                orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste il prodotto con id" + id));
-
-        if (contenuto instanceof Prodotto prodotto) {
-            return prodotto.getPoi();
-        } else {
-            throw new ProdottoNonTrovatoException("Il contenuto selezionato non ha un POI associato (potrebbe essere" +
-                    "un pacchetto).");
-        }
-    }
-
-    /**
-     * Visualizza i POI di tutti i prodotti della piattaforma
-     *
-     * @return Tutti i POI dei prodotti
-     */
-    public List<POI> visualizzaProdotti() {
-        List<Contenuto> contenuti = repoProdotti.findAll();
-        List<POI> poiList = new ArrayList<>();
-
-        for (Contenuto c : contenuti) {
-            if (c instanceof Prodotto prodotto) {
-                poiList.add(prodotto.getPoi());
-            }
         }
 
         return poiList;
@@ -182,14 +141,6 @@ public class OSMService {
 
         List<Object> poiList = new ArrayList<>();
         //poco efficiente
-
-        for (Contenuto contenuto : repoProdotti.findAll()) {
-            if (contenuto instanceof Prodotto prodotto) {
-                if (prodotto.getPoi().equals(poi)) {
-                    poiList.add(prodotto);
-                }
-            }
-        }
 
         for (Venditore venditore : repoVenditori.findAll()) {
             if (venditore.getLocalizzazione().equals(poi)) {

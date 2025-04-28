@@ -9,7 +9,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 
 @ControllerAdvice
-public class ExceptionController {
+public class ExceptionController {      
 
    @ExceptionHandler(value = DatiIncorrettiException.class)
    public ResponseEntity<Object> exception(DatiIncorrettiException exception) {

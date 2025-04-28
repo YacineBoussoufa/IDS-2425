@@ -38,7 +38,7 @@ public class UserService {
    }
 
    public void creaUtente(String nome, String cognome, Date dataDiNascita, String username,
-                          String password, List<RuoloUtente> ruoli){
+                          String password, List<Ruolo> ruoli){
 
       Utente p = new Utente(nome, cognome, dataDiNascita, username, password, ruoli);
       if(!middlewareHead.check(p)){
@@ -62,7 +62,7 @@ public class UserService {
    }
    
    public void creaVenditore(String RagioneSociale, String PIVA, String username, String password,
-					 List<RuoloVenditore> listaRuoli, String Descrizione, POI Localizzazione){
+					 List<Ruolo> listaRuoli, String Descrizione, POI Localizzazione){
       Venditore p = new Venditore(RagioneSociale, PIVA, username, password, listaRuoli, Descrizione, Localizzazione);
       if(!middlewareHead.check(p)){
          throw new DatiIncorrettiException("Errore nella creazione utente");
@@ -111,7 +111,6 @@ public class UserService {
       }
 
       return null;
-
    }
 
    public Iterable<Utente> getElencoUtenti(){
@@ -122,13 +121,13 @@ public class UserService {
       return sellerRepository.findAll();
    }
 
-   public void modificaRuoliUtente(List<RuoloUtente> r, String i){
+   public void modificaRuoliUtente(List<Ruolo> r, String i){
       Utente s = userRepository.findById(i).get();
       s.setListaRuoli(r);
       userRepository.save(s);
    }
 
-   public void modificaRuoliVenditore(List<RuoloVenditore> r, String i){
+   public void modificaRuoliVenditore(List<Ruolo> r, String i){
       Venditore s = sellerRepository.findById(i).get();
       s.setListaRuoli(r);
       sellerRepository.save(s);
@@ -141,6 +140,66 @@ public class UserService {
       }
       String username = authentication.getName();
       return getAccount(username);
+   }
+
+   
+   /**
+    * @param id utente
+    * @return carrello utente
+    */
+   public Carrello getCarrelloUtente(String id){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      return u.getCarrello();
+   }
+
+   /**
+      * @param id utente, contenuto, quantita
+      * @return 
+      */
+   public void aggiungiContenutoCarrello(String id, Contenuto p, int quantita){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().aggiungiContenuto(p, quantita);
+      userRepository.save(u);
+   }
+   
+   /**
+      * @param id utente, contenuto
+      * @return 
+      */
+   public void rimuoviContenutoCarrello(String id, Contenuto p){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().rimuoviContenuto(p);
+      userRepository.save(u);
+   }
+
+   /**
+      * @param id utente, contenuto, quantita
+      * @return 
+      */
+   public void modificaQuantitaCarrello(String id, Contenuto p, int quantita){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().modificaQuantita(p, quantita);
+      userRepository.save(u);
+   }
+
+   /**
+      * @param id utente
+      * @return 
+      */
+   public void svuotaCarrello(String id){
+
+      Utente u = userRepository.findById(id).orElseThrow(() -> new DatiIncorrettiException(id + " Non trovato"));
+
+      u.getCarrello().svuota();
+      userRepository.save(u);
    }
 
 }

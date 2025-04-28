@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -12,6 +15,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public non-sealed class Utente implements Account {
@@ -22,8 +27,11 @@ public non-sealed class Utente implements Account {
    @Id
    private String username;
    private String password;
-   
-   @ElementCollection(targetClass = RuoloUtente.class) 
+
+   @ManyToOne(cascade = CascadeType.ALL)
+   private Carrello carrello;
+
+   @ElementCollection(targetClass = Ruolo.class) 
    @CollectionTable(name = "RUOLI_UTENTE",
       joinColumns = @JoinColumn(name = "username"))
    @Column(name = "IdRuolo")
@@ -39,12 +47,13 @@ public non-sealed class Utente implements Account {
     * @param username
     * @param listaRuoli
     */
-   public Utente(String nome, String cognome, Date dataDiNascita, String username, String password, List<RuoloUtente> listaRuoli) {
+   public Utente(String nome, String cognome, Date dataDiNascita, String username, String password, List<Ruolo> listaRuoli) {
       this.nome = nome;
       this.cognome = cognome;
       this.dataDiNascita = dataDiNascita;
       this.username = username;
       this.password = password;
+      this.carrello = new Carrello(this);
      
       if (listaRuoli != null) {
          this.listaRuoli.addAll(listaRuoli);
@@ -72,7 +81,7 @@ public non-sealed class Utente implements Account {
       return listaRuoli;
    }
 
-   public void setListaRuoli(List<RuoloUtente> listaRuoli) {
+   public void setListaRuoli(List<Ruolo> listaRuoli) {
       if (listaRuoli != null) {
          this.listaRuoli.clear();
          this.listaRuoli.addAll(listaRuoli);
@@ -105,4 +114,7 @@ public non-sealed class Utente implements Account {
       this.password = password;
    }
    
+   public Carrello getCarrello() {
+      return carrello;
+   }
 }

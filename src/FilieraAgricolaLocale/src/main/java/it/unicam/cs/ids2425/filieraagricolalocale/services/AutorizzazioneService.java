@@ -9,7 +9,7 @@ public class AutorizzazioneService {
 
     public void controlloAutorizzazioneProdotto(Contenuto contenuto, Account venditore) {
         //Il Gestore ha sempre accesso
-        if (venditore.getListaRuoli().contains(RuoloUtente.Gestore)) {
+        if (venditore.getListaRuoli().contains(Ruolo.Gestore)) {
             return;
         }
 
@@ -20,7 +20,7 @@ public class AutorizzazioneService {
     }
 
     public void controlloAutorizzazioneAccount(Account currentAccount, Account controlledAccount) {
-        if (currentAccount.getListaRuoli().contains(RuoloUtente.Gestore)) {
+        if (currentAccount.getListaRuoli().contains(Ruolo.Gestore)) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class AutorizzazioneService {
     }
 
     public void controlloAutorizzazioneEvento(EventoAbstract evento, Account account) {
-        if (account.getListaRuoli().contains(RuoloUtente.Gestore)) {
+        if (account.getListaRuoli().contains(Ruolo.Gestore)) {
             return;
         }
 

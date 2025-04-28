@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.services;
 
+
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
@@ -7,6 +8,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import java.util.*;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.ContenutoRepository;
+import it.unicam.cs.ids2425.filieraagricolalocale.repository.UtenteRepository;
 import it.unicam.cs.ids2425.filieraagricolalocale.repository.VenditoreRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class MarketplaceService {
     private final VenditoreRepository repoVenditori;
 
     @Autowired
-    public MarketplaceService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori) {
+    public MarketplaceService(ContenutoRepository repoProdotti, VenditoreRepository repoVenditori, UtenteRepository repoUtenti) {
         this.repoProdotti = repoProdotti;
         this.repoVenditori = repoVenditori;
     }
@@ -63,9 +65,6 @@ public class MarketplaceService {
      * @throws VenditoreNonTrovatoException se l'username non è associato a un venditore nel database
      */
     public List<Contenuto> visualizzaContenutiVenditore(String username) {
-        Venditore venditore = repoVenditori.findById(username).
-                orElseThrow(() -> new VenditoreNonTrovatoException("Non esiste il venditore " + username));
-
         return new ArrayList<>(repoProdotti.findByVenditoreUsername(username));
     }
 
@@ -117,6 +116,7 @@ public class MarketplaceService {
         return contenuti.stream().
                 filter(p -> p.getStato().getClass() == s).toList();
     }
+
 
 
 }

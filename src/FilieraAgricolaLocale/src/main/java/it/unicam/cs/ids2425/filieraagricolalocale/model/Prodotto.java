@@ -2,10 +2,8 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +11,6 @@ import java.util.Set;
 @Entity
 @JsonDeserialize(builder = ProdottoBuilder.class)
 public class Prodotto extends Contenuto {
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private POI poi;
 
     @ManyToMany
     private final Set<Etichetta> listaEtichette = new HashSet<>();
@@ -33,8 +28,6 @@ public class Prodotto extends Contenuto {
 
         super(builder);
 
-        this.poi = builder.getPoi();
-        this.poi.setTipoPOI(TipoPOI.Prodotto);
         listaEtichette.addAll(builder.getListaEtichette());
         ingredienti.addAll(builder.getIngredienti());
 
@@ -42,10 +35,6 @@ public class Prodotto extends Contenuto {
 
     public Prodotto() {
 
-    }
-
-    public POI getPoi() {
-        return poi;
     }
 
     public Set<Etichetta> getListaEtichette() {
@@ -66,7 +55,6 @@ public class Prodotto extends Contenuto {
             setPrezzo(modifiche.getPrezzo() <= 0 ? getPrezzo() : modifiche.getPrezzo());
             setQuantita(modifiche.quantita <= 0 ? getQuantita() : modifiche.getQuantita());
             setData(modifiche.getData() == null ? getData() : modifiche.getData());
-            setPoi(modifiche.getPoi() == null ? getPoi() : modifiche.getPoi());
             setListaEtichette(modifiche.getListaEtichette().isEmpty() ? getListaEtichette() : modifiche.getListaEtichette());
             setIngredienti(modifiche.getIngredienti().isEmpty() ? getIngredienti() : modifiche.getIngredienti());
 
@@ -93,10 +81,6 @@ public class Prodotto extends Contenuto {
 
         this.listaEtichette.clear();
         this.listaEtichette.addAll(listaEtichette);
-    }
-
-    private void setPoi(POI poi) {
-        this.poi = poi;
     }
 
     @Override

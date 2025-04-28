@@ -23,7 +23,6 @@ public class ProdottoController {
    private final AutorizzazioneService auth;
    private final MarketplaceService ms;
 
-   //TODO gestire autorizzazioni
     ProdottoController(InitFacade i){
        ps = i.getpS();
        us = i.getuS();

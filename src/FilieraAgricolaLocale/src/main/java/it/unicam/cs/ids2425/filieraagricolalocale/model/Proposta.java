@@ -16,7 +16,7 @@ public class Proposta {
     @ManyToOne
     private Utente animatore;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Visita visita;
 
