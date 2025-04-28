@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.OrdineDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Indirizzo;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.RuoloUtente;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Ruolo;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.OrdineService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
@@ -61,7 +61,7 @@ public class OrdineController {
     */
    @RequestMapping(value = "/modificaIndirizzo/{id}", method = RequestMethod.PUT)
    public ResponseEntity<Object> modificaIndirizzo(@PathVariable("id") int id, @RequestBody Indirizzo d) {
-      if(!uService.getCurrentUser().getListaRuoli().contains(RuoloUtente.Gestore)) {
+      if(!uService.getCurrentUser().getListaRuoli().contains(Ruolo.Gestore)) {
          if(!uService.getCurrentUser().getUsername().equals(oService.getOrdine(id).getUser().getUsername()))
             throw new NonAutorizzatoException();
       }

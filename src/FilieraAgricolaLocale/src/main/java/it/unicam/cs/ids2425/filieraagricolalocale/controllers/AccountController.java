@@ -4,6 +4,8 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 import java.util.List;
 
 import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ElementoOrdineDTO;
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.UtenteDTO;
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.VenditoreDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
@@ -42,8 +44,10 @@ public class AccountController {
     * Crea un nuovo prodotto passando i valori in POST
     */
    @RequestMapping(value = "/creaUtente", method = RequestMethod.POST)
-      public ResponseEntity<Object> creaUtente(@RequestBody Utente u) {
-      uService.creaUtente(u);
+      public ResponseEntity<Object> creaUtente(@RequestBody UtenteDTO u) {
+
+      Utente us = new Utente(u.getNome(), u.getCognome(), u.getDataDiNascita(), u.getUsername(), u.getPassword(), u.getListaRuoli());
+      uService.creaUtente(us);
       return new ResponseEntity<>("Utente is created successfully", HttpStatus.CREATED);
 	}
 
@@ -51,8 +55,10 @@ public class AccountController {
     * Crea un nuovo prodotto passando i valori in POST
     */
    @RequestMapping(value = "/creaVenditore", method = RequestMethod.POST)
-      public ResponseEntity<Object> creaVenditore(@RequestBody Venditore u) {
-      uService.creaVenditore(u);
+      public ResponseEntity<Object> creaVenditore(@RequestBody VenditoreDTO u) {
+
+      Venditore vu = new Venditore(u.getRagioneSociale(), u.getPIVA(), u.getUsername(), u.getPassword(), u.getListaRuoli(), u.getDescrizione(), u.getLocalizzazione());
+      uService.creaVenditore(vu);
       return new ResponseEntity<>("Venditore is created successfully", HttpStatus.CREATED);
    }
 
@@ -87,13 +93,14 @@ public class AccountController {
     * Modifica profilo utente
     */
    @RequestMapping(value = "/modificaUtente/{id}", method = RequestMethod.PUT)
-      public ResponseEntity<Object> modificaUtente(@PathVariable("id") String id, @RequestBody Utente u) {
+      public ResponseEntity<Object> modificaUtente(@PathVariable("id") String id, @RequestBody UtenteDTO u) {
 
        Account currentAccount = uService.getCurrentUser();
        Account controlledAccount = uService.getAccount(id);
        auth.controlloAutorizzazioneAccount(currentAccount, controlledAccount);
 
-      uService.modificaUtente(id, u);
+      Utente us = new Utente(u.getNome(), u.getCognome(), u.getDataDiNascita(), u.getUsername(), u.getPassword(), u.getListaRuoli());
+      uService.modificaUtente(id, us);
       return new ResponseEntity<>("Utente modificato con successo", HttpStatus.OK);
 	}
 
@@ -101,13 +108,14 @@ public class AccountController {
     * Modifica profilo venditore
     */
    @RequestMapping(value = "/modificaVenditore/{id}", method = RequestMethod.PUT)
-      public ResponseEntity<Object> modificaVenditore(@PathVariable("id") String id, @RequestBody Venditore u) {
+      public ResponseEntity<Object> modificaVenditore(@PathVariable("id") String id, @RequestBody VenditoreDTO u) {
 
        Account currentAccount = uService.getCurrentUser();
        Account controlledAccount = uService.getAccount(id);
        auth.controlloAutorizzazioneAccount(currentAccount, controlledAccount);
 
-      uService.modificaVenditore(id, u);
+      Venditore vu = new Venditore(u.getRagioneSociale(), u.getPIVA(), u.getUsername(), u.getPassword(), u.getListaRuoli(), u.getDescrizione(), u.getLocalizzazione());
+      uService.modificaVenditore(id, vu);
       return new ResponseEntity<>("Venditore modificato con successo", HttpStatus.OK);
    }
 
@@ -157,9 +165,15 @@ public class AccountController {
         
       Account account = uService.getCurrentUser();
       if(account instanceof Venditore) throw new NonAutorizzatoException();
-      uService.aggiungiContenutoCarrello(account.getUsername(), mService.visualizzaContenuto(d.getId()), d.getQuantita());
-
-      return new ResponseEntity<>("Elemento aggiunto con successo", HttpStatus.CREATED);
+      try {
+         uService.aggiungiContenutoCarrello(account.getUsername(), mService.visualizzaContenuto(d.getId()), d.getQuantita());
+         return new ResponseEntity<>("Elemento aggiunto con successo", HttpStatus.CREATED);
+      } catch (DatiIncorrettiException e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+      } catch (Exception e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      
 	}
 
    /*

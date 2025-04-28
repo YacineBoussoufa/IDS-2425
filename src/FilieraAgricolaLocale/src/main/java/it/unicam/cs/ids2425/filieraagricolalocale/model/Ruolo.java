@@ -3,21 +3,21 @@ package it.unicam.cs.ids2425.filieraagricolalocale.model;
 
 public enum Ruolo {
 
-   Curatore("Curatore"),
-   Animatore("Animatore"),
-   Gestore("Gestore"),
-   Produttore("Produttore"),
-   Trasformatore("Trasformatore"),
-   Distributore("Distributore");
+    Curatore("Curatore"),
+    Animatore("Animatore"),
+    Gestore("Gestore"),
+    Produttore("Produttore"),
+    Trasformatore("Trasformatore"),
+    Distributore("Distributore");
 
-   private final String message;
+    private final String message;
 
-   Ruolo(String message) {
-       this.message = message;
-   }
+    Ruolo(String message) {
+        this.message = message;
+    }
 
-   public String getMessage() {
-       return message;
-   }
+    public String getMessage() {
+        return message;
+    }
 
 }

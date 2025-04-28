@@ -29,7 +29,7 @@ public class ContenutoDeserializer extends StdDeserializer<Contenuto>{
 
       final JsonNode node = parser.getCodec().readTree(parser);
       final ObjectMapper mapper = (ObjectMapper)parser.getCodec();
-      if (node.has("poi")) {
+      if (node.has("ingredienti")) {
             return mapper.treeToValue(node, Prodotto.class);
       } else {
             return mapper.treeToValue(node, Pacchetto.class);

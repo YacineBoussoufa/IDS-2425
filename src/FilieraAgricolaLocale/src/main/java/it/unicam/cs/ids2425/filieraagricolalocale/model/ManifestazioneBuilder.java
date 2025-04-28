@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
 public class ManifestazioneBuilder implements EventoBuilder {
 
     private Date data;

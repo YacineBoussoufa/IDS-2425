@@ -15,6 +15,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -27,8 +28,7 @@ public non-sealed class Utente implements Account {
    private String username;
    private String password;
 
-   @OneToOne(cascade = CascadeType.ALL)
-   @JsonManagedReference
+   @ManyToOne(cascade = CascadeType.ALL)
    private Carrello carrello;
 
    @ElementCollection(targetClass = Ruolo.class) 

@@ -34,7 +34,7 @@ public class EventoService {
     public void aggiungiEventoV(Visita evento) {
 
         if (!middleware.check(evento)) {
-            throw new DatiIncorrettiException();
+            throw new DatiIncorrettiException("Errore presente nei dati");
         }
 
         repoVisite.save(evento);
@@ -44,7 +44,7 @@ public class EventoService {
     public void aggiungiEventoM(Manifestazione evento) {
 
         if (!middleware.check(evento)) {
-            throw new DatiIncorrettiException();
+            throw new DatiIncorrettiException("Errore presente nei dati");
         }
 
         repoManifestazioni.save(evento);
@@ -99,6 +99,8 @@ public class EventoService {
 
         if (visita.getNumeroPartecipanti() > visita.getNumeroMaxPartecipanti() )
             throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+        if(utente == null) throw new DatiIncorrettiException("Utente non esiste");
+        
 
         visita.getPersonePartecipanti().add(utente);
         repoVisite.save(visita);
@@ -110,7 +112,8 @@ public class EventoService {
 
         if(manifestazione.getNumeroPartecipanti() > manifestazione.getNumeroMaxPartecipanti() )
             throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
-
+        if(utente == null) throw new DatiIncorrettiException("Utente non esiste");
+        
         manifestazione.getPersonePartecipanti().add(utente);
         repoManifestazioni.save(manifestazione);
     }
@@ -121,7 +124,8 @@ public class EventoService {
 
         if(manifestazione.getNumeroPartecipanti() > manifestazione.getNumeroMaxPartecipanti() )
             throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
-
+        if(azienda == null) throw new DatiIncorrettiException("venditore non esiste");
+        
         manifestazione.getAziendePartecipanti().add(azienda);
         repoManifestazioni.save(manifestazione);
     }
@@ -132,6 +136,7 @@ public class EventoService {
 
         if((visita.getNumeroPartecipanti() + nuoviPartecipanti.size()) > visita.getNumeroMaxPartecipanti() )
             throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+        if(nuoviPartecipanti.isEmpty()) throw new DatiIncorrettiException("0 utenti trovati");
 
         visita.getPersonePartecipanti().addAll(nuoviPartecipanti);
         repoVisite.save(visita);
@@ -143,6 +148,7 @@ public class EventoService {
 
         if((manifestazione.getNumeroPartecipanti()+nuoviPartecipanti.size()) > manifestazione.getNumeroMaxPartecipanti() )
             throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+        if(nuoviPartecipanti.isEmpty()) throw new DatiIncorrettiException("0 utenti trovati");
 
         manifestazione.getPersonePartecipanti().addAll(nuoviPartecipanti);
         repoManifestazioni.save(manifestazione);
@@ -154,6 +160,7 @@ public class EventoService {
 
         if((manifestazione.getNumeroPartecipanti()+nuoviPartecipanti.size()) > manifestazione.getNumeroMaxPartecipanti() )
             throw new NumeroMassimoUtentiException("Numero massimo di utenti raggiunto");
+        if(nuoviPartecipanti.isEmpty()) throw new DatiIncorrettiException("0 utenti trovati");
 
         manifestazione.getAziendePartecipanti().addAll(nuoviPartecipanti);
         repoManifestazioni.save(manifestazione);
