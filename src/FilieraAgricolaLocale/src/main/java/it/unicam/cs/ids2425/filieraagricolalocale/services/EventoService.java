@@ -244,4 +244,17 @@ public class EventoService {
         return visiteRifiutate;
     }
 
+    public Collection<Visita> visualizzaVisiteAnimatore(String id){
+        Collection<Visita> s = new LinkedList<>();
+        repoVisite.findAll().forEach(o -> {if(o.getAnimatore().getUsername().equals(id)) s.add(o);});
+        return s;
+    }
+
+    public Collection<Manifestazione> visualizzaManifestazioniAnimatore(String id){
+        Collection<Manifestazione> s = new LinkedList<>();
+        repoManifestazioni.findAll().forEach(o -> {if(o.getAnimatore().getUsername().equals(id)) s.add(o);});
+        return s;
+    }
+
+
 }

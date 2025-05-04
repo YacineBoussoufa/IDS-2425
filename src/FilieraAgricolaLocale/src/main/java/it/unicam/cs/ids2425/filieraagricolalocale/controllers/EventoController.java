@@ -7,6 +7,7 @@ import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiExcep
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.EventoNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NumeroMassimoUtentiException;
+import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.VenditoreNonTrovatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.model.*;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.AutorizzazioneService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.EventoService;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -169,6 +171,40 @@ public class EventoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NonAutorizzatoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    /*
+     * Ottieni la lista delle visite di un animatore in GET con il suo username
+     */
+    @RequestMapping(value = "/visite/caricate", method = RequestMethod.GET)
+    public ResponseEntity<Object> getVisiteAnimatore(@PathVariable String username) {
+
+        try {
+            Collection<Visita> visite = es.visualizzaVisiteAnimatore(username);
+            return new ResponseEntity<>(visite, HttpStatus.OK);
+        } catch (VenditoreNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    /*
+     * Ottieni la lista delle manifestazioni di un animatore in GET con il suo username
+     */
+    @RequestMapping(value = "/manifestazioni/caricate", method = RequestMethod.GET)
+    public ResponseEntity<Object> getManifestazioniAnimatore(@PathVariable String username) {
+
+        try {
+            Collection<Manifestazione> visite = es.visualizzaManifestazioniAnimatore(username);
+            return new ResponseEntity<>(visite, HttpStatus.OK);
+        } catch (VenditoreNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

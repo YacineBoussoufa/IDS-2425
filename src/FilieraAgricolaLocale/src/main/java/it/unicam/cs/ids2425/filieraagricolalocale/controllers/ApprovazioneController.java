@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApprovazioneController {
 
-    //TODO GESTIONE AUTORIZZAZIONI RUOLI
     private final ApprovazioneService as;
     private final UserService us;
     private final MarketplaceService ms;

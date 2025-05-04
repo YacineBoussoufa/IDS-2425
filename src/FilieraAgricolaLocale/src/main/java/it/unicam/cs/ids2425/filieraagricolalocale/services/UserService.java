@@ -71,7 +71,6 @@ public class UserService {
    }
 
    public void modificaUtente(String i, Utente p){
-      //TODO consider this
       if(userRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
       userRepository.save(p);
    }

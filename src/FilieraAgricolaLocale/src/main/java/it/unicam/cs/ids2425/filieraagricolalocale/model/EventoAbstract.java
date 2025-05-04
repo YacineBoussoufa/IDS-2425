@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 @MappedSuperclass
 public abstract class EventoAbstract {
 
-
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
