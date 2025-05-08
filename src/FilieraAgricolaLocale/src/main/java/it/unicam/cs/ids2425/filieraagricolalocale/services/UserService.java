@@ -37,6 +37,14 @@ public class UserService {
       this.middlewareHead = m;
    }
 
+   /**
+    * @param nome
+    * @param cognome
+    * @param dataDiNascita
+    * @param username
+    * @param password
+    * @param ruoli
+    */
    public void creaUtente(String nome, String cognome, Date dataDiNascita, String username,
                           String password, List<Ruolo> ruoli){
 
@@ -47,6 +55,9 @@ public class UserService {
       userRepository.save(p);
    }
 
+   /**
+    * @param p
+    */
    public void creaUtente(Utente p){
       if(!middlewareHead.check(p)){
          throw new DatiIncorrettiException("Errore nella creazione utente");
@@ -54,6 +65,9 @@ public class UserService {
       userRepository.save(p);
    }
 
+   /**
+    * @param p
+    */
    public void creaVenditore(Venditore p){
       if(!middlewareHead.check(p)){
       throw new DatiIncorrettiException("Errore nella creazione utente");
@@ -61,6 +75,15 @@ public class UserService {
       sellerRepository.save(p);
    }
    
+   /**
+    * @param RagioneSociale
+    * @param PIVA
+    * @param username
+    * @param password
+    * @param listaRuoli
+    * @param Descrizione
+    * @param Localizzazione
+    */
    public void creaVenditore(String RagioneSociale, String PIVA, String username, String password,
 					 List<Ruolo> listaRuoli, String Descrizione, POI Localizzazione){
       Venditore p = new Venditore(RagioneSociale, PIVA, username, password, listaRuoli, Descrizione, Localizzazione);
@@ -70,21 +93,35 @@ public class UserService {
       sellerRepository.save(p);
    }
 
+   /**
+    * @param i
+    * @param p
+    */
    public void modificaUtente(String i, Utente p){
       if(userRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
       userRepository.save(p);
    }
 
+   /**
+    * @param i
+    * @param p
+    */
    public void modificaVenditore(String i, Venditore p){
       if(sellerRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
       sellerRepository.save(p);
    }
 
+   /**
+    * @param i
+    */
    public void rimuoviUtente(String i){
       if(userRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
       userRepository.deleteById(i);
    }
 
+   /**
+    * @param i
+    */
    public void rimuoviVenditore(String i){
       if(sellerRepository.findById(i).isEmpty()) throw new DatiIncorrettiException();
       sellerRepository.deleteById(i);

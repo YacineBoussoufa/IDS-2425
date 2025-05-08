@@ -3,7 +3,9 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO;
 import java.util.Date;
 import java.util.Set;
 
-public class PacchettoDTO {
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Etichetta;
+
+public class ProdottoDTO {
        
    private int id;
    private String nome;
@@ -12,9 +14,11 @@ public class PacchettoDTO {
    private int quantita;
    private String venditore;
    private Date data;
-   private Set<Integer> listaProdotti;
-   public PacchettoDTO(int id, String nome, String descrizione, double prezzo, int quantita, String venditore,
-         Date data, Set<Integer> listaProdotti) {
+   private Set<Integer> ingredienti;
+   private Set<Etichetta> listaEtichette;
+
+   public ProdottoDTO(int id, String nome, String descrizione, double prezzo, int quantita, String venditore,
+         Date data, Set<Integer> ingredienti, Set<Etichetta> listaEtichetta) {
       this.id = id;
       this.nome = nome;
       this.descrizione = descrizione;
@@ -22,7 +26,8 @@ public class PacchettoDTO {
       this.quantita = quantita;
       this.venditore = venditore;
       this.data = data;
-      this.listaProdotti = listaProdotti;
+      this.ingredienti = ingredienti;
+      this.listaEtichette = listaEtichetta;
    }
    public int getId() {
       return id;
@@ -66,11 +71,19 @@ public class PacchettoDTO {
    public void setData(Date data) {
       this.data = data;
    }
-   public Set<Integer> getListaProdotti() {
-      return listaProdotti;
+   public Set<Integer> getIngredienti() {
+      return ingredienti;
    }
-   public void setListaProdotti(Set<Integer> listaProdotti) {
-      this.listaProdotti = listaProdotti;
+   public void setIngredienti(Set<Integer> ingredienti) {
+      this.ingredienti = ingredienti;
    }
+   public Set<Etichetta> getListaEtichette() {
+      return listaEtichette;
+   }
+   public void setListaEtichette(Set<Etichetta> listaEtichetta) {
+      this.listaEtichette = listaEtichetta;
+   }
+
+
 
 }

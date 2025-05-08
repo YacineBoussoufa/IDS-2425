@@ -457,7 +457,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Mela rossa\",\r\n    \"descrizione\": \"Prodotto bianco\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": {\r\n        \"username\": \"key\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Produttore\"\r\n        ],\r\n        \"localizzazione\": {\r\n            \"latitudine\" : 1,\r\n            \"longitudine\" : 2,\r\n            \"altitudine\" : 4,\r\n            \"tipo\" : \"Azienda\"\r\n        },\r\n        \"descrizione\": \"grossa fabbrica\",\r\n        \"ragioneSociale\": \"La Tana\",\r\n        \"piva\": \"123\"\r\n    },\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"listaEtichette\" : [],\r\n    \"ingredienti\" : []\r\n}",
+							"raw": "{\r\n    \"nome\": \"Mela rossa\",\r\n    \"descrizione\": \"Prodotto bianco\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": \"key\",\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"listaEtichette\" : [],\r\n    \"ingredienti\" : []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -465,7 +465,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/gestioneContenuti/contenuto/crea",
+							"raw": "localhost:8080/gestioneContenuti/contenuto/creaProdotto",
 							"host": [
 								"localhost"
 							],
@@ -473,7 +473,7 @@
 							"path": [
 								"gestioneContenuti",
 								"contenuto",
-								"crea"
+								"creaProdotto"
 							]
 						}
 					},
@@ -501,7 +501,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"nome\": \"Mela rossa\",\r\n    \"descrizione\": \"Prodotto arcobaleno\",\r\n    \"prezzo\": 2000.0,\r\n    \"quantita\": 5,\r\n    \"data\": null,\r\n    \"poi\": {\r\n        \"latitudine\": 0,\r\n        \"longitudine\": 5,\r\n        \"altitudine\": 6,\r\n        \"tipo\": \"Prodotto\"\r\n    },\r\n    \"listaEtichette\": [],\r\n    \"ingredienti\": []\r\n}",
+							"raw": "{\r\n    \"nome\": \"Mela bianca\",\r\n    \"descrizione\": \"Prodotto arcobaleno\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": \"key\",\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"listaEtichette\" : [],\r\n    \"ingredienti\" : []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -509,7 +509,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/gestioneContenuti/contenuto/1",
+							"raw": "localhost:8080/gestioneContenuti/contenuto/modificaProdotto/1",
 							"host": [
 								"localhost"
 							],
@@ -517,6 +517,7 @@
 							"path": [
 								"gestioneContenuti",
 								"contenuto",
+								"modificaProdotto",
 								"1"
 							]
 						}
@@ -531,7 +532,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "ashley",
+									"value": "key",
 									"type": "string"
 								},
 								{
@@ -545,7 +546,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Pacchettone\",\r\n    \"descrizione\": \"Prodotto bianco\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": {\r\n        \"username\": \"ashley\",\r\n        \"password\": \"123\",\r\n        \"listaRuoli\": [\r\n            \"Produttore\"\r\n        ],\r\n        \"localizzazione\": {\r\n            \"latitudine\": 1,\r\n            \"longitudine\": 2,\r\n            \"altitudine\": 4,\r\n            \"tipo\": \"Azienda\"\r\n        },\r\n        \"descrizione\": \"grossa fabbrica\",\r\n        \"ragioneSociale\": \"La Tana\",\r\n        \"piva\": \"123\"\r\n    },\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"listaProdotti\": []\r\n}",
+							"raw": "{\r\n    \"nome\": \"Pacchettone\",\r\n    \"descrizione\": \"Prodotto bianco\",\r\n    \"prezzo\": 20.0,\r\n    \"quantita\": 5,\r\n    \"venditore\": \"key\",\r\n    \"data\": \"2025-02-12T16:29:37.343+00:00\",\r\n    \"listaProdotti\": [1,2]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -553,7 +554,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/gestioneContenuti/contenuto/crea",
+							"raw": "localhost:8080/gestioneContenuti/contenuto/creaPacchetto",
 							"host": [
 								"localhost"
 							],
@@ -561,7 +562,7 @@
 							"path": [
 								"gestioneContenuti",
 								"contenuto",
-								"crea"
+								"creaPacchetto"
 							]
 						}
 					},
@@ -943,7 +944,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"d\": \"2025-02-19T00:09:11.562+00:00\",\r\n    \"u\": \"micky\",\r\n    \"i\": {\r\n        \"via\": \"ciao\",\r\n        \"civico\": 56,\r\n        \"provincia\": \"MC\",\r\n        \"comune\": \"dmdsd\",\r\n        \"regione\": \"Regione\",\r\n        \"dettagli\": null,\r\n        \"id\": 0,\r\n        \"cap\": \"62100\"\r\n    },\r\n    \"m\": {\r\n        \"numeroCarta\": \"3434\",\r\n        \"dataScadenza\": null,\r\n        \"cvv\": 0\r\n    }\r\n}",
+							"raw": "{\r\n    \"d\": \"2025-02-19T00:09:11.562+00:00\",\r\n    \"u\": \"micky\",\r\n    \"i\": {\r\n        \"via\": \"ciao\",\r\n        \"civico\": 56,\r\n        \"provincia\": \"MC\",\r\n        \"comune\": \"dmdsd\",\r\n        \"regione\": \"Regione\",\r\n        \"dettagli\": \"\",\r\n        \"id\": 0,\r\n        \"cap\": \"62100\"\r\n    },\r\n    \"m\": {\r\n        \"numeroCarta\": \"3434\",\r\n        \"dataScadenza\": \"2025-02-19T00:09:11.562+00:00\",\r\n        \"cvv\": 0\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -31,6 +31,9 @@ public class EventoService {
         this.middleware = m;
     }
 
+    /**
+     * @param evento
+     */
     public void aggiungiEventoV(Visita evento) {
 
         if (!middleware.check(evento)) {
@@ -41,6 +44,9 @@ public class EventoService {
 
     }
 
+    /**
+     * @param evento
+     */
     public void aggiungiEventoM(Manifestazione evento) {
 
         if (!middleware.check(evento)) {
@@ -59,6 +65,10 @@ public class EventoService {
         return repoManifestazioni.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste manifestazione con id " + id));
     }
 
+    /**
+     * @param id
+     * @param eventoModificato
+     */
     public void modificaEvento(int id, EventoAbstract eventoModificato) {
 
         if ((repoManifestazioni.findById(id).isEmpty()) && (repoVisite.findById(id).isEmpty())) {
@@ -79,6 +89,9 @@ public class EventoService {
             throw new DatiIncorrettiException();
     }
 
+    /**
+     * @param id
+     */
     public void rimuoviVisita(int id) {
         if (repoVisite.findById(id).isEmpty()) {
             throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
@@ -86,6 +99,9 @@ public class EventoService {
         repoVisite.deleteById(id);
     }
 
+    /**
+     * @param id
+     */
     public void rimuoviManifestazione(int id) {
         if (repoManifestazioni.findById(id).isEmpty()) {
             throw new EventoNonTrovatoException("Non esiste evento con id "+ id);
@@ -93,6 +109,10 @@ public class EventoService {
         repoManifestazioni.deleteById(id);
     }
 
+    /**
+     * @param id
+     * @param utente
+     */
     public void aggiungiUtentePartecipanteAVisita(int id, Utente utente) {
         Visita visita = repoVisite.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -106,6 +126,10 @@ public class EventoService {
         repoVisite.save(visita);
     }
 
+    /**
+     * @param id
+     * @param utente
+     */
     public void aggiungiUtentePartecipanteAManifestazione(int id, Utente utente) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -118,6 +142,10 @@ public class EventoService {
         repoManifestazioni.save(manifestazione);
     }
 
+    /**
+     * @param id
+     * @param azienda
+     */
     public void aggiungiAziendaPartecipanteAManifestazione(int id, Venditore azienda) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -130,6 +158,10 @@ public class EventoService {
         repoManifestazioni.save(manifestazione);
     }
 
+    /**
+     * @param id
+     * @param nuoviPartecipanti
+     */
     public void aggiungiUtentiPartecipantiAVisita(int id, Set<Utente> nuoviPartecipanti) {
         Visita visita =  repoVisite.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -142,6 +174,10 @@ public class EventoService {
         repoVisite.save(visita);
     }
 
+    /**
+     * @param id
+     * @param nuoviPartecipanti
+     */
     public void aggiungiUtentiPartecipantiAManifestazione(int id, Set<Utente> nuoviPartecipanti) {
         Manifestazione manifestazione =  repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -154,6 +190,10 @@ public class EventoService {
         repoManifestazioni.save(manifestazione);
     }
 
+    /**
+     * @param id
+     * @param nuoviPartecipanti
+     */
     public void aggiungiAziendePartecipantiAManifestazione(int id, Set<Venditore> nuoviPartecipanti) {
         Manifestazione manifestazione =  repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -166,6 +206,10 @@ public class EventoService {
         repoManifestazioni.save(manifestazione);
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public Set<Utente> visualizzaUtentiPartecipantiAVisita(int id) {
         Visita visita = repoVisite.findById(id).orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
 
@@ -173,6 +217,10 @@ public class EventoService {
 
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public Set<Utente> visualizzaUtentiPartecipantiAManifestazione(int id) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -180,6 +228,10 @@ public class EventoService {
         return manifestazione.getPersonePartecipanti();
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public Set<Venditore> visualizzaAziendePartecipantiAManifestazione(int id) {
         Manifestazione manifestazione = repoManifestazioni.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));
@@ -187,6 +239,9 @@ public class EventoService {
         return manifestazione.getAziendePartecipanti();
     }
 
+    /**
+     * @param id
+     */
     public void accettaProposta(int id) {
         Visita visita = repoVisite.findById(id)
                 .orElseThrow(() -> new EventoNonTrovatoException("Non esiste evento con id "+ id));

@@ -40,6 +40,22 @@ public class MarketplaceService {
 
         return contenuto;
     }
+    
+    /**
+     * Restituisce un contenuto a partire dal suo id.
+     *
+     * @param id Identificatore contenuto
+     * @return Prodotto, se nel database
+     *
+     * @throws ProdottoNonTrovatoException se l'id non è associato a un contenuto nel database
+     */
+    public Prodotto visualizzaProdotto(int id) {
+        Prodotto contenuto = (Prodotto) 
+        repoProdotti.findByTipo("Prodotto").stream().filter(o -> o.getId() == id).findFirst()
+            .orElseThrow(() -> new VenditoreNonTrovatoException("Non esiste il prodotto"));
+
+        return contenuto;
+    }
 
     /**
      * Restituisce un venditore a partire dal suo username

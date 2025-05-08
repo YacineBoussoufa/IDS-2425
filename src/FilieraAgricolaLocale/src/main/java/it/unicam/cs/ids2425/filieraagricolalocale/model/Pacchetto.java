@@ -55,7 +55,7 @@ public class Pacchetto extends Contenuto {
 
          if (p.getStato() instanceof InConvalida)  {
             p.approva();
-         } else {
+         } else if(p.getStato() instanceof Bozza) {
             throw new DatiIncorrettiException("Non si può approvare un pacchetto con prodotti bozza.");
          }
 

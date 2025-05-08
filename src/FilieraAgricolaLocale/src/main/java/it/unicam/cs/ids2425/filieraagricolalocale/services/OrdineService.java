@@ -33,6 +33,12 @@ public class OrdineService {
       this.middlewareHead = m;
    }
 
+   /**
+    * @param dataCreazione
+    * @param u
+    * @param i
+    * @param m
+    */
    public void creaOrdine(Date dataCreazione, Utente u, Indirizzo i, Pagamento m){
 
       Ordine o = new Ordine(dataCreazione, u.getCarrello(), u, i, m);
@@ -43,18 +49,29 @@ public class OrdineService {
       ordineRepository.save(o);
    }
 
+   /**
+    * @param i
+    * @param o
+    */
    public void modificaIndirizzo(Integer i, Indirizzo o){
       Ordine ord = ordineRepository.findById(i).get();
       ord.setIndirizzo(o);
       ordineRepository.save(ord);
    }
 
+   /**
+    * @param i
+    * @param o
+    */
    public void modificaDataDiConsegna(Integer i, Date o){
       Ordine ord = ordineRepository.findById(i).get();
       ord.setDataDiConsegna(o);
       ordineRepository.save(ord);
    }
 
+   /**
+    * @param i
+    */
    public void rimuoviOrdine(Integer i){
       ordineRepository.deleteById(i);
    }

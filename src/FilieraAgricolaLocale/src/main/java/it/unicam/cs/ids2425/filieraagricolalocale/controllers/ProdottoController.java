@@ -1,5 +1,8 @@
 package it.unicam.cs.ids2425.filieraagricolalocale.controllers;
 
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ContenutoMapper;
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.PacchettoDTO;
+import it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO.ProdottoDTO;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.DatiIncorrettiException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.NonAutorizzatoException;
 import it.unicam.cs.ids2425.filieraagricolalocale.exceptions.ProdottoNonTrovatoException;
@@ -33,10 +36,11 @@ public class ProdottoController {
    /*
     * Crea un nuovo contenuto passando i valori in POST
     */
-   @RequestMapping(value = "/contenuto/crea", method = RequestMethod.POST)
-   public ResponseEntity<Object> createContent(@RequestBody Contenuto contenuto) {
+   @RequestMapping(value = "/contenuto/creaProdotto", method = RequestMethod.POST)
+   public ResponseEntity<Object> createProduct(@RequestBody ProdottoDTO contenutodto) {
 
        try {
+           Contenuto contenuto = ContenutoMapper.ToProdotto(contenutodto, ms, us);
            Account account = us.getCurrentUser();
            auth.controlloAutorizzazioneProdotto(contenuto, account);
 
@@ -52,13 +56,64 @@ public class ProdottoController {
 
    }
 
+   /*
+    * Crea un nuovo contenuto passando i valori in POST
+    */
+    @RequestMapping(value = "/contenuto/creaPacchetto", method = RequestMethod.POST)
+    public ResponseEntity<Object> createPacket(@RequestBody PacchettoDTO contenutodto) {
+ 
+        try {
+            Contenuto contenuto = ContenutoMapper.ToPacchetto(contenutodto, ms, us);
+            Account account = us.getCurrentUser();
+            auth.controlloAutorizzazioneProdotto(contenuto, account);
+ 
+            ps.creaContenuto(contenuto);
+            return new ResponseEntity<>("Contenuto creato con successo.", HttpStatus.CREATED);
+        } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NonAutorizzatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+ 
+    }
+
     /*
      * Modifica un contenuto passando soltanto i dati da modificare in POST
      */
-    @RequestMapping(value = "/contenuto/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> editContent(@PathVariable int id, @RequestBody Contenuto contenuto) {
+    @RequestMapping(value = "/contenuto/modificaProdotto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editProduct(@PathVariable int id, @RequestBody ProdottoDTO contenutodto) {
 
         try {
+            Contenuto contenuto = ContenutoMapper.ToProdotto(contenutodto, ms, us);
+            Account account = us.getCurrentUser();
+            Contenuto contenutoAttuale = ms.visualizzaContenuto(id);
+            contenuto.setId(id);
+            System.out.println(contenuto.getId());
+            auth.controlloAutorizzazioneProdotto(contenutoAttuale, account);
+
+            ps.modificaContenuto(id, contenuto);
+            return new ResponseEntity<>("Contenuto modificato con successo.", HttpStatus.OK);
+        } catch (ProdottoNonTrovatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (DatiIncorrettiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NonAutorizzatoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*
+     * Modifica un contenuto passando soltanto i dati da modificare in POST
+     */
+    @RequestMapping(value = "/contenuto/modificaPacchetto/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editPacket(@PathVariable int id, @RequestBody PacchettoDTO contenutodto) {
+
+        try {
+            Contenuto contenuto = ContenutoMapper.ToPacchetto(contenutodto, ms, us);
             Account account = us.getCurrentUser();
             Contenuto contenutoAttuale = ms.visualizzaContenuto(id);
             contenuto.setId(id);

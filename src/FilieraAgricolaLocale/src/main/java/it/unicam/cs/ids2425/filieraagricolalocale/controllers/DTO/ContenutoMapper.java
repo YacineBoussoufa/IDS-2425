@@ -3,58 +3,61 @@ package it.unicam.cs.ids2425.filieraagricolalocale.controllers.DTO;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Manifestazione;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.ManifestazioneBuilder;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.POI;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Utente;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Venditore;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.Visita;
-import it.unicam.cs.ids2425.filieraagricolalocale.model.VisitaBuilder;
+
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Pacchetto;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.PacchettoBuilder;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.Prodotto;
+import it.unicam.cs.ids2425.filieraagricolalocale.model.ProdottoBuilder;
+import it.unicam.cs.ids2425.filieraagricolalocale.services.MarketplaceService;
 import it.unicam.cs.ids2425.filieraagricolalocale.services.UserService;
 
 public class ContenutoMapper {
    
-   // public static Prodotto ToEntity(VisitaDTO evento, UserService us){
-   //    VisitaBuilder builder = new VisitaBuilder();
-   //    Set<Utente> personeP = new HashSet<>();
-   //    for (String id : evento.getPersonePartecipanti()) {
-   //          personeP.add(us.getUtente(id));
+   // public static Contenuto ToEntity(ContenutoDTO c, MarketplaceService us, UserService s){
+   //    if(c instanceof ProdottoDTO){
+   //       return ToProdotto((ProdottoDTO) c, us, s);
    //    }
-      
-   //    Visita eventoV = builder.setNome(evento.getNome())
-   //          .setData(evento.getData())
-   //          .setNumeroMaxPartecipanti(evento.getNumeroMaxPartecipanti())
-   //          .setDescrizione(evento.getDescrizione())
-   //          .setPuntoDiInteresse(new POI(evento.getPuntoDiInteresse().getLatitudine(), 
-   //                                  evento.getPuntoDiInteresse().getLongitudine(), 
-   //                                  evento.getPuntoDiInteresse().getAltitudine(), evento.getPuntoDiInteresse().getTipo()))
-   //          .setAnimatore(us.getUtente(evento.getAnimatore()))
-   //          .setPropostaVenditore(us.getVenditore(evento.getPropostaVenditore()))
-   //          .setPersonePartecipanti(personeP).build();
-   //    return eventoV;
+   //    else if(c instanceof PacchettoDTO){
+   //       return ToPacchetto((PacchettoDTO) c, us, s);
+   //    }
+
+   //    return null;
    // }
-   // public static Pacchetto ToEntity(ManifestazioneDTO evento, UserService us){
-   //    ManifestazioneBuilder builder = new ManifestazioneBuilder();
-   //    Set<Utente> personeP = new HashSet<>();
-   //    for (String id : evento.getPersonePartecipanti()) {
-   //          personeP.add(us.getUtente(id));
-   //    }
-   //    Set<Venditore> venditoreP = new HashSet<>();
-   //    for (String id : evento.getAziendePartecipanti()) {
-   //          venditoreP.add(us.getVenditore(id));
-   //    }
-      
-   //    Manifestazione eventoV = builder.setNome(evento.getNome())
-   //          .setData(evento.getData())
-   //          .setNumeroMaxPartecipanti(evento.getNumeroMaxPartecipanti())
-   //          .setDescrizione(evento.getDescrizione())
-   //          .setPuntoDiInteresse(new POI(evento.getPuntoDiInteresse().getLatitudine(), 
-   //                                  evento.getPuntoDiInteresse().getLongitudine(), 
-   //                                  evento.getPuntoDiInteresse().getAltitudine(), evento.getPuntoDiInteresse().getTipo()))
-   //          .setAnimatore(us.getUtente(evento.getAnimatore()))
-   //          .setAziendePartecipanti(venditoreP)
-   //          .setPersonePartecipanti(personeP).build();
-   //    return eventoV;
-   // }
+
+   public static Prodotto ToProdotto(ProdottoDTO d, MarketplaceService us, UserService s){
+      ProdottoBuilder builder = new ProdottoBuilder();
+      Set<Prodotto> ingredienti = new HashSet<>();
+      for (int id : d.getIngredienti()) {
+         ingredienti.add(us.visualizzaProdotto(id));
+      }
+      Prodotto prodotto = builder.setNome(d.getNome())
+            .setData(d.getData())
+            .setDescrizione(d.getDescrizione())
+            .setListaEtichette(d.getListaEtichette())
+            .setIngredienti(ingredienti)
+            .setVenditore(s.getVenditore(d.getVenditore()))
+            .setPrezzo(d.getPrezzo())
+            .setQuantita(d.getQuantita()).build();
+      return prodotto;
+
+   }
+   
+   public static Pacchetto ToPacchetto(PacchettoDTO d, MarketplaceService us, UserService s){
+      PacchettoBuilder builder = new PacchettoBuilder();
+      Set<Prodotto> prodotti = new HashSet<>();
+      for (int id : d.getListaProdotti()) {
+         prodotti.add(us.visualizzaProdotto(id));
+      }
+
+      Pacchetto pacchetto = builder.setNome(d.getNome())
+            .setData(d.getData())
+            .setDescrizione(d.getDescrizione())
+            .setListaProdotti(prodotti)
+            .setVenditore(s.getVenditore(d.getVenditore()))
+            .setPrezzo(d.getPrezzo())
+            .setQuantita(d.getQuantita()).build();
+
+      return pacchetto;
+   }
 
 }
