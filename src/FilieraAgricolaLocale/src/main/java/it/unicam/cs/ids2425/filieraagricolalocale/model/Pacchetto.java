@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToMany;
 @JsonDeserialize(builder = PacchettoBuilder.class)
 public class Pacchetto extends Contenuto {
 
-   @ManyToMany(cascade = CascadeType.ALL)
+   @ManyToMany
    private Set<Prodotto> listaProdotti;
 
    private final String tipo = "Pacchetto";

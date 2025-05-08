@@ -102,6 +102,16 @@ public class ProdottoService {
         Contenuto contenuto = repoProdotti.findById(id).
                 orElseThrow(() -> new ProdottoNonTrovatoException("Non esiste contenuto con id " + id));
 
+        if (contenuto instanceof Prodotto) {
+            for (Contenuto c : repoProdotti.findAll()) {
+                if (c instanceof Pacchetto) {
+                    if (((Pacchetto) c).getListaProdotti().contains(contenuto)) {
+                        throw new DatiIncorrettiException("Prodotto non cancellabile perchè in altri Pacchetti.");
+                    }
+                }
+            }
+        }
+
         repoProdotti.delete(contenuto);
     }
 
