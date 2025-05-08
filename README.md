@@ -17,6 +17,9 @@ Nella quarta iterazione, è stato inizializzato Spring Boot e integrato il siste
 ### Iterazione 5
 Nella quinta iterazione, è stata aggiunta l’autenticazione e sono stati eseguiti fix generali per ottimizzare funzionalità meno critiche. Sono stati inoltre completati gli ultimi ritocchi relativi all’inizializzazione degli elementi del sistema, concludendo con un’ulteriore stabilizzazione del codice.
 
+### Iterazione 6
+Nella sesta iterazione, è stata effettuata una reingegnerizzazione dei principali artefatti progettuali per correggere alcune criticità segnalate, riallineando i modelli ai casi d’uso aggiornati. Sono stati inoltre eseguiti interventi sul codice, con l’integrazione di alcuni componenti e la risoluzione di anomalie con l’obiettivo di migliorare la coerenza e la stabilità complessiva del sistema.
+
 ## Gruppo
 ![Yacine Boussoufa](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/46266665?v=4?v=4?v=4?v=100h=100&w=20&fit=cover&mask=circle&maxage=7d) [Yacine Boussoufa](https://github.com/YacineBoussoufa)\
 ![Samuele Camilletti](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/64476507?v=4?v=4&h=20&w=20&fit=cover&mask=circle&maxage=7d) [Samuele Camilletti](https://github.com/camillo-yyy)\
